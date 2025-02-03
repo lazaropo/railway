@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.19.0.3">
+	<node type="ObjectMeshStatic" id="1840142029" name="plane_0">
+		<mesh_name>guid://720caf2d08c17d37a547c9edfac123d800aeb72d</mesh_name>
+		<surface name="plane" material="0b9bd74e87552363b112f62bb86526e12e40a55e"/>
+		<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
+	</node>
+</nodes>
