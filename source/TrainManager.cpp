@@ -21,7 +21,7 @@ void TrainManager::init() {
   m_segments = m_track_container->getSplineSegments();
 
   if (m_trains.size()) {
-    setNewSegment(m_trains[0], m_segments[643], m_segments);
+    setNewSegment(m_trains[0], m_segments[86], m_segments);
 
     Visualizer::renderVector(Math::Vec3(0.0f, 0.0f, 0.1f),
                              Math::Vec3(1.0f, 0.0f, 0.1f), Math::vec4_red);
@@ -32,7 +32,7 @@ void TrainManager::init() {
 
     auto pos_node = m_trains[0]->getNode()->getPosition();
     Log::message("Spline point %d with coordinates: x - %f  y - %f  z - %f\n",
-                 643, pos_node[0], pos_node[1], pos_node[2]);
+                 86, pos_node[0], pos_node[1], pos_node[2]);
   }
 }
 
