@@ -23,9 +23,3 @@ void TrackContrainer::init() {
     segment->setSegmentMode(node_file, SplineSegment::SEGMENT_STRETCH);
   }
 }
-
-Math::Vec4 TrackContrainer::makeNextPosition(const Math::Vec4& current_pos,
-                                             const Math::Vec3& direction,
-                                             float speed) {
-  return Math::Vec4();
-}

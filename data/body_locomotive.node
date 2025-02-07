@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.19.0.3">
+	<node type="ObjectMeshStatic" id="167261198" immovable="1" name="body">
+		<mesh_name>guid://1c85a360b297e4ede362f1e18c87d9598072e06b</mesh_name>
+		<surface name="box" intersection="1" material="d32dd450b8cac94c66cfcfd3a6cfc4b7c2e643e2"/>
+		<transform>13.5735397339 0 0 0.0 0 5.71423625946 0 0.0 0 0 3.09903264046 0.0 0 0 0 1.0</transform>
+	</node>
+</nodes>

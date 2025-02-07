@@ -22,10 +22,6 @@ class TrackContrainer : public Unigine::ComponentBase {
     return ret;
   }
 
-  Unigine::Math::Vec4 makeNextPosition(const Unigine::Math::Vec4& current_pos,
-                                       const Unigine::Math::Vec3& direction,
-                                       float speed);
-
  private:
   Unigine::WorldSplineGraphPtr m_spline_graph = nullptr;
 };

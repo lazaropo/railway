@@ -4,63 +4,45 @@ REGISTER_COMPONENT(Train);
 
 using namespace Unigine;
 
-void Train::setSegment(SplineSegmentPtr curr_segment,
-                       SplineSegmentPtr next_segment) {
-  m_curr_segment = curr_segment;
-  m_next_segment = next_segment;
+template <class T>
+T Train::takeNext(T current, T new_value, T delta) {
+  if (Math::abs(new_value - current) <= delta) return new_value;
 
-  m_t_coordinate = 0.f;
-  if (m_excess_len > Math::Consts::EPS) {
-    m_t_coordinate = m_excess_len;
-    m_excess_len = 0;
-  }
-
-  getNode()->setPosition(Math::Vec3(m_curr_segment->calcPoint(m_t_coordinate)));
-  m_curr_segment_len = m_curr_segment->getLength();
+  return current + Math::sign(new_value - current) * delta;
 }
 
-Train::MOVE Train::moveNode() {
-  float move_path = speed * Game::getIFps() / m_curr_segment_len;
-  if (move_path + m_t_coordinate >= 1.f) {
-    if (!m_next_segment) return MOVE::STOP;
+void Train::init() {
+  if (start_speed > max_speed) {
+    m_current_linear_velocity = max_speed;
+    m_new_linear_velocity = max_speed;
 
-    m_t_coordinate += move_path - 1.f;
-    m_excess_len = m_t_coordinate;
-
-    Math::Vec3 v_pos =
-        Math::Vec3(m_curr_segment->getEndPoint()->getPosition()) +
-        Math::Vec3(0, 0, 3.f);
-    Math::vec3 v_tanget = m_curr_segment->getEndTangent();
-
-    moveNode(v_pos, v_tanget);
-
-    Visualizer::renderDirection(v_pos, v_tanget, Math::vec4_blue);
-    return MOVE::END;
-  } else {
-    m_t_coordinate += move_path;
-    Math::Vec3 v_pos = Math::Vec3(m_curr_segment->calcPoint(m_t_coordinate)) +
-                       Math::Vec3(0, 0, 3.f);
-    Math::vec3 v_tanget = m_curr_segment->calcTangent(m_t_coordinate);
-
-    moveNode(v_pos, v_tanget);
-
-    Visualizer::renderDirection(v_pos, v_tanget, Math::vec4_blue);
-    return MOVE::SUCCESS;
+    start_speed = max_speed;
   }
+  // if (wheel_fl)
+  // 	joint_wheel_fl =
+  // checked_ptr_cast<JointWheel>(wheel_fl->getObjectBody()->getJoint(0));
 
-  return MOVE::FAIL;
+  // if (wheel_fr)
+  // 	joint_wheel_fr =
+  // checked_ptr_cast<JointWheel>(wheel_fr->getObjectBody()->getJoint(0));
+
+  // carBodyRigid = node->getObjectBodyRigid();
 }
 
-void Train::moveNode(const Math::Vec3& pos, const Unigine::Math::vec3& angle) {
-  NodePtr my_node = getNode();
+void Train::update() {
+  float ifps = Game::getIFps();
 
-  my_node->setWorldDirection(angle, Math::vec3_up);
-  my_node->setWorldPosition(pos);
+  m_current_linear_velocity = takeNext(
+      m_current_linear_velocity, m_new_linear_velocity, start_speed * ifps);
+  m_current_linear_velocity =
+      Math::clamp(m_current_linear_velocity, 0.f, max_speed);
+}
 
-  Visualizer::renderDirection(
-      pos, Math::vec3(my_node->getTransform().getAxisX()), Math::vec4_red);
-  Visualizer::renderDirection(
-      pos, Math::vec3(my_node->getTransform().getAxisY()), Math::vec4_green);
-  Visualizer::renderDirection(
-      pos, Math::vec3(my_node->getTransform().getAxisZ()), Math::vec4_black);
+void Train::changeMoveDirection() {
+  if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
+    m_current_move_direction = MOVE_DIRECTION::REVERSE;
+  else
+    m_current_move_direction = MOVE_DIRECTION::FORWARD;
+
+  m_current_linear_velocity = start_speed;
 }

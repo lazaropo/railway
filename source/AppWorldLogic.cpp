@@ -24,6 +24,7 @@ int AppWorldLogic::update() {
   // Write here code to be called before updating each render frame: specify all
   // graphics-related functions you want to be called every frame while your
   // application executes.
+
   return 1;
 }
 

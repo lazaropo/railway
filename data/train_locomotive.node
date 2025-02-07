@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<nodes version="2.19.0.3">
+	<node type="NodeDummy" id="1213331171" name="train_locomotive">
+		<properties>
+			<property parent="3b278ea9e74a042719a58f33d9cbb403be99f4ca" guid="8e953086de740fb25303bfffce4fd09254d51779">
+				<parameter name="forward_bogey">765464165</parameter>
+				<parameter name="back_bogey">1895774883</parameter>
+				<parameter name="car_body">1107730302</parameter>
+			</property>
+		</properties>
+		<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 -1.7763568394e-15 -8.881784197e-16 0 1.0</transform>
+		<node type="NodeReference" id="765464165" name="bogeyF">
+			<reference>guid://1209f0d3d44439c26d24ad0815fbc295d5a6d528</reference>
+			<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 1 0.0 5.5 0 0 1.0</transform>
+		</node>
+		<node type="NodeReference" id="1895774883" name="bogeyB">
+			<reference>guid://1209f0d3d44439c26d24ad0815fbc295d5a6d528</reference>
+			<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 1 0.0 -5.5 0 0 1.0</transform>
+		</node>
+		<node type="NodeReference" id="1107730302" name="body_locomotive">
+			<reference>guid://4f2d21d6bc3ee72f06b63b8ff62b836632c6c989</reference>
+			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 0 1.0</transform>
+		</node>
+	</node>
+</nodes>
