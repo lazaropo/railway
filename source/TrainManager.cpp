@@ -4,44 +4,31 @@ REGISTER_COMPONENT(TrainManager);
 
 using namespace Unigine;
 
+TrainManager* TrainManager::m_instance = nullptr;
+
 void TrainManager::init() {
+  if (!m_instance)
+    m_instance = this;
+  else
+    return;
+
   m_track_container =
       ComponentSystem::get()->getComponent<TrackContrainer>(track_container);
   if (!m_track_container)
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
 
-  // m_trains.push_back(ptr);
+  if (m_carriage.size() && m_carriage[0]->getNode()) {
+    // m_carriage[0]->setSplineSegment(m_track_container->getSplineSegments()[83]);
 
-  // if (m_trains.size()) {
-  //   setNewSegment(m_trains[0], m_track_container->getSplineSegments().at(86),
-  //   m_segments);
-
-  auto pos_node = m_trains[0]->getNode()->getPosition();
-  Log::message("Spline point %d with coordinates: x - %f  y - %f  z - %f\n", 86,
-               pos_node[0], pos_node[1], pos_node[2]);
+    auto pos_node = m_carriage[0]->getNode()->getPosition();
+    Log::message("Spline point %d with coordinates: x - %f  y - %f  z - %f\n",
+                 86, pos_node[0], pos_node[1], pos_node[2]);
+  }
 }
 
-// void TrainManager::update() {
-//   for (auto train : m_trains) {
-//     if (!train) continue;
-
-//     if(InputController::getInstance()->isAction())
-//     m_input_strategy->processInput();
-
-//     Train::MOVE ret_value = train->moveNode();
-//     if (ret_value == Train::MOVE::STOP)
-//       continue;
-//     else if (ret_value == Train::MOVE::END)
-//       setNewSegment(train, m_segments);
-//     else if (ret_value == Train::MOVE::FAIL)
-//       throw std::logic_error(
-//           String::format("Fail at %s move.", train->getNode()->getName()));
-//   }
-// }
-
-void TrainManager::setTrain(Train* train) {
-  if (train) m_trains.push_back(train);
+void TrainManager::setCarriage(Carriage* carriage) {
+  if (carriage) TrainManager::getInstance()->m_carriage.push_back(carriage);
 }
 
 Unigine::SplineSegmentPtr TrainManager::getNextSegment(
@@ -56,7 +43,8 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
   Math::Vec3 prev_end_point = prev_segment->getEndPoint()->getPosition();
 
   // Log::message("Spline segment count: %d\n", m_track_container->size());
-  for (auto it : m_track_container->getSplineSegments()) {
+  for (auto it :
+       TrainManager::getInstance()->m_track_container->getSplineSegments()) {
     // it->show();
     if (prev_segment == it ||
         prev_end_point != it->getStartPoint()->getPosition())

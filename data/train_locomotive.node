@@ -3,8 +3,8 @@
 	<node type="NodeDummy" id="1213331171" name="train_locomotive">
 		<properties>
 			<property parent="3b278ea9e74a042719a58f33d9cbb403be99f4ca" guid="8e953086de740fb25303bfffce4fd09254d51779">
-				<parameter name="forward_bogey">765464165</parameter>
-				<parameter name="back_bogey">1895774883</parameter>
+				<parameter name="forward_bogie">765464165</parameter>
+				<parameter name="back_bogie">1895774883</parameter>
 				<parameter name="car_body">1107730302</parameter>
 			</property>
 		</properties>

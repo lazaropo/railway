@@ -3,10 +3,15 @@
 #include <UnigineComponentSystem.h>
 
 #include "Carriage.h"
+#include "TrainManager.h"
 
-class CarriageController : public Carriage {
+class CarriagePlayer : public Carriage {
  public:
-  COMPONENT_DEFINE(CarriageController, Carriage);
+  COMPONENT_DEFINE(CarriagePlayer, Carriage);
+
+  PROP_PARAM(Node, head_camera);
+  PROP_PARAM(Node, tail_camera);
+  PROP_PARAM(Node, world_camera);
 
   COMPONENT_INIT(init);
   COMPONENT_UPDATE(update);

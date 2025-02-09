@@ -7,10 +7,13 @@
 #include <stdexcept>
 
 // #include "InputProcessingBase.h"
+#include "Carriage.h"
 #include "TrackContainer.h"
-#include "Train.h"
 
 class TrainManager : public Unigine::ComponentBase {
+ private:
+  static TrainManager* m_instance;
+
  public:
   COMPONENT_DEFINE(TrainManager, Unigine::ComponentBase);
 
@@ -21,10 +24,16 @@ class TrainManager : public Unigine::ComponentBase {
 
   void init();
   // void update();
+  inline static TrainManager* getInstance() { return m_instance; }
 
-  void setTrain(Train* train);
+  static void setCarriage(Carriage* carriage);
 
-  Unigine::SplineSegmentPtr getNextSegment(
+  inline static Unigine::SplineSegmentPtr getStartSegment() {
+    return TrainManager::getInstance()
+        ->m_track_container->getSplineSegments()[83];
+  }
+
+  static Unigine::SplineSegmentPtr getNextSegment(
       Unigine::SplineSegmentPtr prev_segment);
 
   //   void setNewSegment(
@@ -37,6 +46,6 @@ class TrainManager : public Unigine::ComponentBase {
  private:
   TrackContrainer* m_track_container = nullptr;
 
-  Unigine::Vector<Train*> m_trains;
+  Unigine::Vector<Carriage*> m_carriage;
   // InputProcessingBase* m_input_strategy = nullptr;
 };

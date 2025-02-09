@@ -5,44 +5,16 @@
 		<node type="ObjectMeshStatic" id="592164077" name="WheelL">
 			<mesh_name>guid://9398c70cb987e90bf705f2fdb027c2aae679dbe7</mesh_name>
 			<surface name="cylinder" intersection="1" material="ed0c70fc46c98d707a2784cff76ea4021c157fee"/>
-			<body type="BodyRigid" id="142268170" frozen="0"/>
 			<transform>2 0 0 0.0 0 1.25166803997e-05 1.99995243549 0.0 0 -0.499988555907 3.12917241451e-06 0.0 0 5.21785645813 -7.52316429368e-37 1.0</transform>
 		</node>
 		<node type="ObjectMeshStatic" id="1613118721" name="WheelR">
 			<mesh_name>guid://9398c70cb987e90bf705f2fdb027c2aae679dbe7</mesh_name>
 			<surface name="cylinder" intersection="1" material="ed0c70fc46c98d707a2784cff76ea4021c157fee"/>
-			<body type="BodyRigid" id="183832" frozen="0"/>
 			<transform>2 0 0 0.0 0 9.17890993432e-06 1.99995470047 0.0 0 -0.499989479779 2.29473075741e-06 0.0 0 -5.24669454603 1.721442949e-20 1.0</transform>
 		</node>
 		<node type="ObjectMeshStatic" id="1338471020" name="Axis">
 			<mesh_name>guid://9398c70cb987e90bf705f2fdb027c2aae679dbe7</mesh_name>
 			<surface name="cylinder" intersection="1" material="ed0c70fc46c98d707a2784cff76ea4021c157fee"/>
-			<body type="BodyRigid" id="2064186007" frozen="0">
-				<shape type="ShapeCylinder" id="549357823">
-					<radius>0.707106769</radius>
-					<height>1</height>
-				</shape>
-				<joint type="JointWheel" id="832078418">
-					<body>0</body>
-					<body_1>142268170</body_1>
-					<axis_00>0 0 1</axis_00>
-					<axis_10>1 0 0</axis_10>
-					<axis_11>1 0 0</axis_11>
-					<linear_spring>1</linear_spring>
-					<anchor_0>0 0 0</anchor_0>
-					<anchor_1>0 0 0</anchor_1>
-				</joint>
-				<joint type="JointWheel" id="1058815369">
-					<body>0</body>
-					<body_1>183832</body_1>
-					<axis_00>0 0 1</axis_00>
-					<axis_10>1 0 0</axis_10>
-					<axis_11>1 0 0</axis_11>
-					<linear_spring>1</linear_spring>
-					<anchor_0>0 0 0</anchor_0>
-					<anchor_1>0 0 0</anchor_1>
-				</joint>
-			</body>
 			<transform>0.5 0 0 0.0 0 3.30805772464e-06 0.499999821186 0.0 0 -9.99998402595 6.61610650568e-05 0.0 0 0 0 1.0</transform>
 		</node>
 	</node>

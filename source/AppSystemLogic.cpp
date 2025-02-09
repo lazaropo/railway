@@ -8,9 +8,7 @@ using namespace Unigine;
 // These methods are called right after corresponding system script's
 // (UnigineScript) methods.
 
-AppSystemLogic::AppSystemLogic() {
-  // World::loadWorld("railway");
-}
+AppSystemLogic::AppSystemLogic() {}
 
 AppSystemLogic::~AppSystemLogic() {}
 

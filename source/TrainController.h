@@ -2,8 +2,10 @@
 
 #include <UnigineComponentSystem.h>
 
+#include <functional>
+
 #include "Train.h"
-#include "TrainManager.h"
+// #include "TrainManager.h"
 
 class TrainController : public Train {
  public:
@@ -14,20 +16,26 @@ class TrainController : public Train {
 
   void moveTrain() override;
 
- private:
-  void moveBogie(NodePtr bogie);
-  void setCarBody(NodePtr body);
+  void setNextSegmentFunction(
+      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {
+    m_callback_next_segment_f = fp;
+  }
 
-  Unigine::Math::Mat4 getBogieTransform();
+ private:
+  // void moveBogie(Unigine::NodePtr bogie, float ifps);
+  void setCarBody(Unigine::NodePtr body);
+
+  Unigine::Math::Mat4 makeBogieTransform(const Unigine::NodePtr node,
+                                         BogiePos pos, float ifps);
+
+  Unigine::Math::Mat4 calcNewPosition();
 
  protected:
   void init();
   void update();
 
  private:
-  TrainManager* m_train_manager = nullptr;
-
-  Unigine::PlayerPersecutorPtr m_head_camera;
-  Unigine::PlayerPersecutorPtr m_tail_camera;
-  Unigine::PlayerSpectatorPtr m_world_camera;
+  inline static std::function<Unigine::SplineSegmentPtr(
+      Unigine::SplineSegmentPtr)>
+      m_callback_next_segment_f;
 };

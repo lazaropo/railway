@@ -11,13 +11,13 @@ class Carriage : public Unigine::ComponentBase {
   COMPONENT_INIT(init);
   COMPONENT_UPDATE(update);
 
-  PROP_PARAM(Node, head_camera);
-  PROP_PARAM(Node, tail_camera);
-  PROP_PARAM(Node, world_camera);
+  void setSplineSegment(Unigine::SplineSegmentPtr segment);
 
  protected:
   void init();
-  void update();
+  void update() {}
+
+  void setTrains();
 
  protected:
   // Контейнер вагонов. 0 - голова, N - хвост.

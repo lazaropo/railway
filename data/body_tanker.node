@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nodes version="2.19.0.3">
-	<node type="ObjectMeshStatic" id="1195868231" immovable="1" name="boy_tanker">
+	<node type="ObjectMeshStatic" id="1195868231" name="boy_tanker">
 		<mesh_name>guid://a0134da254f8112e3d92c74bbbd05f9814cc1fa5</mesh_name>
 		<surface name="cylinder" intersection="1" material="c3f3c4124e794f706b02810dbd41ec265b7b0bf4"/>
 		<transform>0.00845879036933 0 -4.99998998642 0.0 0 5 0 0.0 13.5734996796 0 0.022963123396 0.0 0 0 0 1.0</transform>
