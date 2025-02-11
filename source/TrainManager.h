@@ -36,6 +36,9 @@ class TrainManager : public Unigine::ComponentBase {
   static Unigine::SplineSegmentPtr getNextSegment(
       Unigine::SplineSegmentPtr prev_segment);
 
+  static Unigine::SplineSegmentPtr getPrevSegment(
+      Unigine::SplineSegmentPtr curr_segment);
+
   //   void setNewSegment(
   //       Train* train,
   //       const Unigine::Vector<Unigine::SplineSegmentPtr>& v_spline_segments);

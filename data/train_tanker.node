@@ -2,24 +2,20 @@
 <nodes version="2.19.0.3">
 	<node type="NodeDummy" id="603769063" name="train_tanker">
 		<properties>
-			<property parent="3b278ea9e74a042719a58f33d9cbb403be99f4ca" guid="197752822c04434d4d204dab2cdc311afa62e505">
-				<parameter name="forward_bogie">1129054935</parameter>
-				<parameter name="back_bogie">1091735984</parameter>
-				<parameter name="car_body">1717005106</parameter>
-			</property>
+			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="c548c1656d9733c514a0177b0865723018634e02"/>
 		</properties>
 		<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
-		<node type="NodeReference" id="1717005106" name="body_tanker">
+		<node type="NodeReference" id="1717005106" name="Body">
 			<reference>guid://bdf03e4e4f1609fb98469967520e6b87c0550121</reference>
 			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 0 1.0</transform>
 		</node>
-		<node type="NodeReference" id="1091735984" name="bogeyB">
+		<node type="NodeReference" id="1091735984" name="BogieBack">
 			<reference>guid://1209f0d3d44439c26d24ad0815fbc295d5a6d528</reference>
-			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 -5.50000032783 0 0 1.0</transform>
+			<transform>1 0 0 0.0 0 1 0 0.0 0 0 1 0.0 0 -6 0 1.0</transform>
 		</node>
-		<node type="NodeReference" id="1129054935" name="bogeyF">
+		<node type="NodeReference" id="1129054935" name="BogieFront">
 			<reference>guid://1209f0d3d44439c26d24ad0815fbc295d5a6d528</reference>
-			<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 1 0.0 5.50000032783 0 0 1.0</transform>
+			<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 1 0.0 0 6 0 1.0</transform>
 		</node>
 	</node>
 </nodes>

@@ -18,24 +18,59 @@ void Train::init() {
 
     start_speed = max_speed;
   }
-  // if (wheel_fl)
-  // 	joint_wheel_fl =
-  // checked_ptr_cast<JointWheel>(wheel_fl->getObjectBody()->getJoint(0));
 
-  // if (wheel_fr)
-  // 	joint_wheel_fr =
-  // checked_ptr_cast<JointWheel>(wheel_fr->getObjectBody()->getJoint(0));
-
-  // carBodyRigid = node->getObjectBodyRigid();
+  if (forward_bogie && back_bogie)
+    m_bogie_distance =
+        (forward_bogie->getPosition() - back_bogie->getPosition()).length();
 }
 
 void Train::update() {
+  // if(!forward_bogie || !back_bogie || !car_body) {
+  //   getNode().deleteLater();
+  //   return;
+  // }
+  if (Math::abs(m_bogie_distance) < Math::Consts::EPS && forward_bogie &&
+      back_bogie)
+    m_bogie_distance =
+        (forward_bogie->getPosition() - back_bogie->getPosition()).length();
+
   float ifps = Game::getIFps();
 
   m_current_linear_velocity = takeNext(
       m_current_linear_velocity, m_new_linear_velocity, start_speed * ifps);
   m_current_linear_velocity =
       Math::clamp(m_current_linear_velocity, 0.f, max_speed);
+
+  // Math::Mat4 transform = forward_bogie->getTransform();
+  // transform.setTranslate()
+  forward_bogie->setPosition(m_bogie_pos_forward.m_curr_segment->calcPoint(
+      m_bogie_pos_forward.m_t_coordinate));
+  forward_bogie->setDirection(m_bogie_pos_forward.m_curr_segment->calcTangent(
+                                  m_bogie_pos_forward.m_t_coordinate),
+                              Math::vec3_up, Math::AXIS_X);
+
+  car_body->setPosition(
+      m_car_pos.m_curr_segment->calcPoint(m_car_pos.m_t_coordinate));
+  car_body->setDirection(
+      m_car_pos.m_curr_segment->calcTangent(m_car_pos.m_t_coordinate),
+      Math::vec3_up, Math::AXIS_X);
+
+  back_bogie->setPosition(m_bogie_pos_back.m_curr_segment->calcPoint(
+      m_bogie_pos_back.m_t_coordinate));
+  back_bogie->setDirection(m_bogie_pos_back.m_curr_segment->calcTangent(
+                               m_bogie_pos_back.m_t_coordinate),
+                           Math::vec3_up, Math::AXIS_X);
+
+  auto pos = getNode()->getPosition();
+  Visualizer::renderVector(pos, pos + getNode()->getTransform().getAxisX(),
+                           Math::vec4_red);
+  Visualizer::renderVector(pos, pos + getNode()->getTransform().getAxisY(),
+                           Math::vec4_green);
+  Visualizer::renderVector(pos, pos + getNode()->getTransform().getAxisZ(),
+                           Math::vec4_blue);
+
+  Visualizer::renderVector(pos, pos + (Math::Vec3)getNode()->getDirection(),
+                           Math::vec4_black);
 }
 
 void Train::changeMoveDirection() {

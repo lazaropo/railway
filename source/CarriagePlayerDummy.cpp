@@ -27,6 +27,6 @@ void CarriagePlayerDummy::init() {
   }
 
   if (m_trains.size())
-    m_trains[0]->setNextSegmentFunction(//std::bind(
-        &TrainManager::getNextSegment/*, TrainManager::getInstance(), std::placeholders::_1)*/);
+    m_trains[0]->setPrevSegmentFunction(//std::bind(
+        &TrainManager::getPrevSegment/*, TrainManager::getInstance(), std::placeholders::_1)*/);
 }

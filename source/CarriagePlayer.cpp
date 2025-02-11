@@ -11,22 +11,23 @@ void CarriagePlayer::init() {
   TrainManager::setCarriage(this);
   setTrains();
 
-  setSplineSegment(TrainManager::getStartSegment());
-  // TrainManager* p_train_manager = nullptr;
-  // for (auto& it : root_nodes) {
-  //   if (p_train_manager =
-  //           ComponentSystem::get()->getComponentInChildren<TrainManager>(it))
-  //           {
-  //     //p_train_manager->setCarriage(this);
+  int count_ready = 0;
 
-  //     break;
+  // do
+  // {
+  //   count_ready = 0;
+  //   for(auto it : m_trains) {
+  //     if(it->isInitialized())
+  //       ++count_ready;
   //   }
-  // }
+  // } while (!count_ready);
+
+  // setSplineSegment(TrainManager::getStartSegment());
 
   if (m_trains.size()) {
-    m_trains[0]->setNextSegmentFunction(  // std::bind(
+    m_trains[0]->setPrevSegmentFunction(  // std::bind(
         &TrainManager::
-            getNextSegment /*, p_train_manager, std::placeholders::_1)*/);
+            getPrevSegment /*, p_train_manager, std::placeholders::_1)*/);
 
     Log::message("Carriage Player: %d trains are load\n", m_trains.size());
   }
@@ -47,6 +48,8 @@ void CarriagePlayer::init() {
 }
 
 void CarriagePlayer::update() {
+  if (!m_trains[0]->getCurrentSegment()) setStartPos();
+
   float linear_acceleration = 0;
   float tmp = 0;
 
@@ -80,11 +83,67 @@ void CarriagePlayer::update() {
           InputController::INPUT_ACTIONS::LOCAL_CAMERA_SWITCH))
     is_local_camera_switch = true;
 
-  if (is_local_camera_switch &&
-      m_trains[0]->getMoveDirection() == Train::MOVE_DIRECTION::FORWARD)
+  if (is_local_camera_switch && m_trains[0]->getMoveDirection() ==
+                                    TrainController::MOVE_DIRECTION::FORWARD)
     m_head_camera->setMainPlayer(true);
 
-  if (is_local_camera_switch &&
-      m_trains[0]->getMoveDirection() == Train::MOVE_DIRECTION::REVERSE)
+  if (is_local_camera_switch && m_trains[0]->getMoveDirection() ==
+                                    TrainController::MOVE_DIRECTION::REVERSE)
     m_tail_camera->setMainPlayer(true);
+
+  // setPos();
+}
+
+void CarriagePlayer::setStartPos() {
+  if (m_trains.empty()) return;
+
+  SplineSegmentPtr current_segment = TrainManager::getStartSegment();
+
+  int len = current_segment->getLength();
+  float pos = 0.f;
+
+  for (auto it = m_trains.begin(), it_end = m_trains.end(); it != it_end;
+       ++it) {
+    if (!current_segment) break;
+
+    // it->getNode()->setWorldPosition(Math::Vec3_one);
+    (*it)->setSegment(current_segment, pos);
+
+    if (Math::abs(len) < Math::Consts::EPS) continue;
+
+    pos -= (*it)->getLength() / len;
+    if (pos < 0.f) {
+      current_segment = TrainManager::getPrevSegment(current_segment);
+
+      pos = 1.f - (-pos) * len / current_segment->getLength();
+      len = current_segment->getLength();
+    }
+  }
+}
+
+void CarriagePlayer::setPos() {
+  SplineSegmentPtr current_segment = m_trains[0]->getCurrentSegment();
+
+  if (!current_segment) return;
+
+  int len = current_segment->getLength();
+  float pos = 0.f;
+
+  for (auto it = m_trains.begin(), it_end = m_trains.end(); it != it_end;
+       ++it) {
+    if (!current_segment) break;
+
+    // it->getNode()->setWorldPosition(Math::Vec3_one);
+    (*it)->setSegment(current_segment, pos);
+
+    if (Math::abs(len) < Math::Consts::EPS) continue;
+
+    pos -= (*it)->getLength() / len;
+    if (pos < 0.f) {
+      current_segment = TrainManager::getPrevSegment(current_segment);
+
+      pos = 1.f - (-pos) * len / current_segment->getLength();
+      len = current_segment->getLength();
+    }
+  }
 }

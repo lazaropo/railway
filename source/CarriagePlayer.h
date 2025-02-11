@@ -16,12 +16,15 @@ class CarriagePlayer : public Carriage {
   COMPONENT_INIT(init);
   COMPONENT_UPDATE(update);
 
+ protected:
+  void setStartPos() override;
+  void setPos() override;
+
+  void init();
+  void update();
+
  private:
   Unigine::PlayerPersecutorPtr m_head_camera;
   Unigine::PlayerPersecutorPtr m_tail_camera;
   Unigine::PlayerSpectatorPtr m_world_camera;
-
- protected:
-  void init();
-  void update();
 };

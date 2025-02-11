@@ -58,6 +58,33 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
   return next_segment;
 }
 
+Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
+    Unigine::SplineSegmentPtr curr_segment) {
+  if (!curr_segment) return nullptr;
+
+  auto pos = curr_segment->getStartPoint()->getPosition();
+  Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
+               pos[2]);
+
+  SplineSegmentPtr prev_segment = nullptr;
+  Math::Vec3 prev_end_point = curr_segment->getStartPoint()->getPosition();
+
+  // Log::message("Spline segment count: %d\n", m_track_container->size());
+  for (auto it :
+       TrainManager::getInstance()->m_track_container->getSplineSegments()) {
+    // it->show();
+    if (curr_segment == it ||
+        prev_end_point != it->getEndPoint()->getPosition())
+      continue;
+    else {
+      prev_segment = it;
+      break;
+    }
+  }
+
+  return prev_segment;
+}
+
 // void TrainManager::setNewSegment(
 //     Train* train, const Vector<Ptr<SplineSegment>>& v_spline_segments) {
 //   SplineSegmentPtr curr_segment = train->getNextSegment();

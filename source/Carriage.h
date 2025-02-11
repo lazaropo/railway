@@ -19,6 +19,9 @@ class Carriage : public Unigine::ComponentBase {
 
   void setTrains();
 
+  virtual void setStartPos() {}
+  virtual void setPos() {}
+
  protected:
   // Контейнер вагонов. 0 - голова, N - хвост.
   Unigine::Vector<TrainController*> m_trains;

@@ -58,22 +58,33 @@ class Train : public Unigine::ComponentBase {
 
   // void setSegment(Unigine::SplineSegmentPtr curr_segment,
   //                 Unigine::SplineSegmentPtr next_segment);
-  void setSegment(Unigine::SplineSegmentPtr curr_segment) {
-    m_curr_segment = curr_segment;
-    int len = curr_segment->getLength();
-
-    m_bogie_pos_forward.m_curr_segment = curr_segment;
-    m_bogie_pos_forward.m_curr_segment_len = len;
-    m_bogie_pos_forward.m_t_coordinate = 0;
-
-    m_bogie_pos_back.m_curr_segment = curr_segment;
-    m_bogie_pos_back.m_curr_segment_len = len;
-    m_bogie_pos_back.m_t_coordinate = 0;
-  }
+  virtual void setSegment(Unigine::SplineSegmentPtr curr_segment,
+                          float pos = 0.) {}
 
   Unigine::SplineSegmentPtr getCurrentSegment() { return m_curr_segment; }
 
-  MOVE moveNode();
+  virtual void setNextSegmentFunction(
+      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {}
+
+  float getLength() const {
+    // if (!car_body || !car_body.get()) return 0.f;
+    // auto obj = Unigine::checked_ptr_cast<Unigine::Object>(car_body.get());
+    // if (obj)
+    // Unigine::NodePtr node = car_body.get()->findNode("body", true);
+    // if(!node)
+    //  return 0.f;
+    if (Unigine::Math::abs(m_bogie_distance) < Unigine::Math::Consts::EPS)
+      Unigine::Log::message("Bogie distance is %d\n", m_bogie_distance);
+    // Unigine::ObjectMeshStaticPtr mesh =
+    // Unigine::checked_ptr_cast<Unigine::ObjectMeshStatic>(car_body.get());
+    // auto size = forward_bogie.get()->getPosition() -
+    // back_bogie.get()->getPosition();
+    return m_bogie_distance;  // size.x;
+    // else
+    //   return 0.f;
+  }
+
+  float getVelocity() const { return m_current_linear_velocity; }
 
  private:
   void moveNode(const Unigine::Math::Vec3& pos,
@@ -88,6 +99,8 @@ class Train : public Unigine::ComponentBase {
   float m_new_linear_velocity = start_speed;
   float m_acceleration = 0.f;
 
+  float m_bogie_distance = 0.f;
+
   MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
 
   // Unigine::SplineSegmentPtr m_prev_segment;
@@ -95,6 +108,7 @@ class Train : public Unigine::ComponentBase {
 
   BogiePos m_bogie_pos_forward;
   BogiePos m_bogie_pos_back;
+  BogiePos m_car_pos;
 
  protected:
   void init();
