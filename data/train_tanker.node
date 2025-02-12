@@ -2,7 +2,9 @@
 <nodes version="2.19.0.3">
 	<node type="NodeDummy" id="603769063" name="train_tanker">
 		<properties>
-			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="c548c1656d9733c514a0177b0865723018634e02"/>
+			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="c548c1656d9733c514a0177b0865723018634e02">
+				<parameter name="start_speed">10</parameter>
+			</property>
 		</properties>
 		<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
 		<node type="NodeReference" id="1717005106" name="Body">

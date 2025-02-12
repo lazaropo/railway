@@ -2,7 +2,9 @@
 <nodes version="2.19.0.3">
 	<node type="NodeDummy" id="1213331171" name="train_locomotive">
 		<properties>
-			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="30bf140e0815b8ccb0e6a32ea8400e88817d0a1d"/>
+			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="30bf140e0815b8ccb0e6a32ea8400e88817d0a1d">
+				<parameter name="start_speed">10</parameter>
+			</property>
 		</properties>
 		<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 -1.7763568394e-15 0 0 1.0</transform>
 		<node type="NodeReference" id="765464165" name="BogieFront">

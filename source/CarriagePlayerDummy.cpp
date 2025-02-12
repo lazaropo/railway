@@ -26,7 +26,9 @@ void CarriagePlayerDummy::init() {
     it->start_speed = const_move_speed;
   }
 
-  if (m_trains.size())
+  if (m_trains.size()) {
     m_trains[0]->setPrevSegmentFunction(//std::bind(
         &TrainManager::getPrevSegment/*, TrainManager::getInstance(), std::placeholders::_1)*/);
+    m_trains[0]->setNextSegmentFunction(&TrainManager::getNextSegment);
+  }
 }

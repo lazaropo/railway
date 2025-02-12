@@ -1,6 +1,7 @@
 #ifndef __APP_SYSTEM_LOGIC_H__
 #define __APP_SYSTEM_LOGIC_H__
 
+#include <UnigineConsole.h>
 #include <UnigineLogic.h>
 
 class AppSystemLogic : public Unigine::SystemLogic {

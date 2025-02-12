@@ -30,12 +30,18 @@ class TrainController : public Unigine::ComponentBase {
 
   COMPONENT_INIT(init);
   COMPONENT_UPDATE(update);
+  COMPONENT_SHUTDOWN(shutdown);
 
   void setSegment(Unigine::SplineSegmentPtr curr_segment, float pos = 0.f);
 
   void setPrevSegmentFunction(
       std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {
     m_callback_prev_segment_f = fp;
+  }
+
+  void setNextSegmentFunction(
+      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {
+    m_callback_next_segment_f = fp;
   }
 
   void setAcceleration(float value) {
@@ -46,7 +52,7 @@ class TrainController : public Unigine::ComponentBase {
   void changeMoveDirection();
   float getLength() const {
     if (m_car)
-      return m_bogie_distance;
+      return m_bogie_distance + 2 * TRAINS_MARGIN;
     else
       return 0.f;
   }
@@ -87,14 +93,19 @@ class TrainController : public Unigine::ComponentBase {
   Unigine::Math::Mat4 makeBogieTransform(const Unigine::NodePtr node,
                                          BogiePos pos, float ifps);
 
-  Unigine::Math::Mat4 calcNewPosition();
+  Unigine::Math::Mat4 calcNewPosition(BogiePos pos, float ifps);
 
-  float calcNextPos();
+  BogiePos calcNextPos(BogiePos pos, float ifps);
+
+  BogiePos calcBackBogiePos(BogiePos forward);
 
   void init();
   void update();
 
+  void shutdown();
+
  protected:
+  static constexpr float TRAINS_MARGIN = 1.f;
   inline static int m_count = 0;
   // Unigine::ObjectMeshDynamicPtr m_forward_bogey;
   // Unigine::ObjectMeshDynamicPtr m_back_bogey;
@@ -104,6 +115,8 @@ class TrainController : public Unigine::ComponentBase {
   float m_acceleration = 0.f;
 
   float m_bogie_distance = 0.f;
+
+  Unigine::Vector<int> m_count_collection;
 
   MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
 
@@ -121,4 +134,7 @@ class TrainController : public Unigine::ComponentBase {
   inline static std::function<Unigine::SplineSegmentPtr(
       Unigine::SplineSegmentPtr)>
       m_callback_prev_segment_f;
+  inline static std::function<Unigine::SplineSegmentPtr(
+      Unigine::SplineSegmentPtr)>
+      m_callback_next_segment_f;
 };

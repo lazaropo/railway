@@ -22,8 +22,9 @@ void TrainManager::init() {
     // m_carriage[0]->setSplineSegment(m_track_container->getSplineSegments()[83]);
 
     auto pos_node = m_carriage[0]->getNode()->getPosition();
-    Log::message("Spline point %d with coordinates: x - %f  y - %f  z - %f\n",
-                 86, pos_node[0], pos_node[1], pos_node[2]);
+    // Log::message("Spline point %d with coordinates: x - %f  y - %f  z -
+    // %f\n",
+    //              86, pos_node[0], pos_node[1], pos_node[2]);
   }
 }
 
@@ -36,8 +37,8 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
   if (!prev_segment) return nullptr;
 
   auto pos = prev_segment->getStartPoint()->getPosition();
-  Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
-               pos[2]);
+  // Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
+  //              pos[2]);
 
   SplineSegmentPtr next_segment = nullptr;
   Math::Vec3 prev_end_point = prev_segment->getEndPoint()->getPosition();
@@ -63,8 +64,8 @@ Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
   if (!curr_segment) return nullptr;
 
   auto pos = curr_segment->getStartPoint()->getPosition();
-  Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
-               pos[2]);
+  // Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
+  //              pos[2]);
 
   SplineSegmentPtr prev_segment = nullptr;
   Math::Vec3 prev_end_point = curr_segment->getStartPoint()->getPosition();

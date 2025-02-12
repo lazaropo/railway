@@ -29,6 +29,8 @@ void CarriagePlayer::init() {
         &TrainManager::
             getPrevSegment /*, p_train_manager, std::placeholders::_1)*/);
 
+    m_trains[0]->setNextSegmentFunction(&TrainManager::getNextSegment);
+
     Log::message("Carriage Player: %d trains are load\n", m_trains.size());
   }
 
@@ -111,7 +113,7 @@ void CarriagePlayer::setStartPos() {
 
     if (Math::abs(len) < Math::Consts::EPS) continue;
 
-    pos -= (*it)->getLength() / len;
+    pos -= ((*it)->getLength() + 2.f) / len;
     if (pos < 0.f) {
       current_segment = TrainManager::getPrevSegment(current_segment);
 
