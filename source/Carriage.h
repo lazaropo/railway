@@ -13,6 +13,14 @@ class Carriage : public Unigine::ComponentBase {
 
   void setSplineSegment(Unigine::SplineSegmentPtr segment);
 
+  void stopMove() {
+    for (auto train : m_trains) train->stopMove();
+  }
+
+  void startMove() {
+    for (auto train : m_trains) train->startMove();
+  }
+
  protected:
   void init();
   void update() {}

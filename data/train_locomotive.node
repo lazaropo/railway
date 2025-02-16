@@ -17,7 +17,7 @@
 		</node>
 		<node type="NodeReference" id="1107730302" name="Body">
 			<reference>guid://4f2d21d6bc3ee72f06b63b8ff62b836632c6c989</reference>
-			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 0 1.0</transform>
+			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 1 1.0</transform>
 		</node>
 	</node>
 </nodes>

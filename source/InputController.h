@@ -72,7 +72,7 @@ class InputController : public Unigine::ComponentBase {
       InputAction(Unigine::Vector<InputStateKeyDown*>(
           {new InputStateKeyDown(Unigine::Input::KEY_F2)})),
       InputAction(Unigine::Vector<InputStateKeyDown*>(
-          {new InputStateKeyDown(Unigine::Input::KEY_F3)}))};
+          {new InputStateKeyDown(Unigine::Input::KEY_F5)}))};
 
  protected:
   void init();

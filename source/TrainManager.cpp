@@ -18,14 +18,15 @@ void TrainManager::init() {
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
 
-  if (m_carriage.size() && m_carriage[0]->getNode()) {
-    // m_carriage[0]->setSplineSegment(m_track_container->getSplineSegments()[83]);
+  // if (m_carriage.size() && m_carriage[0]->getNode()) {
+  //   //
+  //   m_carriage[0]->setSplineSegment(m_track_container->getSplineSegments()[83]);
 
-    auto pos_node = m_carriage[0]->getNode()->getPosition();
-    // Log::message("Spline point %d with coordinates: x - %f  y - %f  z -
-    // %f\n",
-    //              86, pos_node[0], pos_node[1], pos_node[2]);
-  }
+  //   auto pos_node = m_carriage[0]->getNode()->getPosition();
+  //   // Log::message("Spline point %d with coordinates: x - %f  y - %f  z -
+  //   // %f\n",
+  //   //              86, pos_node[0], pos_node[1], pos_node[2]);
+  // }
 }
 
 void TrainManager::setCarriage(Carriage* carriage) {
@@ -33,28 +34,29 @@ void TrainManager::setCarriage(Carriage* carriage) {
 }
 
 Unigine::SplineSegmentPtr TrainManager::getNextSegment(
-    Unigine::SplineSegmentPtr prev_segment) {
-  if (!prev_segment) return nullptr;
-
-  auto pos = prev_segment->getStartPoint()->getPosition();
-  // Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
-  //              pos[2]);
+    Unigine::SplineSegmentPtr curr_segment) {
+  if (!curr_segment) return nullptr;
 
   SplineSegmentPtr next_segment = nullptr;
-  Math::Vec3 prev_end_point = prev_segment->getEndPoint()->getPosition();
+  Math::Vec3 curr_end_point = curr_segment->getEndPoint()->getPosition();
 
-  // Log::message("Spline segment count: %d\n", m_track_container->size());
+  bool is_current_exists = false;
+
   for (auto it :
        TrainManager::getInstance()->m_track_container->getSplineSegments()) {
-    // it->show();
-    if (prev_segment == it ||
-        prev_end_point != it->getStartPoint()->getPosition())
+    if (curr_segment == it) {
+      is_current_exists = true;
       continue;
-    else {
+    }
+    if ((curr_end_point - it->getStartPoint()->getPosition()).length() <
+        Math::Consts::EPS) {
       next_segment = it;
       break;
     }
   }
+  // if (!is_current_exists)
+  //   throw std::logic_error("Spline graph doesnt contains current
+  //   segment.\n");
 
   return next_segment;
 }
@@ -63,25 +65,33 @@ Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
     Unigine::SplineSegmentPtr curr_segment) {
   if (!curr_segment) return nullptr;
 
-  auto pos = curr_segment->getStartPoint()->getPosition();
-  // Log::message("Train start pos: x - %f  y - %f  z - %f\n", pos[0], pos[1],
-  //              pos[2]);
-
   SplineSegmentPtr prev_segment = nullptr;
-  Math::Vec3 prev_end_point = curr_segment->getStartPoint()->getPosition();
+  Math::Vec3 curr_start_point = curr_segment->getStartPoint()->getPosition();
 
-  // Log::message("Spline segment count: %d\n", m_track_container->size());
+  bool is_current_exists = false;
+
   for (auto it :
        TrainManager::getInstance()->m_track_container->getSplineSegments()) {
-    // it->show();
-    if (curr_segment == it ||
-        prev_end_point != it->getEndPoint()->getPosition())
+    if (curr_segment == it) {
+      is_current_exists = true;
       continue;
-    else {
+    }
+    if ((curr_start_point - it->getEndPoint()->getPosition()).length() <
+        Math::Consts::EPS) {
       prev_segment = it;
       break;
     }
+    // if (!prev_segment && it == *TrainManager::getInstance()
+    //                                 ->m_track_container->getSplineSegments()
+    //                                 .back())
+    //   prev_segment = nullptr;
   }
+
+  // if (!is_current_exists)
+  //   throw std::logic_error("Spline graph doesnt contains current
+  //   segment.\n");
+
+  // if (!prev_segment) return nullptr;
 
   return prev_segment;
 }

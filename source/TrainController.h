@@ -28,6 +28,12 @@ class TrainController : public Unigine::ComponentBase {
     REVERSE,
   };
 
+  struct BogiePos {
+    Unigine::SplineSegmentPtr m_curr_segment;
+    float m_t_coordinate = 0;
+    float m_curr_segment_len = 0;
+  };
+
   COMPONENT_INIT(init);
   COMPONENT_UPDATE(update);
   COMPONENT_SHUTDOWN(shutdown);
@@ -44,8 +50,28 @@ class TrainController : public Unigine::ComponentBase {
     m_callback_next_segment_f = fp;
   }
 
-  void setAcceleration(float value) {
-    m_acceleration = Unigine::Math::clamp(value, -1.f, 1.f);
+  void setMoveStartFunc(std::function<void()> fp) {
+    m_callback_move_start = fp;
+  }
+
+  void setMoveEndFunc(std::function<void()> fp) { m_callback_move_stop = fp; }
+
+  void stopMove() { m_is_stop = true; }
+
+  void startMove() { m_is_stop = false; }
+
+  // void setAcceleration(float value) {
+  //   m_acceleration = Unigine::Math::clamp(value, -1.f, 1.f);
+  // }
+
+  void accelerate() {
+    m_new_linear_velocity = Unigine::Math::clamp(
+        m_new_linear_velocity + m_acceleration, 0.f, max_speed);
+  }
+
+  void brake() {
+    m_new_linear_velocity = Unigine::Math::clamp(
+        m_new_linear_velocity - m_acceleration, 0.f, max_speed);
   }
 
   MOVE_DIRECTION getMoveDirection() { return m_current_move_direction; }
@@ -56,33 +82,45 @@ class TrainController : public Unigine::ComponentBase {
     else
       return 0.f;
   }
-  Unigine::SplineSegmentPtr getCurrentSegment() { return m_curr_segment; }
+  Unigine::SplineSegmentPtr getCurrentSegment() const {
+    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
+      return m_bogie_pos_forward.m_curr_segment;
+    else
+      return m_bogie_pos_back.m_curr_segment;
+  }
+
+  float getCurrentParamPos() const {
+    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
+      return m_bogie_pos_forward.m_t_coordinate;
+    else
+      return m_bogie_pos_back.m_t_coordinate;
+  }
+
+  const BogiePos getFBogiePos() const { return m_bogie_pos_forward; }
+  const BogiePos getBBogiePos() const { return m_bogie_pos_back; }
 
  protected:
-  struct BogiePos {
-    Unigine::SplineSegmentPtr m_curr_segment;
-    float m_t_coordinate = 0;
-    float m_curr_segment_len = 0;
-  };
-
   template <class T>
   T takeNext(T current, T pos, T delta);
 
   void moveTrain();
 
   void renderNode(Unigine::NodePtr node) {
-    Unigine::Math::Vec3 pos = node->getPosition();
+    Unigine::Math::Vec3 pos = node->getWorldPosition();
     Unigine::Visualizer::renderVector(
         pos,
-        pos + (Unigine::Math::Vec3)m_car->getDirection(Unigine::Math::AXIS_X),
+        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
+                  Unigine::Math::AXIS_X),
         Unigine::Math::vec4_red);
     Unigine::Visualizer::renderVector(
         pos,
-        pos + (Unigine::Math::Vec3)m_car->getDirection(Unigine::Math::AXIS_Y),
+        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
+                  Unigine::Math::AXIS_Y),
         Unigine::Math::vec4_green);
     Unigine::Visualizer::renderVector(
         pos,
-        pos + (Unigine::Math::Vec3)m_car->getDirection(Unigine::Math::AXIS_Z),
+        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
+                  Unigine::Math::AXIS_Z),
         Unigine::Math::vec4_blue);
   }
 
@@ -97,7 +135,12 @@ class TrainController : public Unigine::ComponentBase {
 
   BogiePos calcNextPos(BogiePos pos, float ifps);
 
-  BogiePos calcBackBogiePos(BogiePos forward);
+  BogiePos calcBackBogiePos(BogiePos forward, BogiePos back);
+
+  void setSegmentForward(Unigine::SplineSegmentPtr curr_segment,
+                         float pos = 0.f);
+  void setSegmentReverse(Unigine::SplineSegmentPtr curr_segment,
+                         float pos = 0.f);
 
   void init();
   void update();
@@ -114,14 +157,16 @@ class TrainController : public Unigine::ComponentBase {
   float m_new_linear_velocity = start_speed;
   float m_acceleration = 0.f;
 
+  bool m_is_stop = false;
+
   float m_bogie_distance = 0.f;
 
   Unigine::Vector<int> m_count_collection;
 
   MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
 
-  // Unigine::SplineSegmentPtr m_prev_segment;
-  Unigine::SplineSegmentPtr m_curr_segment;
+  Unigine::SplineSegmentPtr m_prev_segment;
+  // Unigine::SplineSegmentPtr m_curr_segment;
 
   Unigine::NodePtr m_forward_bogie;
   Unigine::NodePtr m_back_bogie;
@@ -137,4 +182,7 @@ class TrainController : public Unigine::ComponentBase {
   inline static std::function<Unigine::SplineSegmentPtr(
       Unigine::SplineSegmentPtr)>
       m_callback_next_segment_f;
+
+  std::function<void()> m_callback_move_start;
+  std::function<void()> m_callback_move_stop;
 };

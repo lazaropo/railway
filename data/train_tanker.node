@@ -9,7 +9,7 @@
 		<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
 		<node type="NodeReference" id="1717005106" name="Body">
 			<reference>guid://bdf03e4e4f1609fb98469967520e6b87c0550121</reference>
-			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 0 1.0</transform>
+			<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1.0000000596 0.0 0 0 1 1.0</transform>
 		</node>
 		<node type="NodeReference" id="1091735984" name="BogieBack">
 			<reference>guid://1209f0d3d44439c26d24ad0815fbc295d5a6d528</reference>

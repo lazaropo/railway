@@ -49,6 +49,16 @@ add_executable(${target}
 		${CMAKE_CURRENT_LIST_DIR}/TrackContainer.h
 		${CMAKE_CURRENT_LIST_DIR}/TrainManager.cpp
 		${CMAKE_CURRENT_LIST_DIR}/TrainManager.h
+		${CMAKE_CURRENT_LIST_DIR}/TrainController.cpp
+		${CMAKE_CURRENT_LIST_DIR}/TrainController.h
+		${CMAKE_CURRENT_LIST_DIR}/InputController.cpp
+		${CMAKE_CURRENT_LIST_DIR}/InputController.h
+		${CMAKE_CURRENT_LIST_DIR}/Carriage.cpp
+		${CMAKE_CURRENT_LIST_DIR}/Carriage.h
+		${CMAKE_CURRENT_LIST_DIR}/CarriagePlayer.cpp
+		${CMAKE_CURRENT_LIST_DIR}/CarriagePlayer.h
+		${CMAKE_CURRENT_LIST_DIR}/CarriagePlayerDummy.cpp
+		${CMAKE_CURRENT_LIST_DIR}/CarriagePlayerDummy.h
 		${CMAKE_CURRENT_LIST_DIR}/main.cpp
 
 

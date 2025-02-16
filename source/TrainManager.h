@@ -20,7 +20,6 @@ class TrainManager : public Unigine::ComponentBase {
   PROP_PARAM(Node, track_container, nullptr);
 
   COMPONENT_INIT(init);
-  // COMPONENT_UPDATE(update);
 
   void init();
   // void update();
@@ -30,11 +29,11 @@ class TrainManager : public Unigine::ComponentBase {
 
   inline static Unigine::SplineSegmentPtr getStartSegment() {
     return TrainManager::getInstance()
-        ->m_track_container->getSplineSegments()[83];
+        ->m_track_container->getSplineSegments()[84];
   }
 
   static Unigine::SplineSegmentPtr getNextSegment(
-      Unigine::SplineSegmentPtr prev_segment);
+      Unigine::SplineSegmentPtr curr_segment);
 
   static Unigine::SplineSegmentPtr getPrevSegment(
       Unigine::SplineSegmentPtr curr_segment);

@@ -6,27 +6,23 @@ REGISTER_COMPONENT(Carriage);
 
 using namespace Unigine;
 
-void Carriage::init() {
-  //   NodePtr node = getNode();
-  //   for (int i = 0, i_end = node->getNumChildren(); i < i_end; ++i)
-  //     if (TrainController* train =
-  //             ComponentSystem::get()->getComponentInChildren<TrainController>(
-  //                 node->getChild(i)))
-  //       m_trains.push_back(train);
-}
+void Carriage::init() {}
 
 void Carriage::setTrains() {
   NodePtr node = getNode();
 
-  //   for (int i = 0, i_end = node->getNumChildren(); i < i_end; ++i)
-  //     if (TrainController* train =
-  //             ComponentSystem::get()->getComponentsInChildren<TrainController>(
-  //                 node->getChild(i)))
-  //       m_trains.push_back(train);
-
   getComponentsInChildren<TrainController>(getNode(), m_trains);
+
+  for (auto train : m_trains) {
+    train->setMoveStartFunc(std::bind(&Carriage::startMove, this));
+    train->setMoveEndFunc(std::bind(&Carriage::stopMove, this));
+  }
 }
 
 void Carriage::setSplineSegment(SplineSegmentPtr segment) {
-  for (auto it : m_trains) it->setSegment(segment);
+  for (auto train : m_trains) {
+    train->setSegment(segment);
+    train->setMoveStartFunc(std::bind(&Carriage::startMove, this));
+    train->setMoveEndFunc(std::bind(&Carriage::stopMove, this));
+  }
 }
