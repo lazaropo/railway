@@ -19,10 +19,10 @@ void Carriage::setTrains() {
   }
 }
 
-void Carriage::setSplineSegment(SplineSegmentPtr segment) {
-  for (auto train : m_trains) {
-    train->setSegment(segment);
-    train->setMoveStartFunc(std::bind(&Carriage::startMove, this));
-    train->setMoveEndFunc(std::bind(&Carriage::stopMove, this));
-  }
-}
+// void Carriage::setSplineSegment(SplineSegmentPtr segment) {
+//   for (auto train : m_trains) {
+//     train->setTrainAtSegment(segment);
+//     train->setMoveStartFunc(std::bind(&Carriage::startMove, this));
+//     train->setMoveEndFunc(std::bind(&Carriage::stopMove, this));
+//   }
+// }

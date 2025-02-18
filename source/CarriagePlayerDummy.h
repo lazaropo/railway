@@ -2,7 +2,10 @@
 
 #include <UnigineComponentSystem.h>
 
+#include <memory>
+
 #include "Carriage.h"
+#include "MovementLogic.h"
 #include "TrainManager.h"
 
 class CarriagePlayerDummy : public Carriage {

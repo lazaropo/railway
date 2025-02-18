@@ -64,15 +64,15 @@ class InputController : public Unigine::ComponentBase {
 
   InputAction m_actions[5] = {
       InputAction(Unigine::Vector<InputStateKeyDown*>(
-          {new InputStateKeyDown(Unigine::Input::KEY_UP)})),
-      InputAction(Unigine::Vector<InputStateKeyDown*>(
           {new InputStateKeyDown(Unigine::Input::KEY_DOWN)})),
+      InputAction(Unigine::Vector<InputStateKeyDown*>(
+          {new InputStateKeyDown(Unigine::Input::KEY_UP)})),
       InputAction(Unigine::Vector<InputStateKeyDown*>(
           {new InputStateKeyDown(Unigine::Input::KEY_R)})),
       InputAction(Unigine::Vector<InputStateKeyDown*>(
           {new InputStateKeyDown(Unigine::Input::KEY_F2)})),
       InputAction(Unigine::Vector<InputStateKeyDown*>(
-          {new InputStateKeyDown(Unigine::Input::KEY_F5)}))};
+          {new InputStateKeyDown(Unigine::Input::KEY_F3)}))};
 
  protected:
   void init();

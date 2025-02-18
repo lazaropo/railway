@@ -8,13 +8,13 @@ void TrainController::init() {
   NodePtr train_node = getNode();
 
   NodePtr node = train_node->findNode("BogieFront", true);
-  m_forward_bogie = node;
+  m_forward_bogie_node = node;
 
   node = getNode()->findNode("BogieBack", true);
-  m_back_bogie = node;
+  m_back_bogie_node = node;
 
   node = getNode()->findNode("Body", true);
-  m_car = node;
+  m_car_node = node;
 
   if (start_speed > max_speed) {
     m_current_linear_velocity = max_speed;
@@ -23,105 +23,59 @@ void TrainController::init() {
     start_speed = max_speed;
   }
 
-  if (m_forward_bogie && m_back_bogie)
+  if (m_forward_bogie_node && m_back_bogie_node)
     m_bogie_distance =
-        (m_forward_bogie->getPosition() - m_back_bogie->getPosition()).length();
+        (m_forward_bogie_node->getPosition() - m_back_bogie_node->getPosition())
+            .length();
 }
 
 void TrainController::update() {
-  if (!m_forward_bogie || !m_back_bogie || !m_car) return;
+  if (!m_forward_bogie_node || !m_back_bogie_node || !m_car_node) return;
 
   if (m_is_stop) return;
 
-  if (Math::abs(m_bogie_distance) < Math::Consts::EPS && m_forward_bogie &&
-      m_back_bogie)
+  if (Math::abs(m_bogie_distance) < Math::Consts::EPS && m_forward_bogie_node &&
+      m_back_bogie_node)
     m_bogie_distance =
-        (m_forward_bogie->getPosition() - m_back_bogie->getPosition()).length();
-
-  // float ifps = Game::getIFps();
+        (m_forward_bogie_node->getPosition() - m_back_bogie_node->getPosition())
+            .length();
 
   moveTrain();
 
-  if (!m_bogie_pos_forward.m_curr_segment || !m_bogie_pos_back.m_curr_segment)
+  if (!m_forward_bogie_pos.m_curr_segment || !m_back_bogie_pos.m_curr_segment)
     return;
 
-  Math::Vec3 forward_pos = m_bogie_pos_forward.m_curr_segment->calcPoint(
-      m_bogie_pos_forward.m_t_coordinate);
-  Math::Vec3 back_pos = m_bogie_pos_back.m_curr_segment->calcPoint(
-      m_bogie_pos_back.m_t_coordinate);
+  Math::Vec3 forward_pos = m_forward_bogie_pos.m_curr_segment->calcPoint(
+      m_forward_bogie_pos.m_t_coordinate);
+  Math::Vec3 back_pos = m_back_bogie_pos.m_curr_segment->calcPoint(
+      m_back_bogie_pos.m_t_coordinate);
   Math::Vec3 car_pos = (forward_pos - back_pos) / 2 + back_pos;
 
   Math::Vec3 car_direction = forward_pos - back_pos;
-  // if(m_current_move_direction == MOVE_DIRECTION::REVERSE){
-  //   car_pos = - car_pos;
-  //   car_direction = - car_direction;
-  // }
 
   getNode()->setWorldDirection(Math::vec3(car_direction), Math::vec3_up,
                                Math::AXIS_Y);
   getNode()->setWorldPosition(car_pos);
 
-  // m_forward_bogie->setWorldPosition(forward_pos);
-  m_forward_bogie->setWorldDirection(
-      m_bogie_pos_forward.m_curr_segment->calcTangent(
-          m_bogie_pos_forward.m_t_coordinate),
+  m_forward_bogie_node->setWorldDirection(
+      m_forward_bogie_pos.m_curr_segment->calcTangent(
+          m_forward_bogie_pos.m_t_coordinate),
       Math::vec3_up, Math::AXIS_Y);
 
-  // m_car->setWorldPosition(car_pos);
-  // m_car->setWorldDirection(car_direction, Math::vec3_up, Math::AXIS_Y);
+  m_back_bogie_node->setWorldDirection(
+      m_back_bogie_pos.m_curr_segment->calcTangent(
+          m_back_bogie_pos.m_t_coordinate),
+      Math::vec3_up, Math::AXIS_Y);
 
-  // m_back_bogie->setWorldPosition(back_pos);
-  m_back_bogie->setWorldDirection(m_bogie_pos_back.m_curr_segment->calcTangent(
-                                      m_bogie_pos_back.m_t_coordinate),
-                                  // Math::vec3(m_forward_bogie->getPosition() -
-                                  // m_back_bogie->getPosition()),
-                                  Math::vec3_up, Math::AXIS_Y);
-
-  renderNode(m_car);
-  renderNode(m_forward_bogie);
-
-  // Visualizer::renderVector(car_pos, car_direction, Math::vec4_black);
-  // Visualizer::renderVector(getNode()->getWorldPosition(),
-  //                          getNode()->getWorldTransform().getAxisX(),
-  //                          Math::vec4_red);
-  // Visualizer::renderVector(getNode()->getWorldPosition(),
-  //                          getNode()->getWorldTransform().getAxisY(),
-  //                          Math::vec4_green);
-  // Visualizer::renderVector(getNode()->getWorldPosition(),
-  //                          getNode()->getWorldTransform().getAxisZ(),
-  //                          Math::vec4_blue);
-  // Train::update();
+  renderNode(m_car_node);
+  renderNode(m_forward_bogie_node);
 }
 
-void TrainController::shutdown() {
-  // FilePtr fp = File::create();
-  // if(fp->open("record.txt", "wb")){
-
-  //   size_t sum = 0;
-  //   for(auto it : m_count_collection) {
-  //     sum += it;
-  //     fp->writeInt(it);
-  //     fp->writeChar(' ');
-  //   }
-  //   fp->writeInt(sum);
-
-  //   fp->close();
-  // }
-  size_t sum = 0;
-  size_t count_of_excess = 0;
-  for (auto it : m_count_collection) {
-    sum += it;
-    if (it > 9) ++count_of_excess;
-  }
-
-  Log::message("\n%u - sum\n%u - size", sum, m_count_collection.size());
-}
-
-template <class T>
-T TrainController::takeNext(T current, T new_value, T delta) {
-  if (Math::abs(new_value - current) <= delta) return new_value;
-
-  return current + Math::sign(new_value - current) * delta;
+float TrainController::getLength() const {
+  if (m_car_node)
+    return m_bogie_distance + 2 * TRAINS_MARGIN;
+  else
+    return 0.f;
 }
 
 void TrainController::changeMoveDirection() {
@@ -129,164 +83,87 @@ void TrainController::changeMoveDirection() {
     m_current_move_direction = MOVE_DIRECTION::REVERSE;
   else
     m_current_move_direction = MOVE_DIRECTION::FORWARD;
-
-  // m_current_linear_velocity = start_speed;
 }
 
 void TrainController::moveTrain() {
-  if (!m_forward_bogie || !m_back_bogie || !m_car || !m_callback_prev_segment_f)
-    return;
-
-  float ifps = Game::getIFps();
+  if (!m_forward_bogie_node || !m_back_bogie_node || !m_car_node) return;
 
   m_current_linear_velocity = m_new_linear_velocity;
 
-  if (m_current_move_direction == MOVE_DIRECTION::FORWARD) {
-    float shift = m_bogie_pos_forward.m_t_coordinate +
-                  m_current_linear_velocity * ifps /
-                      m_bogie_pos_forward.m_curr_segment_len;
-    m_prev_segment = m_bogie_pos_back.m_curr_segment;
-    SplineSegmentPtr segment = getCurrentSegment();
-    while (shift - 1.f > Math::Consts::EPS) {
-      m_prev_segment = m_bogie_pos_forward.m_curr_segment;
-      segment = m_callback_next_segment_f(segment);
-
-      if (segment) {
-        shift = (shift - 1.f) * m_bogie_pos_forward.m_curr_segment_len /
-                segment->getLength();
-        m_bogie_pos_forward.m_curr_segment = segment;
-      } else {
-        m_callback_move_stop();
-        return;
-        // segment = getCurrentSegment();
-        // shift = 1.f;
-      }
-    }
-
-    setSegment(segment, shift);
-    m_bogie_pos_back = calcBackBogiePos(m_bogie_pos_forward, m_bogie_pos_back);
-  } else {
-    float shift =
-        m_bogie_pos_back.m_t_coordinate -
-        m_current_linear_velocity * ifps / m_bogie_pos_back.m_curr_segment_len;
-    m_prev_segment = m_bogie_pos_forward.m_curr_segment;
-    SplineSegmentPtr segment = getCurrentSegment();
-    while (shift < 0.f) {
-      m_prev_segment = m_bogie_pos_back.m_curr_segment;
-      segment = m_callback_prev_segment_f(segment);
-      if (segment) {
-        shift = 1.f + (shift)*m_bogie_pos_back.m_curr_segment_len /
-                          segment->getLength();
-        m_bogie_pos_back.m_curr_segment = segment;
-      } else {
-        m_callback_move_stop();
-        return;
-        // segment = getCurrentSegment();
-        // shift = 0.f;
-      }
-    }
-
-    setSegment(segment, shift);
-    m_bogie_pos_forward =
-        calcBackBogiePos(m_bogie_pos_back, m_bogie_pos_forward);
-  }
-}
-
-TrainController::BogiePos TrainController::calcNextPos(BogiePos pos,
-                                                       float ifps) {
-  BogiePos ret_pos = pos;
-}
-
-TrainController::BogiePos TrainController::calcBackBogiePos(BogiePos forward,
-                                                            BogiePos back) {
-  BogiePos ret_pos = back;
-
-  Math::Vec3 v_forward =
-      forward.m_curr_segment->calcPoint(forward.m_t_coordinate);
-  Math::Vec3 v_back = back.m_curr_segment->calcPoint(back.m_t_coordinate);
-  float distance = (v_forward - v_back).length();
-  float excess = distance - m_bogie_distance;
-  // m_current_move_direction == MOVE_DIRECTION::FORWARD ? 1.f : -1.f;
-  float new_t_coordinate = ret_pos.m_t_coordinate;
-
-  int count = 0;
-
-  while (Math::abs(excess) > Math::Consts::EPS && count < 10) {
-    // if(excess > Math::Consts::EPS)
-    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
-      new_t_coordinate += excess / ret_pos.m_curr_segment_len;
+  if (m_forward_bogie_pos.m_curr_segment &&
+      m_current_move_direction == MOVE_DIRECTION::FORWARD) {
+    BogiePos pos = m_movement_logic->moveFirstBogie(m_forward_bogie_pos,
+                                                    m_current_linear_velocity);
+    if (!pos.m_curr_segment)
+      m_callback_move_stop();
     else
-      new_t_coordinate -= excess / ret_pos.m_curr_segment_len;
+      m_forward_bogie_pos = pos;
 
-    while (new_t_coordinate > 1.f) {
-      ret_pos.m_curr_segment = m_callback_next_segment_f(
-          ret_pos.m_curr_segment);  // m_prev_segment;
-                                    // //m_bogie_pos_forward.m_curr_segment;
+    m_back_bogie_pos = m_movement_logic->calcSecondBogiePos(
+        m_forward_bogie_pos, m_back_bogie_pos, m_bogie_distance);
 
-      if (!ret_pos.m_curr_segment) {
-        ret_pos.m_curr_segment = getCurrentSegment();
-        new_t_coordinate = 1.f;
-      } else
-        new_t_coordinate = (new_t_coordinate - 1.f) *
-                           ret_pos.m_curr_segment_len /
-                           ret_pos.m_curr_segment->getLength();
+  } else {
+    BogiePos pos = m_movement_logic->moveFirstBogie(m_back_bogie_pos,
+                                                    -m_current_linear_velocity);
+    if (!pos.m_curr_segment)
+      m_callback_move_stop();
+    else
+      m_back_bogie_pos = pos;
 
-      ret_pos.m_curr_segment_len = ret_pos.m_curr_segment->getLength();
-    }
-    while (new_t_coordinate < 0.f) {
-      ret_pos.m_curr_segment = m_callback_prev_segment_f(
-          ret_pos.m_curr_segment);  // m_prev_segment ;//
-                                    // m_bogie_pos_back.m_curr_segment;
-
-      if (!ret_pos.m_curr_segment) {
-        ret_pos.m_curr_segment = getCurrentSegment();
-        new_t_coordinate = 0.f;
-      } else
-        new_t_coordinate = 1.f + new_t_coordinate * ret_pos.m_curr_segment_len /
-                                     ret_pos.m_curr_segment->getLength();
-
-      ret_pos.m_curr_segment_len = ret_pos.m_curr_segment->getLength();
-    }
-
-    v_back = ret_pos.m_curr_segment->calcPoint(new_t_coordinate);
-
-    distance = (v_forward - v_back).length();
-
-    excess = distance - m_bogie_distance;
-
-    ++count;
+    m_forward_bogie_pos = m_movement_logic->calcSecondBogiePos(
+        m_back_bogie_pos, m_forward_bogie_pos, -m_bogie_distance);
   }
-
-  m_count_collection.push_back(count);
-
-  // Log::message("%d ", count);
-
-  ret_pos.m_t_coordinate = new_t_coordinate;
-
-  return ret_pos;
 }
 
-void TrainController::setSegment(Unigine::SplineSegmentPtr curr_segment,
-                                 float pos) {
+void TrainController::renderNode(Unigine::NodePtr node) {
+  Unigine::Math::Vec3 pos = node->getWorldPosition();
+  Unigine::Visualizer::renderVector(
+      pos,
+      pos + (Unigine::Math::Vec3)m_car_node->getWorldDirection(
+                Unigine::Math::AXIS_X),
+      Unigine::Math::vec4_red);
+  Unigine::Visualizer::renderVector(
+      pos,
+      pos + (Unigine::Math::Vec3)m_car_node->getWorldDirection(
+                Unigine::Math::AXIS_Y),
+      Unigine::Math::vec4_green);
+  Unigine::Visualizer::renderVector(
+      pos,
+      pos + (Unigine::Math::Vec3)m_car_node->getWorldDirection(
+                Unigine::Math::AXIS_Z),
+      Unigine::Math::vec4_blue);
+}
+
+SplineSegmentPtr TrainController::getCurrentSegment() const {
+  if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
+    return m_forward_bogie_pos.m_curr_segment;
+  else
+    return m_back_bogie_pos.m_curr_segment;
+}
+
+float TrainController::getCurrentParamPos() const {
+  if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
+    return m_forward_bogie_pos.m_t_coordinate;
+  else
+    return m_back_bogie_pos.m_t_coordinate;
+}
+
+void TrainController::setTrainAtSegment(Unigine::SplineSegmentPtr curr_segment,
+                                        Unigine::SplineSegmentPtr prev_segment,
+                                        float pos) {
   if (!curr_segment) return;
 
-  if (!m_prev_segment) {
-    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
-      m_prev_segment = m_callback_prev_segment_f(curr_segment);
-    else
-      m_prev_segment = m_callback_next_segment_f(curr_segment);
-  }
-
   if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
-    setSegmentForward(curr_segment, pos);
+    setSegmentForward(curr_segment, prev_segment, pos);
   else
-    setSegmentReverse(curr_segment, pos);
+    setSegmentReverse(curr_segment, prev_segment, pos);
 }
 
 void TrainController::setSegmentForward(Unigine::SplineSegmentPtr curr_segment,
+                                        Unigine::SplineSegmentPtr prev_segment,
                                         float pos) {
-  BogiePos& first_bogie = m_bogie_pos_forward;
-  BogiePos& second_bogie = m_bogie_pos_back;
+  BogiePos& first_bogie = m_forward_bogie_pos;
+  BogiePos& second_bogie = m_back_bogie_pos;
 
   first_bogie.m_curr_segment = curr_segment;
 
@@ -296,14 +173,11 @@ void TrainController::setSegmentForward(Unigine::SplineSegmentPtr curr_segment,
 
   float len = curr_segment->getLength();
 
-  // if (first_bogie.m_curr_segment != curr_segment) m_curr_segment =
-  // curr_segment;
-
   first_bogie.m_t_coordinate = Math::clamp(pos, 0.f, 1.f);
   first_bogie.m_curr_segment_len = len;
 
   if (first_bogie.m_t_coordinate * len < m_bogie_distance) {
-    tmp_segment = m_prev_segment;  // m_callback_prev_segment_f(curr_segment);
+    tmp_segment = prev_segment;
 
     second_bogie.m_curr_segment = tmp_segment;
     second_bogie.m_curr_segment_len = tmp_segment->getLength();
@@ -320,9 +194,10 @@ void TrainController::setSegmentForward(Unigine::SplineSegmentPtr curr_segment,
   }
 }
 void TrainController::setSegmentReverse(Unigine::SplineSegmentPtr curr_segment,
+                                        Unigine::SplineSegmentPtr prev_segment,
                                         float pos) {
-  BogiePos& first_bogie = m_bogie_pos_back;
-  BogiePos& second_bogie = m_bogie_pos_forward;
+  BogiePos& first_bogie = m_back_bogie_pos;
+  BogiePos& second_bogie = m_forward_bogie_pos;
 
   first_bogie.m_curr_segment = curr_segment;
 
@@ -332,14 +207,11 @@ void TrainController::setSegmentReverse(Unigine::SplineSegmentPtr curr_segment,
 
   float len = curr_segment->getLength();
 
-  // if (first_bogie.m_curr_segment != curr_segment) m_curr_segment =
-  // curr_segment;
-
   first_bogie.m_t_coordinate = Math::clamp(pos, 0.f, 1.f);
   first_bogie.m_curr_segment_len = len;
 
   if ((1.f - first_bogie.m_t_coordinate) * len < m_bogie_distance) {
-    tmp_segment = m_prev_segment;  // m_callback_next_segment_f(curr_segment);
+    tmp_segment = prev_segment;
 
     second_bogie.m_curr_segment = tmp_segment;
     second_bogie.m_curr_segment_len = tmp_segment->getLength();

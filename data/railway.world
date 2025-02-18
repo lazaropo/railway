@@ -849,48 +849,6 @@
 			</properties>
 			<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 22.2545219208 -169.144045414 -55.4030838161 1.0</transform>
 		</node>
-		<node type="PlayerPersecutor" id="87236485" name="PlayerPersecutorB">
-			<fixed>0</fixed>
-			<collision>0</collision>
-			<collision_mask>0x1</collision_mask>
-			<collision_radius>0.5</collision_radius>
-			<target>1922272032</target>
-			<anchor>0 0 0</anchor>
-			<min_distance>0</min_distance>
-			<max_distance>20000</max_distance>
-			<min_theta_angle>-89.9000015</min_theta_angle>
-			<max_theta_angle>89.9000015</max_theta_angle>
-			<turning>90</turning>
-			<znear>0.300000012</znear>
-			<zfar>100000</zfar>
-			<oblique_frustum_plane>0 0 -1 0</oblique_frustum_plane>
-			<is_oblique_frustum>0</is_oblique_frustum>
-			<is_main>0</is_main>
-			<is_listener>1</is_listener>
-			<controlled>1</controlled>
-			<transform>-0 -1 0 0.0 -0.554700195789 0 0.832050323486 0.0 -0.832050323486 0 -0.554700195789 0.0 -3 0 3 1.0</transform>
-		</node>
-		<node type="PlayerPersecutor" id="1499629551" name="PlayerPersecutorF">
-			<fixed>0</fixed>
-			<collision>0</collision>
-			<collision_mask>0x1</collision_mask>
-			<collision_radius>0.5</collision_radius>
-			<target>1324356738</target>
-			<anchor>0 0 0</anchor>
-			<min_distance>0</min_distance>
-			<max_distance>20000</max_distance>
-			<min_theta_angle>-89.9000015</min_theta_angle>
-			<max_theta_angle>89.9000015</max_theta_angle>
-			<turning>90</turning>
-			<znear>0.300000012</znear>
-			<zfar>100000</zfar>
-			<oblique_frustum_plane>0 0 -1 0</oblique_frustum_plane>
-			<is_oblique_frustum>0</is_oblique_frustum>
-			<is_main>0</is_main>
-			<is_listener>1</is_listener>
-			<controlled>1</controlled>
-			<transform>-0 -1 0 0.0 -0.554700195789 0 0.832050323486 0.0 -0.832050323486 0 -0.554700195789 0.0 -3 0 3 1.0</transform>
-		</node>
 		<node type="PlayerSpectator" id="1736296953" name="PlayerSpectator">
 			<collision>1</collision>
 			<collision_mask>0x1</collision_mask>
@@ -911,11 +869,51 @@
 			<controlled>1</controlled>
 			<transform>0.999610304832 -0.027914468199 2.79461964965e-05 0.0 0.0151110552251 0.541964411736 0.840265512466 0.0 -0.023470710963 -0.83993768692 0.54217505455 0.0 1.7122932839 -26.032115912 29.9857146206 1.0</transform>
 		</node>
+		<node type="PlayerSpectator" id="876866488" name="PlayerSpectatorF">
+			<collision>1</collision>
+			<collision_mask>0x1</collision_mask>
+			<collision_radius>0.5</collision_radius>
+			<min_velocity>2</min_velocity>
+			<max_velocity>4</max_velocity>
+			<min_theta_angle>-89.9000015</min_theta_angle>
+			<max_theta_angle>89.9000015</max_theta_angle>
+			<acceleration>4</acceleration>
+			<damping>8</damping>
+			<turning>90</turning>
+			<znear>0.300000012</znear>
+			<zfar>100000</zfar>
+			<oblique_frustum_plane>0 0 -1 0</oblique_frustum_plane>
+			<is_oblique_frustum>0</is_oblique_frustum>
+			<is_main>0</is_main>
+			<is_listener>1</is_listener>
+			<controlled>1</controlled>
+			<transform>-1.19209282445e-07 -1.00000011921 2.08616242503e-07 0.0 0.000488460005727 1.19209282445e-07 0.999999940395 0.0 -0.999999940395 0 0.000488310994115 0.0 3.3013833379 9.44266008863 12.5785365929 1.0</transform>
+		</node>
+		<node type="PlayerSpectator" id="2026191799" name="PlayerSpectatorB">
+			<collision>1</collision>
+			<collision_mask>0x1</collision_mask>
+			<collision_radius>0.5</collision_radius>
+			<min_velocity>2</min_velocity>
+			<max_velocity>4</max_velocity>
+			<min_theta_angle>-89.9000015</min_theta_angle>
+			<max_theta_angle>89.9000015</max_theta_angle>
+			<acceleration>4</acceleration>
+			<damping>8</damping>
+			<turning>90</turning>
+			<znear>0.300000012</znear>
+			<zfar>100000</zfar>
+			<oblique_frustum_plane>0 0 -1 0</oblique_frustum_plane>
+			<is_oblique_frustum>0</is_oblique_frustum>
+			<is_main>0</is_main>
+			<is_listener>1</is_listener>
+			<controlled>1</controlled>
+			<transform>-1.19209282445e-07 -1.00000011921 2.08616242503e-07 0.0 0.000488460005727 1.19209282445e-07 0.999999940395 0.0 -0.999999940395 0 0.000488310994115 0.0 6.98174159035 9.5647970146 17.1342881 1.0</transform>
+		</node>
 		<node type="NodeDummy" id="2048971537" name="carriage">
 			<properties>
 				<property parent="27a790549b4610528158d3916a54325e9f71bef8" guid="d8cd1f6d54f5819f3d20d04384c90ae40ca69aaa">
-					<parameter name="head_camera">1499629551</parameter>
-					<parameter name="tail_camera">87236485</parameter>
+					<parameter name="head_camera">876866488</parameter>
+					<parameter name="tail_camera">2026191799</parameter>
 					<parameter name="world_camera">1736296953</parameter>
 				</property>
 			</properties>
@@ -923,9 +921,6 @@
 			<node type="NodeReference" id="752067466" name="train_locomotive">
 				<reference>guid://db69c95ad57d311c834603354fbb18b91f9acf7c</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
-				<node type="NodeDummy" id="1324356738" name="Persecutor_Target_F">
-					<transform>0.9999999404 0 0 0.0 0 0.9999999404 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
-				</node>
 			</node>
 			<node type="NodeReference" id="1053049427" name="train_tanker">
 				<reference>guid://b2f7edbe7c22d3cfe0f4cf094ee649ef050ad600</reference>
@@ -938,9 +933,6 @@
 			<node type="NodeReference" id="1413211546" name="train_tanker">
 				<reference>guid://b2f7edbe7c22d3cfe0f4cf094ee649ef050ad600</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
-				<node type="NodeDummy" id="1922272032" name="Persecutor_Target_B">
-					<transform>0.9999999404 0 0 0.0 0 0.9999999404 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
-				</node>
 			</node>
 		</node>
 	</editor>

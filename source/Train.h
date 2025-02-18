@@ -1,116 +1,108 @@
-#pragma once
+// #pragma once
 
-#include <UnigineComponentSystem.h>
-#include <UnigineGame.h>
-#include <UnigineMathLib.h>
-#include <UnigineObjects.h>
-#include <UniginePrimitives.h>  // Box primitive - m_car_body
-#include <UnigineVisualizer.h>
-#include <UnigineWorlds.h>
+// #include <UnigineComponentSystem.h>
+// #include <UnigineGame.h>
+// #include <UnigineMathLib.h>
+// #include <UnigineObjects.h>
+// #include <UniginePrimitives.h>  // Box primitive - m_car_body
+// #include <UnigineVisualizer.h>
+// #include <UnigineWorlds.h>
 
-#include "InputController.h"
+// #include "InputController.h"
 
-class Train : public Unigine::ComponentBase {
- public:
-  COMPONENT_DEFINE(Train, Unigine::ComponentBase);
+// class Train : public Unigine::ComponentBase {
+//  public:
+//   COMPONENT_DEFINE(Train, Unigine::ComponentBase);
 
-  PROP_PARAM(Float, start_speed, 20.f);
-  PROP_PARAM(Float, max_speed, 40.f);
+//   PROP_PARAM(Float, start_speed, 20.f);
+//   PROP_PARAM(Float, max_speed, 40.f);
 
-  PROP_PARAM(Node, forward_bogie);
-  PROP_PARAM(Node, back_bogie);
-  PROP_PARAM(Node, car_body);
+//   PROP_PARAM(Node, forward_bogie);
+//   PROP_PARAM(Node, back_bogie);
+//   PROP_PARAM(Node, car_body);
 
-  COMPONENT_INIT(init);
-  COMPONENT_UPDATE(update);
+//   COMPONENT_INIT(init);
+//   COMPONENT_UPDATE(update);
 
-  enum MOVE {
-    SUCCESS,  // node is moved
-    END,      // end of current segment
-    STOP,     // end of this segments path
-    FAIL      // fails at move function
-  };
+//   enum MOVE {
+//     SUCCESS,  // node is moved
+//     END,      // end of current segment
+//     STOP,     // end of this segments path
+//     FAIL      // fails at move function
+//   };
 
-  enum MOVE_DIRECTION {
-    FORWARD,
-    REVERSE,
-  };
+//   enum MOVE_DIRECTION {
+//     FORWARD,
+//     REVERSE,
+//   };
 
- protected:
-  struct BogiePos {
-    Unigine::SplineSegmentPtr m_curr_segment;
-    float m_t_coordinate = 0;
-    float m_curr_segment_len = 0;
-  };
+//  protected:
+//   struct BogiePos {
+//     Unigine::SplineSegmentPtr m_curr_segment;
+//     float m_t_coordinate = 0;
+//     float m_curr_segment_len = 0;
+//   };
 
- public:
-  template <class T>
-  T takeNext(T current, T pos, T delta);
+//  public:
+//   template <class T>
+//   T takeNext(T current, T pos, T delta);
 
-  void setAcceleration(float value) {
-    m_acceleration = Unigine::Math::clamp(value, -1.f, 1.f);
-  }
+//   void setAcceleration(float value) {
+//     m_acceleration = Unigine::Math::clamp(value, -1.f, 1.f);
+//   }
 
-  MOVE_DIRECTION getMoveDirection() { return m_current_move_direction; }
-  void changeMoveDirection();
+//   MOVE_DIRECTION getMoveDirection() { return m_current_move_direction; }
+//   void changeMoveDirection();
 
-  virtual void moveTrain() {}
+//   virtual void moveTrain() {}
 
-  // void setSegment(Unigine::SplineSegmentPtr curr_segment,
-  //                 Unigine::SplineSegmentPtr next_segment);
-  virtual void setSegment(Unigine::SplineSegmentPtr curr_segment,
-                          float pos = 0.) {}
+//   // void setSegment(Unigine::SplineSegmentPtr curr_segment,
+//   //                 Unigine::SplineSegmentPtr next_segment);
+//   virtual void setSegment(Unigine::SplineSegmentPtr curr_segment,
+//                           float pos = 0.) {}
 
-  Unigine::SplineSegmentPtr getCurrentSegment() { return m_curr_segment; }
+//   Unigine::SplineSegmentPtr getCurrentSegment() { return m_curr_segment; }
 
-  virtual void setNextSegmentFunction(
-      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {}
+//   virtual void setNextSegmentFunction(
+//       std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp)
+//       {}
 
-  float getLength() const {
-    // if (!car_body || !car_body.get()) return 0.f;
-    // auto obj = Unigine::checked_ptr_cast<Unigine::Object>(car_body.get());
-    // if (obj)
-    // Unigine::NodePtr node = car_body.get()->findNode("body", true);
-    // if(!node)
-    //  return 0.f;
-    if (Unigine::Math::abs(m_bogie_distance) < Unigine::Math::Consts::EPS)
-      Unigine::Log::message("Bogie distance is %d\n", m_bogie_distance);
-    // Unigine::ObjectMeshStaticPtr mesh =
-    // Unigine::checked_ptr_cast<Unigine::ObjectMeshStatic>(car_body.get());
-    // auto size = forward_bogie.get()->getPosition() -
-    // back_bogie.get()->getPosition();
-    return m_bogie_distance;  // size.x;
-    // else
-    //   return 0.f;
-  }
+//   float getLength() const {
 
-  float getVelocity() const { return m_current_linear_velocity; }
+//     if (Unigine::Math::abs(m_bogie_distance) < Unigine::Math::Consts::EPS)
+//       Unigine::Log::message("Bogie distance is %d\n", m_bogie_distance);
 
- private:
-  void moveNode(const Unigine::Math::Vec3& pos,
-                const Unigine::Math::vec3& angle);
+//     return m_bogie_distance;  // size.x;
 
- protected:
-  inline static int m_count = 0;
-  // Unigine::ObjectMeshDynamicPtr m_forward_bogey;
-  // Unigine::ObjectMeshDynamicPtr m_back_bogey;
-  // Unigine::ObjectMeshDynamicPtr m_car_body;
-  float m_current_linear_velocity = start_speed;
-  float m_new_linear_velocity = start_speed;
-  float m_acceleration = 0.f;
+//   }
 
-  float m_bogie_distance = 0.f;
+//   float getVelocity() const { return m_current_linear_velocity; }
 
-  MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
+//  private:
+//   void moveNode(const Unigine::Math::Vec3& pos,
+//                 const Unigine::Math::vec3& angle);
 
-  // Unigine::SplineSegmentPtr m_prev_segment;
-  Unigine::SplineSegmentPtr m_curr_segment;
+//  protected:
+//   inline static int m_count = 0;
+//   // Unigine::ObjectMeshDynamicPtr m_forward_bogey;
+//   // Unigine::ObjectMeshDynamicPtr m_back_bogey;
+//   // Unigine::ObjectMeshDynamicPtr m_car_body;
+//   float m_current_linear_velocity = start_speed;
+//   float m_new_linear_velocity = start_speed;
+//   float m_acceleration = 0.f;
 
-  BogiePos m_bogie_pos_forward;
-  BogiePos m_bogie_pos_back;
-  BogiePos m_car_pos;
+//   float m_bogie_distance = 0.f;
 
- protected:
-  void init();
-  void update();
-};
+//   MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
+
+//   // Unigine::SplineSegmentPtr m_prev_segment;
+//   Unigine::SplineSegmentPtr m_curr_segment;
+
+//   BogiePos m_bogie_pos_forward;
+//   BogiePos m_bogie_pos_back;
+//   BogiePos m_car_pos;
+
+//  protected:
+//   void init();
+//   void update();
+// };

@@ -43,12 +43,14 @@ add_executable(${target}
 		${CMAKE_CURRENT_LIST_DIR}/AppSystemLogic.h
 		${CMAKE_CURRENT_LIST_DIR}/AppWorldLogic.cpp
 		${CMAKE_CURRENT_LIST_DIR}/AppWorldLogic.h
-		${CMAKE_CURRENT_LIST_DIR}/Train.cpp
-		${CMAKE_CURRENT_LIST_DIR}/Train.h
 		${CMAKE_CURRENT_LIST_DIR}/TrackContainer.cpp
 		${CMAKE_CURRENT_LIST_DIR}/TrackContainer.h
 		${CMAKE_CURRENT_LIST_DIR}/TrainManager.cpp
 		${CMAKE_CURRENT_LIST_DIR}/TrainManager.h
+		${CMAKE_CURRENT_LIST_DIR}/BogiePos.h
+		${CMAKE_CURRENT_LIST_DIR}/MovementLogic.cpp
+		${CMAKE_CURRENT_LIST_DIR}/MovementLogic.h
+		${CMAKE_CURRENT_LIST_DIR}/IMovementLogic.h
 		${CMAKE_CURRENT_LIST_DIR}/TrainController.cpp
 		${CMAKE_CURRENT_LIST_DIR}/TrainController.h
 		${CMAKE_CURRENT_LIST_DIR}/InputController.cpp

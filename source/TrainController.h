@@ -1,188 +1,297 @@
+
+/**
+ * @file TrainController.hpp
+ * @brief Definition of the TrainController class.
+ */
+
 #pragma once
 
 #include <UnigineComponentSystem.h>
+#include <UnigineGame.h>
+#include <UniginePrimitives.h>  // Box primitive - m_car_node
+#include <UnigineVisualizer.h>
+#include <UnigineWorlds.h>
 
-#include <functional>
+// #include <functional>
+#include <memory>
 
-#include "Train.h"
-// #include "TrainManager.h"
+#include "BogiePos.h"
+#include "IMovementLogic.h"
 
+/**
+ * @class TrainController
+ * @brief A component for controlling a train in the Unigine game engine.
+ *
+ * This class represents a component that controls the movement of a train along
+ * a specified path, manages its speed, and changes direction.
+ */
 class TrainController : public Unigine::ComponentBase {
  public:
+  /**
+   * @brief Define the component type as TrainController.
+   */
   COMPONENT_DEFINE(TrainController, Unigine::ComponentBase);
 
+  /**
+   * @brief Parameter for initial speed of the train.
+   */
   PROP_PARAM(Float, start_speed, 20.f);
+
+  /**
+   * @brief Parameter for maximum allowed speed of the train.
+   */
   PROP_PARAM(Float, max_speed, 40.f);
 
-  // PROP_PARAM(Node, train_node);
-
-  enum MOVE {
-    SUCCESS,  // node is moved
-    END,      // end of current segment
-    STOP,     // end of this segments path
-    FAIL      // fails at move function
-  };
-
+  /**
+   * @enum MOVE_DIRECTION
+   * @brief Direction of the train's movement.
+   */
   enum MOVE_DIRECTION {
+    /** Moving forward. */
     FORWARD,
-    REVERSE,
+    /** Moving backward. */
+    REVERSE
   };
 
-  struct BogiePos {
-    Unigine::SplineSegmentPtr m_curr_segment;
-    float m_t_coordinate = 0;
-    float m_curr_segment_len = 0;
-  };
-
+  /**
+   * @brief Initialize the component.
+   */
   COMPONENT_INIT(init);
+
+  /**
+   * @brief Update the component each frame.
+   */
   COMPONENT_UPDATE(update);
-  COMPONENT_SHUTDOWN(shutdown);
 
-  void setSegment(Unigine::SplineSegmentPtr curr_segment, float pos = 0.f);
-
-  void setPrevSegmentFunction(
-      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {
-    m_callback_prev_segment_f = fp;
+  void setMovementLogic(std::shared_ptr<IMovementLogic> logic) {
+    m_movement_logic = logic;
   }
+  /**
+   * @brief Set the current start segment and position on it. Use once from
+   * @class Carriage to rate the trains.
+   * @param curr_segment The current spline segment.
+   * @param pos Position on the segment (default: 0).
+   */
+  void setTrainAtSegment(Unigine::SplineSegmentPtr curr_segment,
+                         Unigine::SplineSegmentPtr prev_segment,
+                         float pos = 0.f);
 
-  void setNextSegmentFunction(
-      std::function<Unigine::SplineSegmentPtr(Unigine::SplineSegmentPtr)> fp) {
-    m_callback_next_segment_f = fp;
-  }
-
+  /**
+   * @brief Set the callback function for starting the movement.
+   * @param fp Function pointer to the callback function.
+   */
   void setMoveStartFunc(std::function<void()> fp) {
     m_callback_move_start = fp;
   }
 
+  /**
+   * @brief Set the callback function for stopping the movement.
+   * @param fp Function pointer to the callback function.
+   */
   void setMoveEndFunc(std::function<void()> fp) { m_callback_move_stop = fp; }
 
+  /**
+   * @brief Stop the train's movement.
+   */
   void stopMove() { m_is_stop = true; }
 
+  /**
+   * @brief Start the train's movement.
+   */
   void startMove() { m_is_stop = false; }
 
-  // void setAcceleration(float value) {
-  //   m_acceleration = Unigine::Math::clamp(value, -1.f, 1.f);
-  // }
-
+  /**
+   * @brief Increase the train's speed until reaching the maximum value.
+   */
   void accelerate() {
     m_new_linear_velocity = Unigine::Math::clamp(
         m_new_linear_velocity + m_acceleration, 0.f, max_speed);
   }
 
+  /**
+   * @brief Decrease the train's speed until stopping.
+   */
   void brake() {
     m_new_linear_velocity = Unigine::Math::clamp(
         m_new_linear_velocity - m_acceleration, 0.f, max_speed);
   }
 
+  /**
+   * @brief Get the current direction of movement.
+   * @return The current MOVE_DIRECTION (FORWARD or REVERSE).
+   */
   MOVE_DIRECTION getMoveDirection() { return m_current_move_direction; }
+
+  /**
+   * @brief Change the direction of movement to the opposite one.
+   */
   void changeMoveDirection();
-  float getLength() const {
-    if (m_car)
-      return m_bogie_distance + 2 * TRAINS_MARGIN;
-    else
-      return 0.f;
-  }
-  Unigine::SplineSegmentPtr getCurrentSegment() const {
-    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
-      return m_bogie_pos_forward.m_curr_segment;
-    else
-      return m_bogie_pos_back.m_curr_segment;
-  }
 
-  float getCurrentParamPos() const {
-    if (m_current_move_direction == MOVE_DIRECTION::FORWARD)
-      return m_bogie_pos_forward.m_t_coordinate;
-    else
-      return m_bogie_pos_back.m_t_coordinate;
-  }
+  /**
+   * @brief Get the length of the train.
+   * @return The total length of the train including margins.
+   */
+  float getLength() const;
 
-  const BogiePos getFBogiePos() const { return m_bogie_pos_forward; }
-  const BogiePos getBBogiePos() const { return m_bogie_pos_back; }
+  /**
+   * @brief Get the current segment based on the movement direction.
+   * @return The current SplineSegmentPtr.
+   */
+  Unigine::SplineSegmentPtr getCurrentSegment() const;
+
+  /**
+   * @brief Get the current parameterized position on the segment.
+   * @return The current t-coordinate on the segment.
+   */
+  float getCurrentParamPos() const;
+
+  /**
+   * @brief Get the position information of the front bogie.
+   * @return The BogiePos structure for the front bogie.
+   */
+  const BogiePos getFBogiePos() const { return m_forward_bogie_pos; }
+
+  /**
+   * @brief Get the position information of the back bogie.
+   * @return The BogiePos structure for the back bogie.
+   */
+  const BogiePos getBBogiePos() const { return m_back_bogie_pos; }
 
  protected:
-  template <class T>
-  T takeNext(T current, T pos, T delta);
-
+  /**
+   * @brief Move the train along the path.
+   */
   void moveTrain();
 
-  void renderNode(Unigine::NodePtr node) {
-    Unigine::Math::Vec3 pos = node->getWorldPosition();
-    Unigine::Visualizer::renderVector(
-        pos,
-        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
-                  Unigine::Math::AXIS_X),
-        Unigine::Math::vec4_red);
-    Unigine::Visualizer::renderVector(
-        pos,
-        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
-                  Unigine::Math::AXIS_Y),
-        Unigine::Math::vec4_green);
-    Unigine::Visualizer::renderVector(
-        pos,
-        pos + (Unigine::Math::Vec3)m_car->getWorldDirection(
-                  Unigine::Math::AXIS_Z),
-        Unigine::Math::vec4_blue);
-  }
+  std::shared_ptr<IMovementLogic> m_movement_logic = nullptr;
+
+  /**
+   * @brief Render visual debug information for the given node via Visualizer.
+   * @param node Node to be rendered.
+   */
+  void renderNode(Unigine::NodePtr node);
 
  private:
-  // void moveBogie(Unigine::NodePtr bogie, float ifps);
-  void setCarBody(Unigine::NodePtr body);
+  /**
+   * @brief Calculate the position of the second bogie relative to the first
+   * bogie. Here the ro
+   * @param first First bogie position information.
+   * @param second Second bogie position information.
+   * @return Updated BogiePos structure for the second bogie.
+   */
+  BogiePos calcBackBogiePos(BogiePos first, BogiePos second);
 
-  Unigine::Math::Mat4 makeBogieTransform(const Unigine::NodePtr node,
-                                         BogiePos pos, float ifps);
-
-  Unigine::Math::Mat4 calcNewPosition(BogiePos pos, float ifps);
-
-  BogiePos calcNextPos(BogiePos pos, float ifps);
-
-  BogiePos calcBackBogiePos(BogiePos forward, BogiePos back);
-
+  /**
+   * @brief Set the current segment for forward movement.
+   * @param curr_segment Segment to be set.
+   * @param pos Position on the segment (default: 0).
+   */
   void setSegmentForward(Unigine::SplineSegmentPtr curr_segment,
-                         float pos = 0.f);
-  void setSegmentReverse(Unigine::SplineSegmentPtr curr_segment,
+                         Unigine::SplineSegmentPtr prev_segment,
                          float pos = 0.f);
 
+  /**
+   * @brief Set the current segment for reverse movement.
+   * @param curr_segment Segment to be set.
+   * @param pos Position on the segment (default: 0).
+   */
+  void setSegmentReverse(Unigine::SplineSegmentPtr curr_segment,
+                         Unigine::SplineSegmentPtr prev_segment,
+                         float pos = 0.f);
+
+  /**
+   * @brief Internal initialization method.
+   */
   void init();
+
+  /**
+   * @brief Internal update method called every frame.
+   */
   void update();
 
-  void shutdown();
-
  protected:
+  /**
+   * @brief Margin distance between train parts.
+   */
   static constexpr float TRAINS_MARGIN = 1.f;
-  inline static int m_count = 0;
-  // Unigine::ObjectMeshDynamicPtr m_forward_bogey;
-  // Unigine::ObjectMeshDynamicPtr m_back_bogey;
-  // Unigine::ObjectMeshDynamicPtr m_car_body;
-  float m_current_linear_velocity = start_speed;
-  float m_new_linear_velocity = start_speed;
-  float m_acceleration = 0.f;
 
+  /**
+   * @brief Static counter for instances of this component.
+   */
+  inline static int m_count = 0;
+
+  /**
+   * @brief Current linear velocity of the train.
+   */
+  float m_current_linear_velocity = start_speed;
+
+  /**
+   * @brief New target linear velocity of the train.
+   */
+  float m_new_linear_velocity = start_speed;
+
+  /**
+   * @brief Acceleration rate of the train.
+   */
+  float m_acceleration = 1.f;
+
+  /**
+   * @brief Flag indicating whether the train is stopped.
+   */
   bool m_is_stop = false;
 
+  /**
+   * @brief Distance between the two bogies.
+   */
   float m_bogie_distance = 0.f;
 
-  Unigine::Vector<int> m_count_collection;
-
+  /**
+   * @brief Current direction of movement.
+   */
   MOVE_DIRECTION m_current_move_direction = MOVE_DIRECTION::FORWARD;
 
+  /**
+   * @brief Previous segment of the path.
+   */
   Unigine::SplineSegmentPtr m_prev_segment;
-  // Unigine::SplineSegmentPtr m_curr_segment;
 
-  Unigine::NodePtr m_forward_bogie;
-  Unigine::NodePtr m_back_bogie;
-  Unigine::NodePtr m_car;
+  /**
+   * @brief Forward bogie node.
+   */
+  Unigine::NodePtr m_forward_bogie_node;
 
-  BogiePos m_bogie_pos_forward;
-  BogiePos m_bogie_pos_back;
+  /**
+   * @brief Back bogie node.
+   */
+  Unigine::NodePtr m_back_bogie_node;
+
+  /**
+   * @brief Car body node.
+   */
+  Unigine::NodePtr m_car_node;
+
+  /**
+   * @brief Position information for the front bogie.
+   */
+  BogiePos m_forward_bogie_pos;
+
+  /**
+   * @brief Position information for the back bogie.
+   */
+  BogiePos m_back_bogie_pos;
+
+  /**
+   * @brief Position information for the car body.
+   */
   BogiePos m_car_pos;
 
-  inline static std::function<Unigine::SplineSegmentPtr(
-      Unigine::SplineSegmentPtr)>
-      m_callback_prev_segment_f;
-  inline static std::function<Unigine::SplineSegmentPtr(
-      Unigine::SplineSegmentPtr)>
-      m_callback_next_segment_f;
-
+  /**
+   * @brief Callback function invoked to stop whole carriage.
+   */
   std::function<void()> m_callback_move_start;
+
+  /**
+   * @brief Callback function invoked to start whole carriage movement.
+   */
   std::function<void()> m_callback_move_stop;
 };

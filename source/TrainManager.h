@@ -29,7 +29,7 @@ class TrainManager : public Unigine::ComponentBase {
 
   inline static Unigine::SplineSegmentPtr getStartSegment() {
     return TrainManager::getInstance()
-        ->m_track_container->getSplineSegments()[84];
+        ->m_track_container->getSplineSegments()[80];
   }
 
   static Unigine::SplineSegmentPtr getNextSegment(
@@ -38,16 +38,8 @@ class TrainManager : public Unigine::ComponentBase {
   static Unigine::SplineSegmentPtr getPrevSegment(
       Unigine::SplineSegmentPtr curr_segment);
 
-  //   void setNewSegment(
-  //       Train* train,
-  //       const Unigine::Vector<Unigine::SplineSegmentPtr>& v_spline_segments);
-  //   void setNewSegment(
-  //       Train* train, Unigine::SplineSegmentPtr curr_segment,
-  //       const Unigine::Vector<Unigine::SplineSegmentPtr>& v_spline_segments);
-
  private:
   TrackContrainer* m_track_container = nullptr;
 
   Unigine::Vector<Carriage*> m_carriage;
-  // InputProcessingBase* m_input_strategy = nullptr;
 };
