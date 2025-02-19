@@ -1,7 +1,7 @@
 {
     "main": {
-        "binary": "Development",
-        "build": "Development",
+        "binary": "Release",
+        "build": "Release",
         "cmd": {
             "args": [
                 "-video_app",
@@ -238,41 +238,12 @@
                     "label": "Fullscreen",
                     "type": "Choice",
                     "value": 0
-                },
-                {
-                    "items": [
-                        {
-                            "arguments": [
-                                "-video_debug",
-                                "0"
-                            ],
-                            "text": "Disabled"
-                        },
-                        {
-                            "arguments": [
-                                "-video_debug",
-                                "1"
-                            ],
-                            "text": "Messages"
-                        },
-                        {
-                            "arguments": [
-                                "-video_debug",
-                                "2"
-                            ],
-                            "text": "Asserts"
-                        }
-                    ],
-                    "label": "Video Debug",
-                    "type": "Choice",
-                    "value": 1
                 }
             ]
         },
         "name": "railway",
         "paths": {
-            "debug": "bin/railway_x64d.exe",
-            "dev": "bin/railway_x64d.exe"
+            "release": "bin/railway_x64d.exe"
         },
         "sdk_edition": "Community",
         "show": true

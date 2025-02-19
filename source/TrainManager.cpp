@@ -1,17 +1,31 @@
 #include "TrainManager.h"
 
+/**
+ * @brief Регистрирует компонент TrainManager в системе компонентов Unigine.
+ */
 REGISTER_COMPONENT(TrainManager);
 
 using namespace Unigine;
 
+/**
+ * @brief Статический указатель на единственный экземпляр менеджера поездов.
+ */
 TrainManager* TrainManager::m_instance = nullptr;
 
+/**
+ * @brief Инициализация компонента TrainManager.
+ *
+ * Этот метод создает единственный экземпляр менеджера поездов и проверяет
+ * наличие контейнера путей. Если контейнер путей не найден, выбрасывается
+ * исключение.
+ */
 void TrainManager::init() {
   if (!m_instance)
     m_instance = this;
   else
     return;
 
+  // Получаем компонент TrackContainer из системы компонентов
   m_track_container =
       ComponentSystem::get()->getComponent<TrackContrainer>(track_container);
   if (!m_track_container)
@@ -19,10 +33,27 @@ void TrainManager::init() {
         "There are not any node with assigned TrackContainer property.\n");
 }
 
+/**
+ * @brief Добавляет состав в список управляемых составов.
+ *
+ * Этот метод добавляет переданную состав в вектор составов, управляемых
+ * менеджером поездов.
+ *
+ * @param carriage Указатель на добавляемый состав.
+ */
 void TrainManager::setCarriage(Carriage* carriage) {
   if (carriage) TrainManager::getInstance()->m_carriage.push_back(carriage);
 }
 
+/**
+ * @brief Возвращает следующий сегмент пути относительно текущего.
+ *
+ * Этот метод ищет следующий сегмент пути, исходя из конечной точки текущего
+ * сегмента. Если следующий сегмент не найден, возвращается nullptr.
+ *
+ * @param curr_segment Указатель на текущий сегмент пути.
+ * @return Указатель на следующий сегмент пути.
+ */
 Unigine::SplineSegmentPtr TrainManager::getNextSegment(
     Unigine::SplineSegmentPtr curr_segment) {
   if (!curr_segment) return nullptr;
@@ -30,10 +61,13 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
   SplineSegmentPtr next_segment = nullptr;
   Math::Vec3 curr_end_point = curr_segment->getEndPoint()->getPosition();
 
+  // Проходим по всем сегментам пути
   for (auto it :
        TrainManager::getInstance()->m_track_container->getSplineSegments()) {
     if (curr_segment == it) continue;
 
+    // Проверяем, совпадает ли начальная точка текущего сегмента с конечной
+    // точкой другого сегмента
     if ((curr_end_point - it->getStartPoint()->getPosition()).length() <
         Math::Consts::EPS) {
       next_segment = it;
@@ -44,6 +78,15 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
   return next_segment;
 }
 
+/**
+ * @brief Возвращает предыдущий сегмент пути относительно текущего.
+ *
+ * Этот метод ищет предыдущий сегмент пути, исходя из начальной точки текущего
+ * сегмента. Если предыдущий сегмент не найден, возвращается nullptr.
+ *
+ * @param curr_segment Указатель на текущий сегмент пути.
+ * @return Указатель на предыдущий сегмент пути.
+ */
 Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
     Unigine::SplineSegmentPtr curr_segment) {
   if (!curr_segment) return nullptr;
@@ -51,30 +94,21 @@ Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
   SplineSegmentPtr prev_segment = nullptr;
   Math::Vec3 curr_start_point = curr_segment->getStartPoint()->getPosition();
 
-  // bool is_current_exists = false;
-
+  // Проходим по всем сегментам пути
   for (auto it :
        TrainManager::getInstance()->m_track_container->getSplineSegments()) {
     if (curr_segment == it) {
       // is_current_exists = true;
       continue;
     }
+    // Проверяем, совпадает ли конечная точка текущего сегмента с начальной
+    // точкой другого сегмента
     if ((curr_start_point - it->getEndPoint()->getPosition()).length() <
         Math::Consts::EPS) {
       prev_segment = it;
       break;
     }
-    // if (!prev_segment && it == *TrainManager::getInstance()
-    //                                 ->m_track_container->getSplineSegments()
-    //                                 .back())
-    //   prev_segment = nullptr;
   }
-
-  // if (!is_current_exists)
-  //   throw std::logic_error("Spline graph doesnt contains current
-  //   segment.\n");
-
-  // if (!prev_segment) return nullptr;
 
   return prev_segment;
 }

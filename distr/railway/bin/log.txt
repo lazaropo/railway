@@ -1,250 +1,150 @@
-10:15:40 Third-Party Notices: https://developer.unigine.com/docs/2.19/third_party
-10:15:40 
-10:15:40 
-10:15:40 ---- Configs ----
-10:15:40 Loading boot config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.boot"...
-10:15:40 Loading user config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.user"...
-10:15:40 Using config file "configs/default.config"
-10:15:40 Using boot config file "configs/default.boot"
-10:15:40 Using user config file "configs/default.user"
-10:15:40 Using controls config file "configs/default.controls"
-10:15:40 Loading "dxgi.dll"...
-10:15:44 
-10:15:44 ---- Engine ----
-10:15:44 Version: 2.19.0.3 Debug Double ver-2.19.1-c8c5226 Jan 30 2025 (2.19.1 SDK)
-10:15:44 Binary: Windows x86_64 Debug WinSDK(10.0.10011.16384) Compiler(MSVC:1940 Toolchain:Unknown Toolset:Unknown VisualStudio:Unknown)
-10:15:44 Features: Direct3D11.1 Direct3D12.0 Vulkan OpenAL VR OpenVR OpenXR Varjo DoubleCoords HalfTexCoords Debug
-10:15:44 
-10:15:44 ---- OS ----
-10:15:44 Windows 11 (build 26100)
-10:15:44 
-10:15:44 ---- CPU ----
-10:15:44 12th Gen Intel(R) Core(TM) i7-12650H
-10:15:44 Extensions:  MMX SSE SSE2 SSE3 SSSE3 SSE41 SSE42 AVX AVX2 HTT
-10:15:44 Frequency: 2687MHz
-10:15:44 Cores: 10 Threads : 16
-10:15:44 RAM: 15.8GB
-10:15:44 
-10:15:44 ---- GPU ----
-10:15:44 GPU 0 Active : NVIDIA GeForce RTX 4070 Laptop GPU Memory: 7962MB Type:Discrete    Vendor:NVidia   CommonHeaps:true Priority:32 LUID:000000000000d951 DeviceID:00002820 Driver:536.99
-10:15:44 GPU 1        : Microsoft Basic Render Driver      Memory: 8088MB Type:Other       Vendor:Unknown  CommonHeaps:true Priority:31 LUID:000000000000e582 DeviceID:0000e582 Driver:Unknown
-10:15:44 GAPI: Direct3D 12.0
-10:15:44 
-10:15:44 
-10:15:44 ---- Application ----
-10:15:44 
-10:15:44 ---- System Proxy ----
-10:15:44 SystemProxy initialization (Time: 284.4ms, Memory: 4.1KB)
-10:15:44 
-10:15:44 ---- VR ----
-10:15:44 VR initialization (Time: 0.0ms, Memory: 656B)
-10:15:44 
-10:15:44 
-10:15:44 ---- Render ----
-10:15:46 Renderer API: Direct3D 12.0
-10:15:46 Maximum texture size: 16384
-10:15:46 Maximum texture units: 16
-10:15:46 DLSS is not supported
-10:15:46 sl.interposer.dll is not found. Copy libraries from Streamline SDK.
-10:15:46 FSR is supported
-10:15:46 FSR Version: 2.2.2
-10:15:46 FSR Max Contexts: 8
-10:15:46 FSR RAM Scratch Size: 10 MB
-10:15:46 Render initialization (Time: 1.6s, Memory: 36.2MB)
-10:15:46 
-10:15:46 
-10:15:46 ---- VR Subsystems ----
-10:15:46 VR Subsystems initialization (Time: 0.2ms, Memory: 17.5KB)
-10:15:46 
-10:15:46 
-10:15:46 ---- Filesystem begin ----
-10:15:46 App path:  C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
-10:15:46 Data path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/
-10:15:46 Save path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
-10:15:46 
-10:15:46 Runtimes loaded: 11 (Time: 4.8ms, Memory: 254.7KB)
-10:15:46 Filesystem initialization (Time: 148.8ms, Memory: 4.4MB)
-10:15:46 ---- Filesystem end ----
-10:15:46 
-10:15:46 
-10:15:46 ---- Sound ----
-10:15:46 Loading "openal32.dll"...
-10:15:46 Renderer: OpenAL Soft on Динамики (Realtek(R) Audio)
-10:15:46 OpenAL vendor: OpenAL Community
-10:15:46 OpenAL renderer: OpenAL Soft
-10:15:46 OpenAL version: 1.1 ALSOFT 1.22.2
-10:15:46 Found AL_EXT_LINEAR_DISTANCE
-10:15:46 Found AL_EXT_OFFSET
-10:15:46 Found ALC_EXT_EFX
-10:15:46 Found ALC_SOFT_HRTF
-10:15:46 Found EFX Filter
-10:15:46 Found EFX Reverb
-10:15:46 Found EAX Reverb
-10:15:46 Found QUAD16 format
-10:15:46 Found 51CHN16 format
-10:15:46 Found 61CHN16 format
-10:15:46 Found 71CHN16 format
-10:15:46 Device enumeration supported
-10:15:46 Maximum sources: 256
-10:15:46 Maximum effect slots: 16
-10:15:46 Maximum auxiliary sends: 2
-10:15:46 Output sampling frequency: 48000hz
-10:15:46 HRTF not enabled!
-10:15:46 
-10:15:46 Sound: openal
-10:15:46 Sound initialization (Time: 40.3ms, Memory: 6.9KB)
-10:15:46 
-10:15:46 ---- Physics ----
-10:15:46 
-10:15:46 ---- PathFind ----
-10:15:46 
-10:15:46 Loading controls "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.controls"...
-10:15:46 Loading config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.config"...
-10:15:46 D3D12Particles::createBuffers (Time: 56.2ms, Memory: 13.3MB)
-10:15:46 
-10:15:46 ---- Materials begin----
-10:15:46 
-10:15:46 ---- Properties begin ----
-10:15:46 
-10:15:46 ---- MeshManager begin ----
-10:15:46 Initialization meshes (Time: 1.8ms, Memory: 108.5KB)
-10:15:46 Total resources: 7
-10:15:46 ---- MeshManager end ----
-10:15:46 
-10:15:46 Properties loaded: 5/5 (Time: 2.2ms, Memory: 85.3KB)
-10:15:46 ---- Properties end ----
-10:15:46 
-10:15:46 Base materials loaded: 165/165
-10:15:46 Materials loaded: 69/69
-10:15:46 Load Materials (Time: 323.6ms, Memory: 3.2MB)
-10:15:46 Preload materials loaded: 49 (Time: 29.7ms, Memory: 364.3KB)
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 WARNING:	ID3D12Device::CreateGraphicsPipelineState.
-10:15:47 WARNING:		The depth stencil unit or pixel shader expects a Depth Stencil View, but the PSO indicates that none will be bound.
-10:15:47 WARNING:		This is OK, as reads of an unbound Depth Stencil View are defined to return 0; and writes are discarded.
-10:15:47 WARNING:		It is also possible the developer knows the data will not be used anyway.
-10:15:47 WARNING:		This is only a problem if the developer actually intended to bind a Depth Stencil View here.
-10:15:47 Shaders compiled: 671 (Time: 749.7ms, Memory: 9.8MB)
-10:15:47 Total materials loaded: 283 (Time: 1.1s, Memory: 13.3MB)
-10:15:47 ---- Materials end ----
-10:15:47 
-10:15:47 
-10:15:47 ---- Animations ----
-10:15:47 Total objects: 0
-10:15:47 Total tracks: 0
-10:15:47 Total playbacks: 0
-10:15:47 Load Animations (Time: 0.4ms, Memory: 0B)
-10:15:48 
-10:15:48 Engine initialization (Time: 7.3s, Memory: 236.6MB)
-10:15:48 
-10:15:48 
-10:15:48 ---- Plugins ----
-10:15:48 Plugins path: "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/plugins"
-10:15:48 Plugins initialization (Time: 0.1ms, Memory: 192B)
-10:15:48 
-10:15:48 ---- Interpreter ----
-10:15:48 Version: 2.90
-10:15:48 
-10:15:48 Unigine~# world_load "railway"
-10:15:48 Script loading "core/unigine.usc" 6ms
-10:15:48 World loading "railway.world" (Time: 55.4ms, Memory: 109.6KB)
-10:15:48 Spline segment count: 727
-10:15:48 Train start pos: x - -179.891144  y - 50.707710  z - 2.339260
-10:15:48 Spline segment count: 727
-10:15:48 Spline point 86 with coordinates: x - -179.891144  y - 50.707710  z - 2.339260
-10:16:20 Close "openal32.dll"
-10:16:20 Fast shutdown 44.8ms
+18:18:24 Third-Party Notices: https://developer.unigine.com/docs/2.19/third_party
+18:18:24 
+18:18:24 
+18:18:24 ---- Configs ----
+18:18:24 Loading boot config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.boot"...
+18:18:24 Loading user config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.user"...
+18:18:24 Using config file "configs/default.config"
+18:18:24 Using boot config file "configs/default.boot"
+18:18:24 Using user config file "configs/default.user"
+18:18:24 Using controls config file "configs/default.controls"
+18:18:24 Loading "dxgi.dll"...
+18:18:24 
+18:18:24 ---- Engine ----
+18:18:24 Version: 2.19.0.3 Debug Double ver-2.19.1-c8c5226 Jan 30 2025 (2.19.1 SDK)
+18:18:24 Binary: Windows x86_64 Debug WinSDK(10.0.10011.16384) Compiler(MSVC:1940 Toolchain:Unknown Toolset:Unknown VisualStudio:Unknown)
+18:18:24 Features: Direct3D11.1 Direct3D12.0 Vulkan OpenAL VR OpenVR OpenXR Varjo DoubleCoords HalfTexCoords Debug
+18:18:24 
+18:18:24 ---- OS ----
+18:18:24 Windows 11 (build 26100)
+18:18:24 
+18:18:24 ---- CPU ----
+18:18:24 12th Gen Intel(R) Core(TM) i7-12650H
+18:18:24 Extensions:  MMX SSE SSE2 SSE3 SSSE3 SSE41 SSE42 AVX AVX2 HTT
+18:18:24 Frequency: 2687MHz
+18:18:24 Cores: 10 Threads : 16
+18:18:24 RAM: 15.8GB
+18:18:24 
+18:18:24 ---- GPU ----
+18:18:24 GPU 0 Active : NVIDIA GeForce RTX 4070 Laptop GPU Memory: 7962MB Type:Discrete    Vendor:NVidia   CommonHeaps:true Priority:32 LUID:0000000000010634 DeviceID:00002820 Driver:536.99
+18:18:24 GPU 1        : Microsoft Basic Render Driver      Memory: 8088MB Type:Other       Vendor:Unknown  CommonHeaps:true Priority:31 LUID:0000000000011263 DeviceID:00011263 Driver:Unknown
+18:18:24 GAPI: Direct3D 12.0
+18:18:24 
+18:18:24 
+18:18:24 ---- Application ----
+18:18:24 
+18:18:24 ---- System Proxy ----
+18:18:24 SystemProxy initialization (Time: 37.0ms, Memory: 4.1KB)
+18:18:24 
+18:18:24 ---- VR ----
+18:18:24 VR initialization (Time: 0.0ms, Memory: 656B)
+18:18:24 
+18:18:24 
+18:18:24 ---- Render ----
+18:18:25 Renderer API: Direct3D 12.0
+18:18:25 Maximum texture size: 16384
+18:18:25 Maximum texture units: 16
+18:18:25 DLSS is not supported
+18:18:25 sl.interposer.dll is not found. Copy libraries from Streamline SDK.
+18:18:25 FSR is supported
+18:18:25 FSR Version: 2.2.2
+18:18:25 FSR Max Contexts: 8
+18:18:25 FSR RAM Scratch Size: 10 MB
+18:18:25 Render initialization (Time: 365.8ms, Memory: 36.2MB)
+18:18:25 
+18:18:25 
+18:18:25 ---- VR Subsystems ----
+18:18:25 VR Subsystems initialization (Time: 0.1ms, Memory: 17.5KB)
+18:18:25 
+18:18:25 
+18:18:25 ---- Filesystem begin ----
+18:18:25 App path:  C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
+18:18:25 Data path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/
+18:18:25 Save path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
+18:18:25 
+18:18:25 Runtimes loaded: 3 (Time: 3.2ms, Memory: 239.3KB)
+18:18:25 Filesystem initialization (Time: 147.3ms, Memory: 4.4MB)
+18:18:25 ---- Filesystem end ----
+18:18:25 
+18:18:25 
+18:18:25 ---- Sound ----
+18:18:25 Loading "openal32.dll"...
+18:18:25 Renderer: OpenAL Soft on Динамики (Realtek(R) Audio)
+18:18:25 OpenAL vendor: OpenAL Community
+18:18:25 OpenAL renderer: OpenAL Soft
+18:18:25 OpenAL version: 1.1 ALSOFT 1.22.2
+18:18:25 Found AL_EXT_LINEAR_DISTANCE
+18:18:25 Found AL_EXT_OFFSET
+18:18:25 Found ALC_EXT_EFX
+18:18:25 Found ALC_SOFT_HRTF
+18:18:25 Found EFX Filter
+18:18:25 Found EFX Reverb
+18:18:25 Found EAX Reverb
+18:18:25 Found QUAD16 format
+18:18:25 Found 51CHN16 format
+18:18:25 Found 61CHN16 format
+18:18:25 Found 71CHN16 format
+18:18:25 Device enumeration supported
+18:18:25 Maximum sources: 256
+18:18:25 Maximum effect slots: 16
+18:18:25 Maximum auxiliary sends: 2
+18:18:25 Output sampling frequency: 48000hz
+18:18:25 HRTF not enabled!
+18:18:25 
+18:18:25 Sound: openal
+18:18:25 Sound initialization (Time: 56.9ms, Memory: 6.9KB)
+18:18:25 
+18:18:25 ---- Physics ----
+18:18:25 
+18:18:25 ---- PathFind ----
+18:18:25 
+18:18:25 Loading controls "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.controls"...
+18:18:25 Loading config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.config"...
+18:18:25 D3D12Particles::createBuffers (Time: 88.4ms, Memory: 13.3MB)
+18:18:25 
+18:18:25 ---- Materials begin----
+18:18:25 
+18:18:25 ---- MeshManager begin ----
+18:18:25 
+18:18:25 ---- Properties begin ----
+18:18:25 Initialization meshes (Time: 4.9ms, Memory: 114.3KB)
+18:18:25 Total resources: 7
+18:18:25 ---- MeshManager end ----
+18:18:25 
+18:18:25 Properties loaded: 10/10 (Time: 6.4ms, Memory: 68.7KB)
+18:18:25 ---- Properties end ----
+18:18:25 
+18:18:25 Base materials loaded: 163/163
+18:18:25 Materials loaded: 68/68
+18:18:25 Load Materials (Time: 258.6ms, Memory: 3.2MB)
+18:18:25 Preload materials loaded: 37 (Time: 23.6ms, Memory: 294.2KB)
+18:18:26 Shaders compiled: 651 (Time: 612.1ms, Memory: 9.5MB)
+18:18:26 Total materials loaded: 268 (Time: 895.7ms, Memory: 13.0MB)
+18:18:26 ---- Materials end ----
+18:18:26 
+18:18:26 
+18:18:26 ---- Animations ----
+18:18:26 Total objects: 0
+18:18:26 Total tracks: 0
+18:18:26 Total playbacks: 0
+18:18:26 Load Animations (Time: 0.5ms, Memory: 0B)
+18:18:26 
+18:18:26 Engine initialization (Time: 2.9s, Memory: 236.2MB)
+18:18:26 
+18:18:26 
+18:18:26 ---- Plugins ----
+18:18:26 Plugins path: "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/plugins"
+18:18:26 Plugins initialization (Time: 0.1ms, Memory: 192B)
+18:18:26 
+18:18:26 ---- Interpreter ----
+18:18:26 Version: 2.90
+18:18:26 
+18:18:26 Unigine~# world_load "railway"
+18:18:26 Script loading "core/unigine.usc" 6ms
+18:18:26 Unigine~# show_visualizer 2
+18:18:27 World loading "railway.world" (Time: 42.0ms, Memory: 124.2KB)
+18:18:27 Track container
+18:18:27 Spline segment count: 727
+18:18:27 Carriage Player: 4 trains are loaded
+18:18:41 Close "openal32.dll"
+18:18:41 Fast shutdown 19.2ms

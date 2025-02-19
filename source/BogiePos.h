@@ -4,22 +4,25 @@
 
 /**
  * @struct BogiePos
- * @brief Structure to store information about the position of the train's
- * bogies.
+ * @brief Структура для хранения информации о положении тележек поезда.
+ *
+ * Эта структура используется для описания текущей позиции тележки на пути,
+ * включая текущий сегмент сплайна, параметрическое положение на сегменте и
+ * длину сегмента.
  */
 struct BogiePos {
   /**
-   * @brief Current spline segment.
+   * @brief Указатель на текущий сегмент сплайна.
    */
   Unigine::SplineSegmentPtr m_curr_segment;
 
   /**
-   * @brief Current parametric t-coordinate on the segment.
+   * @brief Текущая параметрическая координата t на сегменте.
    */
   float m_t_coordinate = 0;
 
   /**
-   * @brief Length of the current segment.
+   * @brief Длина текущего сегмента.
    */
   float m_curr_segment_len = 0;
 };
