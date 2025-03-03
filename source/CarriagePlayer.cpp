@@ -14,6 +14,22 @@ using namespace Unigine;
  * связанного с компонентом, и устанавливает основную камеру для игрока.
  */
 void CarriagePlayer::init() {
+  Vector<NodePtr> nodes;
+  World::getNodes(nodes);
+  for (int i = 0; i < nodes.size(); ++i) {
+    NodeReferencePtr ptr = checked_ptr_cast<NodeReference>(nodes[i]);
+    if (ptr) {
+      Log::message("NodeReference is found: %s (ID: %d)\n",
+                   ptr->getInfo().get(), ptr->getID());
+      ptr->setEnabled(false);
+      ptr->setEnabled(true);
+      if (!ptr->isEnabled()) {
+        ptr->setEnabled(true);
+        Log::message("NodeReference is activated: %s\n", ptr->getInfo().get());
+      }
+    }
+  }
+
   // Устанавливаем указатель на текущий экземпляр состава в TrainManager
   TrainManager::setCarriage(this);
 
@@ -153,7 +169,8 @@ void CarriagePlayer::setStartPos() {
     if (Math::abs(len) < Math::Consts::EPS) continue;
 
     // Рассчитываем новую позицию на сегменте
-    pos -= ((*it)->getLength() + 2.f) / len;
+    auto train_len = (*it)->getLength();
+    pos -= (train_len + 2.f) / len;
     if (pos < 0.f) {
       // Переходим на предыдущий сегмент
       current_segment = prev_segment;

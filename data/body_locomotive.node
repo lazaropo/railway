@@ -2,7 +2,10 @@
 <nodes version="2.19.0.3">
 	<node type="ObjectMeshStatic" id="167261198" name="body">
 		<mesh_name>guid://1c85a360b297e4ede362f1e18c87d9598072e06b</mesh_name>
-		<surface name="box" material="4dfec30f491f753f6e89094db6d3d695e89f9d6f"/>
+		<surface name="box" material="33451d0a7734e45b9b8ff265cf3abd4cd8e8fdab"/>
+		<properties>
+			<property/>
+		</properties>
 		<transform>5.99999904633 0 0 0.0 0 14.0000019073 0 0.0 0 0 3 0.0 0 0 0 1.0</transform>
 	</node>
 </nodes>

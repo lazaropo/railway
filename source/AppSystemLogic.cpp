@@ -14,9 +14,12 @@ AppSystemLogic::~AppSystemLogic() {}
 
 int AppSystemLogic::init() {
   // initialization for c++ component system
+  World::setUnpackNodeReferences(true);
+
   ComponentSystem::get()->initialize();
   World::loadWorld("railway");
   Console::run("show_visualizer 2");
+
   // Write here code to be called on engine initialization.
   return 1;
 }

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nodes version="2.19.0.3">
-	<node type="NodeDummy" id="357817246" name="bogey">
+	<node type="NodeDummy" id="357817246" name="bogie">
+		<properties>
+			<property parent="bc0765b14558a44f87c695549ef774e22b21f421" guid="f42a2397f7e33d6a4426b653cb63db3bcd61688d"/>
+		</properties>
 		<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
 		<node type="ObjectMeshStatic" id="592164077" name="WheelL">
 			<mesh_name>guid://9398c70cb987e90bf705f2fdb027c2aae679dbe7</mesh_name>

@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <nodes version="2.19.0.3">
-	<node type="NodeDummy" id="603769063" name="train_tanker">
+	<node type="NodeDummy" id="603769063" name="carriage_tanker">
 		<properties>
-			<property parent="3667519b3ed9fa850e5c9f364b434e626514052d" guid="c548c1656d9733c514a0177b0865723018634e02">
-				<parameter name="start_speed">10</parameter>
-			</property>
+			<property parent="a42298df7d5ebd81e380b612ae2543efc96f6baf" guid="82cdd950d0caf739435aabe4c9a2ffe68a068602"/>
 		</properties>
 		<transform>0.999999940395 0 0 0.0 0 0.999999940395 0 0.0 0 0 0.999999940395 0.0 0 0 0 1.0</transform>
 		<node type="NodeReference" id="1717005106" name="Body">

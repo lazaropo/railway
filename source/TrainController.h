@@ -14,10 +14,12 @@
 #include <UnigineGame.h>
 #include <UniginePrimitives.h>  // Box primitive - m_car_node
 #include <UnigineVisualizer.h>
+// #include <UnigineNodeReference.h>
+#include <UnigineWorld.h>
 #include <UnigineWorlds.h>
 
-// #include <functional>
 #include <memory>
+#include <stdexcept>
 
 #include "BogiePos.h"
 #include "IMovementLogic.h"
@@ -177,11 +179,6 @@ class TrainController : public Unigine::ComponentBase {
    * @brief Перемещаем поезд вдоль пути.
    */
   void moveTrain();
-
-  /**
-   * @brief Указатель на полиморф логики движения поезда.
-   */
-  std::shared_ptr<IMovementLogic> m_movement_logic = nullptr;
 
   /**
    * @brief Отображение осей локальной системы координат для данного узла через

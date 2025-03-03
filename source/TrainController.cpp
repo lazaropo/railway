@@ -20,14 +20,48 @@ void TrainController::init() {
   // Поиск узла передней тележки
   NodePtr node = train_node->findNode("BogieFront", true);
   m_forward_bogie_node = node;
+  // if(node->getType() == Node::REFERENCE){
+  //   Log::message("This is NodeReference.\n");
+
+  //   NodeReferencePtr ref_node = checked_ptr_cast<NodeReference>(node);
+  //   if(World::isUnpackNodeReferences())
+  //     int a = 0;
+  //   //const char* str = ref_node->getSrcFilePath();
+  //   // Log::message("File NodeReference from: %s\n",
+  //   ref_node->getSrcFilePath()); if(ref_node) {
+  //     for(int i =0; i < node->getNumChildren(); ++i){
+  //       ObjectMeshStaticPtr mesh =
+  //       checked_ptr_cast<ObjectMeshStatic>(node->getChild(i)); if(mesh){
+  //         Math::BoundBox bbox = mesh->getBoundBox();
+  //         m_forward_bogie_node = node->getChild(i);
+  //       }
+  //     }
+
+  // NodePtr loaded_node = ref_node->findNode("BogieFront");
+  //       auto bbox = loaded_node->getBoundBox();
+  //       if(bbox.isValid()){
+  //         m_forward_bogie_node = loaded_node;
+  //       } else
+  //         Log::message("BBox is empty\n");
+
+  //   } else
+  //     Log::message("Ref Node is nullptr.\n");
+
+  // }
 
   // Поиск узла задней тележки
-  node = getNode()->findNode("BogieBack", true);
+  NodeReferencePtr ref =
+      checked_ptr_cast<NodeReference>(getNode()->findNode("BogieBack", true));
+  node = ref;
+  // getNode()->findNode("BogieBack", true);
   m_back_bogie_node = node;
+  // m_back_bogie_node->setSaveToWorldEnabled(true);
 
   // Поиск узла кузова поезда
-  node = getNode()->findNode("Body", true);
+  ref = checked_ptr_cast<NodeReference>(getNode()->findNode("Body", true));
+  node = ref;
   m_car_node = node;
+  //  m_car_node->setSaveToWorldEnabled(true);
 
   // Проверка корректности начальных скоростей
   if (start_speed > max_speed) {
@@ -108,9 +142,18 @@ void TrainController::update() {
  * поезда как расстояние между тележками.
  */
 float TrainController::getLength() const {
-  if (m_car_node)
-    return m_bogie_distance + 2 * TRAINS_MARGIN;
-  else
+  if (m_car_node) {
+    Math::Mat4 transform = m_car_node->getWorldTransform();
+
+    auto bound_box = m_car_node->getBoundBox();
+    // if(m_car_node->isWorld()){
+    auto size = bound_box.getSize();
+    if (size == Math::vec3_zero) Log::warning("BoundBox has zero size.\n");
+    return size.y * 2.f + TRAINS_MARGIN;
+    // }
+    //   else
+    //     Log::warning("BoundBox is not valid!");
+  } else
     return 0.f;
 }
 
@@ -132,7 +175,9 @@ void TrainController::changeMoveDirection() {
  * вызывается функция завершения движения.
  */
 void TrainController::moveTrain() {
-  if (!m_forward_bogie_node || !m_back_bogie_node || !m_car_node) return;
+  if (!m_forward_bogie_node || !m_back_bogie_node || !m_car_node ||
+      !m_movement_logic)
+    return;
 
   m_current_linear_velocity = m_new_linear_velocity;
 

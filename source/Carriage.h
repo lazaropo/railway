@@ -3,7 +3,9 @@
 #include <UnigineComponentSystem.h>
 #include <UnigineGame.h>
 
-#include "TrainController.h"
+#include <memory>
+
+#include "Bogie.h"
 
 /**
  * @class Carriage
@@ -20,6 +22,8 @@ class Carriage : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(Carriage, Unigine::ComponentBase);
 
+  // PROP_PARAM(Node, carriage_node);
+
   /**
    * @brief Инициализация компонента.
    */
@@ -30,79 +34,39 @@ class Carriage : public Unigine::ComponentBase {
    */
   COMPONENT_UPDATE(update);
 
-  /**
-   * @brief Останавливает движение всех поездов, связанных с данным составом.
-   */
-  void stopMove() {
-    for (auto train : m_trains) train->stopMove();
-  }
+  void setPosition(SegmentPosition pos);
 
-  /**
-   * @brief Запускает движение всех поездов, связанных с данным составом.
-   */
-  void startMove() {
-    for (auto train : m_trains) train->startMove();
-  }
+  void setStartPosition(SegmentPosition pos);
 
-  /**
-   * @brief Возвращает значение обратной частоты кадров (IFPS). Хранимое
-   * значение IFps обновляется каждые n-вызовов, где n - количество вагонов в
-   * составе.
-   *
-   * @return Значение IFPS, полученное с помощью Unigine::Game::getIFps().
-   */
-  float getIfps() {
-    if (m_count++ == m_trains.size()) {
-      m_count = 0;
-      m_ifps = Unigine::Game::getIFps();
-    }
-    return m_ifps;
+  float getLength() const {
+    if (m_body)
+      return m_body->getBoundBox().getSize().y;
+    else
+      return 0.f;
   }
 
  protected:
   /**
    * @brief Инициализация компонента.
    */
-  void init() {}
+  void init();
 
   /**
    * @brief Обновление компонента на каждом кадре.
    */
-  void update() {}
+  void update();
 
-  /**
-   * @brief Устанавливает поезда, связанные с данным составом.
-   */
-  void setTrains();
+  void moveBackBogie();
 
-  /**
-   * @brief Виртуальный метод для установки стартовой позиции вагона. Сделан
-   * виртуальным, потому что здесь предполагается использование методов из
-   * @class TrainManager, но @class Carriage это база для прочих реализаций
-   * контроллеров состава.
-   *
-   * Производные классы могут переопределять этот метод для реализации
-   * собственного поведения.
-   */
-  virtual void setStartPos() {}
+  Unigine::NodePtr m_body;
 
-  /**
-   * @brief Контейнер, содержащий указатели на поезда, управляемые данным
-   * составом.
-   *
-   * Порядок отражает расположение вагонов состава: индекс 0 соответствует
-   * голове поезда, а индекс N - 1 — хвосту.
-   */
-  Unigine::Vector<TrainController*> m_trains;
+  std::unique_ptr<Bogie*> m_forward_bogie = nullptr;
+  std::unique_ptr<Bogie*> m_back_bogie = nullptr;
 
-  /**
-   * @brief Обратная частота кадров (IFPS), используемая для расчетов.
-   */
-  float m_ifps = 0.f;
+  // Bogie* m_forward_bogie;
+  // Bogie* m_back_bogie = nullptr;
 
-  /**
-   * @brief Счетчик, используемый для отслеживания количество вызовов функции
-   * @fn getIfps().
-   */
-  size_t m_count = m_trains.size();
+  float m_distance_btw_bogie;
+
+  SegmentPosition m_position;
 };

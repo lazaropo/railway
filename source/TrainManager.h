@@ -6,8 +6,8 @@
 
 #include <stdexcept>
 
-#include "Carriage.h"
 #include "TrackContainer.h"
+#include "Train.h"
 
 /**
  * @class TrainManager
@@ -53,9 +53,9 @@ class TrainManager : public Unigine::ComponentBase {
 
   /**
    * @brief Устанавливает состав, связанный с менеджером поездов.
-   * @param carriage Указатель на состав.
+   * @param train Указатель на состав.
    */
-  static void setCarriage(Carriage* carriage);
+  static void setTrain(Train* train);
 
   /**
    * @brief Возвращает начальный сегмент пути.
@@ -63,7 +63,7 @@ class TrainManager : public Unigine::ComponentBase {
    */
   inline static Unigine::SplineSegmentPtr getStartSegment() {
     return TrainManager::getInstance()
-        ->m_track_container->getSplineSegments()[80];
+        ->m_track_container->getSplineSegments()[83];
   }
 
   /**
@@ -91,5 +91,5 @@ class TrainManager : public Unigine::ComponentBase {
   /**
    * @brief Вектор составов, управляемых менеджером поездов.
    */
-  Unigine::Vector<Carriage*> m_carriage;
+  Unigine::Vector<Train*> m_train;
 };

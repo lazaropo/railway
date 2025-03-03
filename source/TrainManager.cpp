@@ -31,6 +31,14 @@ void TrainManager::init() {
   if (!m_track_container)
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
+
+  ComponentSystem::get()->getComponentsInWorld<Train>(m_train);
+
+  // for(auto it : m_train)
+  m_train[0]->setStartPosition(getStartSegment());
+
+  SegmentPosition::setFuncGetNextSegment(&TrainManager::getNextSegment);
+  SegmentPosition::setFuncGetPrevSegment(&TrainManager::getPrevSegment);
 }
 
 /**
@@ -39,10 +47,10 @@ void TrainManager::init() {
  * Этот метод добавляет переданную состав в вектор составов, управляемых
  * менеджером поездов.
  *
- * @param carriage Указатель на добавляемый состав.
+ * @param train Указатель на добавляемый состав.
  */
-void TrainManager::setCarriage(Carriage* carriage) {
-  if (carriage) TrainManager::getInstance()->m_carriage.push_back(carriage);
+void TrainManager::setTrain(Train* train) {
+  if (train) TrainManager::getInstance()->m_train.push_back(train);
 }
 
 /**
