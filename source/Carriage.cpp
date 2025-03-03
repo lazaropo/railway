@@ -8,9 +8,6 @@ REGISTER_COMPONENT(Carriage);
 using namespace Unigine;
 
 void Carriage::init() {
-  // NodeReferencePtr ref =
-  // checked_ptr_cast<NodeReference>(carriage_node.get()); if (ref) {
-  //   m_body = ref;
   m_body = getNode()->findNode("Body", true);
 
   Vector<Bogie*> bogies;

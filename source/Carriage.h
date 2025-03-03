@@ -40,7 +40,7 @@ class Carriage : public Unigine::ComponentBase {
 
   float getLength() const {
     if (m_body)
-      return m_body->getBoundBox().getSize().y;
+      return m_body->getHierarchyBoundBox().getSize().y;
     else
       return 0.f;
   }

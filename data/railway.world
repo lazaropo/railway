@@ -920,15 +920,15 @@
 				<reference>guid://db69c95ad57d311c834603354fbb18b91f9acf7c</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
 			</node>
-			<node type="NodeReference" id="1053049427" enabled="0" name="carriage_tanker">
+			<node type="NodeReference" id="1053049427" name="carriage_tanker">
 				<reference>guid://b2f7edbe7c22d3cfe0f4cf094ee649ef050ad600</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
 			</node>
-			<node type="NodeReference" id="360158405" enabled="0" name="carriage_locomotive">
+			<node type="NodeReference" id="360158405" name="carriage_locomotive">
 				<reference>guid://db69c95ad57d311c834603354fbb18b91f9acf7c</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
 			</node>
-			<node type="NodeReference" id="1413211546" enabled="0" name="carriage_tanker">
+			<node type="NodeReference" id="1413211546" name="carriage_tanker">
 				<reference>guid://b2f7edbe7c22d3cfe0f4cf094ee649ef050ad600</reference>
 				<transform>1.0000000596 0 0 0.0 0 1.0000000596 0 0.0 0 0 1 0.0 0 0 0 1.0</transform>
 			</node>
