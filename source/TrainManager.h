@@ -63,7 +63,7 @@ class TrainManager : public Unigine::ComponentBase {
    */
   inline static Unigine::SplineSegmentPtr getStartSegment() {
     return TrainManager::getInstance()
-        ->m_track_container->getSplineSegments()[83];
+        ->m_track_container->getSplineSegments()[80];
   }
 
   /**

@@ -35,19 +35,25 @@ void Carriage::update() {
   Math::Vec3 forward_position = (*m_forward_bogie)->getWorldPosition();
   Math::Vec3 back_position = (*m_back_bogie)->getWorldPosition();
 
-  Math::Vec3 body_position =
-      (forward_position - back_position) * 0.5f + back_position;
+  m_body_position = (forward_position - back_position) * 0.5f + back_position;
   Math::vec3 body_direction = Math::vec3(forward_position - back_position);
 
-  m_body->setWorldPosition(body_position);
+  m_body->setWorldPosition(m_body_position);
   m_body->setDirection(body_direction, Math::vec3_up, Math::AXIS_Y);
 }
 
-void Carriage::setPosition(SegmentPosition pos) {
+void Carriage::setPosition(SegmentPosition pos, const MOVE_DIRECTION& dir) {
   if (!m_forward_bogie || !m_back_bogie) return;
-  (*m_forward_bogie)->setSegmentPosition(pos);
-  (*m_back_bogie)
-      ->setSegmentPosition(pos.calcByDistance(-m_distance_btw_bogie));
+
+  if (dir == MOVE_DIRECTION::FORWARD) {
+    (*m_forward_bogie)->setSegmentPosition(pos);
+    (*m_back_bogie)
+        ->setSegmentPosition(pos.calcByDistance(-m_distance_btw_bogie));
+  } else {
+    (*m_back_bogie)->setSegmentPosition(pos);
+    (*m_forward_bogie)
+        ->setSegmentPosition(pos.calcByDistance(m_distance_btw_bogie));
+  }
 }
 
 // void Carriage::setStartPosition(SegmentPosition pos) {

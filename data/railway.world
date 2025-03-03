@@ -914,6 +914,11 @@
 				<property parent="3b278ea9e74a042719a58f33d9cbb403be99f4ca" guid="6e346c01002822a604dd2f1d8095f386e002a2a7">
 					<parameter name="start_speed">11</parameter>
 				</property>
+				<property parent="ceb822496eb563defb5192fd4c642fb2d3528dfd" guid="086ccc9551dad466b458a5fb7652c052edfbd876">
+					<parameter name="head_camera">876866488</parameter>
+					<parameter name="tail_camera">2026191799</parameter>
+					<parameter name="world_camera">1736296953</parameter>
+				</property>
 			</properties>
 			<transform>0.999999880791 0 0 0.0 0 0.999999880791 0 0.0 0 0 0.999999940395 0.0 0 0 5 1.0</transform>
 			<node type="NodeReference" id="752067466" name="carriage_locomotive">

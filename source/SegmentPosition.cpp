@@ -3,56 +3,56 @@
 using namespace Unigine;
 
 SegmentPosition SegmentPosition::moveBy(float distance) const {
-  SegmentPosition ret_bogie = *this;
+  SegmentPosition ret_pos = *this;
 
   SplineSegmentPtr segment = m_curr_segment;
   distance /= m_curr_segment_len;
-  ret_bogie.m_t_coordinate += distance;
+  ret_pos.m_t_coordinate += distance;
 
   // Если первая тележка движется вперед
   if (distance > 0.f) {
-    while (ret_bogie.m_t_coordinate - 1.f > Math::Consts::EPS &&
-           ret_bogie.m_curr_segment) {
+    while (ret_pos.m_t_coordinate - 1.f > Math::Consts::EPS &&
+           ret_pos.m_curr_segment) {
       // Переход на следующий сегмент пути
       segment = m_callback_next_segment_f(segment);
 
       if (segment) {
         // Перерасчет параметра t для нового сегмента
-        ret_bogie.m_t_coordinate = (ret_bogie.m_t_coordinate - 1.f) *
-                                   ret_bogie.m_curr_segment_len /
-                                   segment->getLength();
-        ret_bogie.m_curr_segment = segment;
-        ret_bogie.m_curr_segment_len = segment->getLength();
+        ret_pos.m_t_coordinate = (ret_pos.m_t_coordinate - 1.f) *
+                                 ret_pos.m_curr_segment_len /
+                                 segment->getLength();
+        ret_pos.m_curr_segment = segment;
+        ret_pos.m_curr_segment_len = segment->getLength();
       } else {
         // Конец пути достигнут
-        ret_bogie.m_curr_segment = nullptr;
-        ret_bogie.m_t_coordinate = -1.f;
-        ret_bogie.m_curr_segment_len = 0;
+        ret_pos.m_curr_segment = nullptr;
+        ret_pos.m_t_coordinate = -1.f;
+        ret_pos.m_curr_segment_len = 0;
       }
     }
   } else {
     // Первая тележка движется назад
-    while (ret_bogie.m_t_coordinate < 0.f && ret_bogie.m_curr_segment) {
+    while (ret_pos.m_t_coordinate < 0.f && ret_pos.m_curr_segment) {
       // Переход на предыдущий сегмент пути
       segment = m_callback_prev_segment_f(segment);
 
       if (segment) {
         // Перерасчет параметра t для нового сегмента
-        ret_bogie.m_t_coordinate = 1 + ret_bogie.m_t_coordinate *
-                                           ret_bogie.m_curr_segment_len /
-                                           segment->getLength();
-        ret_bogie.m_curr_segment = segment;
-        ret_bogie.m_curr_segment_len = segment->getLength();
+        ret_pos.m_t_coordinate = 1 + ret_pos.m_t_coordinate *
+                                         ret_pos.m_curr_segment_len /
+                                         segment->getLength();
+        ret_pos.m_curr_segment = segment;
+        ret_pos.m_curr_segment_len = segment->getLength();
       } else {
         // Попали в тупик
-        ret_bogie.m_curr_segment = nullptr;
-        ret_bogie.m_t_coordinate = -1.f;
-        ret_bogie.m_curr_segment_len = 0;
+        ret_pos.m_curr_segment = nullptr;
+        ret_pos.m_t_coordinate = -1.f;
+        ret_pos.m_curr_segment_len = 0;
       }
     }
   }
 
-  return ret_bogie;
+  return ret_pos;
 }
 
 // SegmentPosition SegmentPosition::calcBySegmentLength(float length) const {

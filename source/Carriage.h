@@ -34,7 +34,18 @@ class Carriage : public Unigine::ComponentBase {
    */
   COMPONENT_UPDATE(update);
 
-  void setPosition(SegmentPosition pos);
+  enum MOVE_DIRECTION { FORWARD, REVERSE };
+
+  SegmentPosition getSegmentPosition(const MOVE_DIRECTION& dir) const {
+    if (dir == MOVE_DIRECTION::FORWARD)
+      return (*m_forward_bogie)->getSegmentPosition();
+    else
+      return (*m_back_bogie)->getSegmentPosition();
+  }
+
+  Unigine::Math::Vec3 getWorldPosition() const { return m_body_position; }
+
+  void setPosition(SegmentPosition pos, const MOVE_DIRECTION& dir);
 
   void setStartPosition(SegmentPosition pos);
 
@@ -63,10 +74,8 @@ class Carriage : public Unigine::ComponentBase {
   std::unique_ptr<Bogie*> m_forward_bogie = nullptr;
   std::unique_ptr<Bogie*> m_back_bogie = nullptr;
 
-  // Bogie* m_forward_bogie;
-  // Bogie* m_back_bogie = nullptr;
-
   float m_distance_btw_bogie;
 
+  Unigine::Math::Vec3 m_body_position;
   SegmentPosition m_position;
 };
