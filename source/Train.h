@@ -167,9 +167,9 @@ class Train : public Unigine::ComponentBase {
   Unigine::Vector<std::shared_ptr<Carriage*>> m_carriage;
 
   /**
-   * @brief Количество вагонов в поезде.
+   * @brief Длина вагона в поезде. Задаётся в init().
    *
-   * Эта переменная хранит количество вагонов в поезде.
+   * Эта переменная хранит длину тары первого вагона.
    */
   float m_carraige_len;
 
