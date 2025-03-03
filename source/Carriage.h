@@ -9,16 +9,19 @@
 
 /**
  * @class Carriage
- * @brief Компонент, представляющий вагон в игровом движке Unigine.
+ * @brief Класс, представляющий вагон поезда в игровом движке Unigine.
  *
- * Этот класс определяет компонент, который управляет набором контроллеров
- * поездов (представляющих отдельные вагоны поезда). Он предоставляет методы для
- * управления движением всех подключенных контроллеров поездов одновременно.
+ * Этот класс определяет компонент, который управляет вагоном поезда. Вагон
+ * состоит из двух тележек (передней и задней) и тела (body). Класс
+ * предоставляет методы для управления движением вагона и его компонентами.
  */
 class Carriage : public Unigine::ComponentBase {
  public:
   /**
-   * @brief Определяем тип компонента как Carriage.
+   * @brief Определение типа компонента как Carriage.
+   *
+   * Этот макрос определяет компонент Carriage, наследующий от
+   * Unigine::ComponentBase.
    */
   COMPONENT_DEFINE(Carriage, Unigine::ComponentBase);
 
@@ -26,56 +29,119 @@ class Carriage : public Unigine::ComponentBase {
 
   /**
    * @brief Инициализация компонента.
+   *
+   * Этот макрос определяет функцию init() как функцию инициализации
+   * компонента.
    */
   COMPONENT_INIT(init);
 
   /**
    * @brief Обновление компонента на каждом кадре.
+   *
+   * Этот макрос определяет функцию update() как функцию обновления
+   * состояния компонента на каждом кадре.
    */
   COMPONENT_UPDATE(update);
 
+  /**
+   * @brief Перечисление направлений движения.
+   *
+   * Определяет возможные направления движения: вперед (FORWARD) и назад
+   * (REVERSE).
+   */
   enum MOVE_DIRECTION { FORWARD, REVERSE };
 
-  SegmentPosition getSegmentPosition(const MOVE_DIRECTION& dir) const {
-    if (dir == MOVE_DIRECTION::FORWARD)
-      return (*m_forward_bogie)->getSegmentPosition();
-    else
-      return (*m_back_bogie)->getSegmentPosition();
-  }
+  /**
+   * @brief Получение позиции тележки на пути.
+   *
+   * Эта функция возвращает позицию тележки на пути в зависимости от направления
+   * движения. При движении вперед (FORWARD) возвращается позиция передней
+   * тележки, при движении назад (REVERSE) — задней тележки.
+   *
+   * @param dir Направление движения (FORWARD или REVERSE).
+   * @return Позиция тележки на пути.
+   */
+  SegmentPosition getSegmentPosition(const MOVE_DIRECTION& dir) const;
 
-  Unigine::Math::Vec3 getWorldPosition() const { return m_body_position; }
+  /**
+   * @brief Получение позиции вагона в мировых координатах.
+   *
+   * Эта функция возвращает позицию вагона в мировых координатах.
+   *
+   * @return Позиция вагона в мировых координатах.
+   */
+  Unigine::Math::Vec3 getWorldPosition() const;
 
+  /**
+   * @brief Установка позиции вагона.
+   *
+   * Эта функция устанавливает позицию вагона на пути в зависимости от
+   * направления движения.
+   *
+   * @param pos Новая позиция вагона на пути.
+   * @param dir Направление движения (FORWARD или REVERSE).
+   */
   void setPosition(SegmentPosition pos, const MOVE_DIRECTION& dir);
 
-  void setStartPosition(SegmentPosition pos);
-
-  float getLength() const {
-    if (m_body)
-      return m_body->getHierarchyBoundBox().getSize().y;
-    else
-      return 0.f;
-  }
+  /**
+   * @brief Получение длины вагона. Возвращается длина тары при инициализации
+   * вагона.
+   *
+   * Эта функция возвращает длину вагона.
+   *
+   * @return Длина вагона.
+   */
+  float getLength() const;
 
  protected:
   /**
    * @brief Инициализация компонента.
+   *
+   * Эта функция вызывается при инициализации компонента.
    */
   void init();
 
   /**
    * @brief Обновление компонента на каждом кадре.
+   *
+   * Эта функция вызывается при каждом обновлении состояния компонента.
    */
   void update();
 
-  void moveBackBogie();
-
+  /**
+   * @brief Умный указатель на узел тела вагона.
+   *
+   * Это умный указатель на узел, представляющий тело вагона.
+   */
   Unigine::NodePtr m_body;
 
+  /**
+   * @brief Умный указатель на переднюю тележку.
+   *
+   * Это умный указатель на компонент Bogie, представляющий переднюю
+   * тележку вагона.
+   */
   std::unique_ptr<Bogie*> m_forward_bogie = nullptr;
+
+  /**
+   * @brief Умный указатель на заднюю тележку.
+   *
+   * Это умный указатель на компонент Bogie, представляющий заднюю
+   * тележку вагона.
+   */
   std::unique_ptr<Bogie*> m_back_bogie = nullptr;
 
+  /**
+   * @brief Расстояние между тележками.
+   *
+   * Эта переменная хранит расстояние между передней и задней тележками вагона.
+   */
   float m_distance_btw_bogie;
 
+  /**
+   * @brief Позиция тела вагона.
+   *
+   * Эта переменная хранит позицию тела вагона в мировых координатах.
+   */
   Unigine::Math::Vec3 m_body_position;
-  SegmentPosition m_position;
 };

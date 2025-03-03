@@ -26,6 +26,9 @@ class TrainManager : public Unigine::ComponentBase {
  public:
   /**
    * @brief Определение типа компонента как TrainManager.
+   *
+   * Этот макрос определяет компонент TrainManager, наследующий от
+   * Unigine::ComponentBase.
    */
   COMPONENT_DEFINE(TrainManager, Unigine::ComponentBase);
 
@@ -37,37 +40,43 @@ class TrainManager : public Unigine::ComponentBase {
 
   /**
    * @brief Инициализация компонента.
+   *
+   * Этот макрос определяет функцию init() как функцию инициализации
+   * компонента.
    */
   COMPONENT_INIT(init);
 
   /**
    * @brief Инициализирующий метод компонента.
+   *
+   * Эта функция вызывается при инициализации компонента.
    */
   void init();
 
   /**
    * @brief Возвращает указатель на единственный экземпляр менеджера поездов.
+   *
    * @return Указатель на менеджер поездов.
    */
   inline static TrainManager* getInstance() { return m_instance; }
 
   /**
    * @brief Устанавливает состав, связанный с менеджером поездов.
+   *
    * @param train Указатель на состав.
    */
   static void setTrain(Train* train);
 
   /**
    * @brief Возвращает начальный сегмент пути.
+   *
    * @return Указатель на начальный сегмент пути.
    */
-  inline static Unigine::SplineSegmentPtr getStartSegment() {
-    return TrainManager::getInstance()
-        ->m_track_container->getSplineSegments()[80];
-  }
+  static Unigine::SplineSegmentPtr getStartSegment();
 
   /**
    * @brief Возвращает следующий сегмент пути относительно указанного.
+   *
    * @param curr_segment Указатель на текущий сегмент пути.
    * @return Указатель на следующий сегмент пути.
    */
@@ -76,6 +85,7 @@ class TrainManager : public Unigine::ComponentBase {
 
   /**
    * @brief Возвращает предыдущий сегмент пути относительно указанного.
+   *
    * @param curr_segment Указатель на текущий сегмент пути.
    * @return Указатель на предыдущий сегмент пути.
    */
@@ -85,11 +95,16 @@ class TrainManager : public Unigine::ComponentBase {
  private:
   /**
    * @brief Указатель на контейнер путей - сплайнов.
+   *
+   * Этот указатель хранит ссылку на контейнер путей, представляющий собой
+   * сплайн-граф.
    */
-  TrackContrainer* m_track_container = nullptr;
+  std::unique_ptr<TrackContrainer*> m_track_container = nullptr;
 
   /**
    * @brief Вектор составов, управляемых менеджером поездов.
+   *
+   * Этот контейнер хранит указатели на составы поездов, управляемые менеджером.
    */
-  Unigine::Vector<Train*> m_train;
+  Unigine::Vector<std::shared_ptr<Train*> > m_train;
 };

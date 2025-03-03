@@ -44,3 +44,9 @@ void TrackContrainer::init() {
     segment->setSegmentMode(node_file, SplineSegment::SEGMENT_STRETCH);
   }
 }
+
+Vector<Unigine::SplineSegmentPtr> TrackContrainer::getSplineSegments() const {
+  Unigine::Vector<Unigine::SplineSegmentPtr> ret;
+  m_spline_graph->getSplineSegments(ret);
+  return ret;
+}

@@ -47,11 +47,7 @@ class TrackContrainer : public Unigine::ComponentBase {
    *
    * @return Вектор указателей на сегменты сплайнов.
    */
-  Unigine::Vector<Unigine::SplineSegmentPtr> getSplineSegments() const {
-    Unigine::Vector<Unigine::SplineSegmentPtr> ret;
-    m_spline_graph->getSplineSegments(ret);
-    return ret;
-  }
+  Unigine::Vector<Unigine::SplineSegmentPtr> getSplineSegments() const;
 
  private:
   /**

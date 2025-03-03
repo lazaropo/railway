@@ -53,17 +53,12 @@ add_executable(${target}
 		${CMAKE_CURRENT_LIST_DIR}/Bogie.h
 		${CMAKE_CURRENT_LIST_DIR}/Train.cpp
 		${CMAKE_CURRENT_LIST_DIR}/Train.h
-		# ${CMAKE_CURRENT_LIST_DIR}/IMovementLogic.h
-		# ${CMAKE_CURRENT_LIST_DIR}/TrainController.cpp
-		# ${CMAKE_CURRENT_LIST_DIR}/TrainController.h
-		# ${CMAKE_CURRENT_LIST_DIR}/InputController.cpp
-		# ${CMAKE_CURRENT_LIST_DIR}/InputController.h
+		${CMAKE_CURRENT_LIST_DIR}/MainPlayer.cpp
+		${CMAKE_CURRENT_LIST_DIR}/MainPlayer.h
+		${CMAKE_CURRENT_LIST_DIR}/InputController.cpp
+		${CMAKE_CURRENT_LIST_DIR}/InputController.h
 		${CMAKE_CURRENT_LIST_DIR}/Carriage.cpp
 		${CMAKE_CURRENT_LIST_DIR}/Carriage.h
-		# ${CMAKE_CURRENT_LIST_DIR}/CarriagePlayer.cpp
-		# ${CMAKE_CURRENT_LIST_DIR}/CarriagePlayer.h
-		# ${CMAKE_CURRENT_LIST_DIR}/CarriagePlayerDummy.cpp
-		# ${CMAKE_CURRENT_LIST_DIR}/CarriagePlayerDummy.h
 		${CMAKE_CURRENT_LIST_DIR}/main.cpp
 
 

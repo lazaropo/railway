@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<asset version="2.19.0.3">
-	<guid>db69c95ad57d311c834603354fbb18b91f9acf7c</guid>
-	<type>node</type>
-	<hash>ddea0367</hash>
-	<runtimes>
-		<runtime id="db69c95ad57d311c834603354fbb18b91f9acf7c" name="train_locomotive.node" link="0" type="3"/>
-	</runtimes>
-</asset>

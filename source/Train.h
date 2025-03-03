@@ -4,69 +4,189 @@
 
 #include "Carriage.h"
 
+/**
+ * @class Train
+ * @brief Класс, представляющий поезд в игровом движке Unigine.
+ *
+ * Этот класс определяет компонент, который управляет поездом. Поезд состоит из
+ * нескольких вагонов (Carriage), каждый из которых включает в себя две тележки
+ * и тело. Класс предоставляет методы для управления движением всего поезда.
+ */
 class Train : public Unigine::ComponentBase {
  public:
+  /**
+   * @brief Определение типа компонента как Train.
+   *
+   * Этот макрос определяет компонент Train, наследующий от
+   * Unigine::ComponentBase.
+   */
   COMPONENT_DEFINE(Train, Unigine::ComponentBase);
 
+  /**
+   * @brief Параметр начальной скорости поезда.
+   *
+   * Этот параметр определяет начальную скорость поезда.
+   */
   PROP_PARAM(Float, start_speed, 10.f);
+
+  /**
+   * @brief Параметр максимальной скорости поезда.
+   *
+   * Этот параметр определяет максимальную скорость поезда.
+   */
   PROP_PARAM(Float, max_speed, 40.f);
+
+  /**
+   * @brief Параметр зазора между поездами.
+   *
+   * Этот параметр определяет фиксированное расстояние между поездами, чтобы они
+   * не слипались.
+   */
   PROP_PARAM(Float, margin, 1.f);
 
+  /**
+   * @brief Инициализация компонента.
+   *
+   * Этот макрос определяет функцию init() как функцию инициализации
+   * компонента.
+   */
   COMPONENT_INIT(init);
+
+  /**
+   * @brief Обновление компонента на каждом кадре.
+   *
+   * Этот макрос определяет функцию update() как функцию обновления
+   * состояния компонента на каждом кадре.
+   */
   COMPONENT_UPDATE(update);
 
-  void moveBy();
+  /**
+   * @brief Получение направления движения поезда.
+   *
+   * Эта функция возвращает текущее направление движения поезда.
+   *
+   * @return Направление движения поезда.
+   */
+  Carriage::MOVE_DIRECTION getMoveDirection() const;
 
-  Carriage::MOVE_DIRECTION getMoveDirection() const { return m_move_direction; }
+  /**
+   * @brief Изменение направления движения поезда.
+   *
+   * Эта функция изменяет направление движения поезда на противоположное.
+   */
+  void changeMoveDirection();
 
-  void changeMoveDirection() {
-    m_is_stop = false;
-    if (m_move_direction == Carriage::MOVE_DIRECTION::FORWARD) {
-      m_move_direction = Carriage::MOVE_DIRECTION::REVERSE;
-      m_position = (*m_carriage.back())
-                       ->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
-    } else {
-      m_move_direction = Carriage::MOVE_DIRECTION::FORWARD;
-      m_position = (*m_carriage.front())
-                       ->getSegmentPosition(Carriage::MOVE_DIRECTION::FORWARD);
-    }
-  }
+  /**
+   * @brief Торможение поезда.
+   *
+   * Эта функция инициирует процесс торможения поезда.
+   */
+  void brake();
 
-  void brake() {
-    m_speed = m_speed - m_speed_delta > Unigine::Math::Consts::EPS
-                  ? m_speed - m_speed_delta
-                  : 0.f;
-  }
+  /**
+   * @brief Ускорение поезда.
+   *
+   * Эта функция инициирует процесс ускорения поезда.
+   */
+  void accelerate();
 
-  void accelerate() {
-    m_speed = m_speed + m_speed_delta < max_speed ? m_speed + m_speed_delta
-                                                  : max_speed;
-  }
+  /**
+   * @brief Получение позиции передней части поезда в мировых координатах.
+   *
+   * Эта функция возвращает позицию передней части поезда в мировых координатах.
+   * Возвращает координаты тары первого вагона.
+   *
+   * @return Позиция передней части поезда в мировых координатах.
+   */
+  Unigine::Math::Vec3 getFrontWorldPosition() const;
 
-  // void startMove() { m_is_stop = false; }
+  /**
+   * @brief Получение позиции задней части поезда в мировых координатах.
+   *
+   * Эта функция возвращает позицию задней части поезда в мировых координатах.
+   * Возвращает координаты тары последнего вагона.
+   *
+   * @return Позиция задней части поезда в мировых координатах.
+   */
+  Unigine::Math::Vec3 getBackWorldPosition() const;
 
-  Unigine::Math::Vec3 getFrontWorldPosition() const {
-    return (*m_carriage.front())->getWorldPosition();
-  }
-
-  Unigine::Math::Vec3 getBackWorldPosition() const {
-    return (*m_carriage.back())->getWorldPosition();
-  }
-
+  /**
+   * @brief Установка начальной позиции поезда.
+   *
+   * Эта функция устанавливает начальную позицию поезда на заданном сегменте
+   * пути. Устанавливает переднюю тележку первого вагона на переданный сегмент.
+   *
+   * @param segment Указатель на сегмент пути.
+   * @param t_coordinate Параметрическая координата на сегменте (по умолчанию
+   * 0).
+   */
   void setStartPosition(Unigine::SplineSegmentPtr segment,
                         float t_coordinate = 0);
 
  protected:
+  /**
+   * @brief Инициализация компонента.
+   *
+   * Эта функция вызывается при инициализации компонента.
+   */
   void init();
+
+  /**
+   * @brief Обновление компонента на каждом кадре.
+   *
+   * Эта функция вызывается при каждом обновлении состояния компонента.
+   */
   void update();
 
+  /**
+   * @brief Флаг остановки поезда.
+   *
+   * Этот флаг указывает, находится ли поезд в состоянии остановки.
+   */
   bool m_is_stop = false;
+
+  /**
+   * @brief Текущая скорость поезда.
+   *
+   * Эта переменная хранит текущую скорость поезда.
+   */
   float m_speed = start_speed;
+
+  /**
+   * @brief Дельта скорости поезда.
+   *
+   * Эта переменная хранит значение изменения скорости поезда.
+   */
   float m_speed_delta = 1.f;
 
-  Unigine::Vector<Carriage*> m_carriage;
+  /**
+   * @brief Контейнер указателей на вагоны поезда.
+   *
+   * Этот контейнер хранит указатели на вагоны (Carriage), составляющие поезд.
+   */
+  Unigine::Vector<std::shared_ptr<Carriage*>> m_carriage;
+
+  /**
+   * @brief Количество вагонов в поезде.
+   *
+   * Эта переменная хранит количество вагонов в поезде.
+   */
   float m_carraige_len;
+
+  /**
+   * @brief Направление движения поезда.
+   *
+   * Эта переменная хранит текущее направление движения поезда (вперед или
+   * назад).
+   */
   Carriage::MOVE_DIRECTION m_move_direction = Carriage::FORWARD;
 
+  /**
+   * @brief Текущая позиция поезда.
+   *
+   * Эта переменная хранит текущую позицию поезда, которая хранит положение
+   * передней тележки первого вагона при прямом движении или положение задней
+   * тележки последнего вагона при обратном движении.
+   */
   SegmentPosition m_position;
 };

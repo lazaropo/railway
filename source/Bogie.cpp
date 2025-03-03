@@ -1,24 +1,35 @@
 #include "Bogie.h"
 
+/**
+ * @brief Регистрация компонента Bogie.
+ *
+ * Этот макрос регистрирует компонент Bogie в системе компонентов Unigine.
+ */
 REGISTER_COMPONENT(Bogie);
 
 using namespace Unigine;
 
-void Bogie::init() {
-  //   NodeReferencePtr ref = checked_ptr_cast<NodeReference>(bogie_node.get());
-  //   if (ref) {
-  //     m_node = ref;
-  //   }
-}
-
+/**
+ * @brief Обновление состояния компонента Bogie.
+ *
+ * Эта функция вызывается при каждом обновлении состояния компонента Bogie.
+ * Она обновляет позицию и направление узла в соответствии с текущей позицией
+ * тележки на пути.
+ */
 void Bogie::update() {
   if (m_position.isEmpty()) return;
+
+  // Получаем текущую позицию тележки в мировых координатах
   Math::Vec3 coordinate = m_position.getWorldPosition();
+
+  // Получаем текущее направление тележки
   Math::vec3 direction = m_position.getDirection();
 
+  // Устанавливаем позицию и направление узла
   getNode()->setWorldPosition(coordinate);
   getNode()->setDirection(direction, Math::vec3_up, Math::AXIS_Y);
 
+  // Визуализируем оси координат тележки
   Visualizer::renderVector(
       coordinate,
       coordinate + Math::Vec3(getNode()->getDirection(Math::AXIS_X)),
@@ -33,5 +44,33 @@ void Bogie::update() {
       Math::vec4_black);
 }
 
-// void Bogie::moveBy(float distance) { m_position =
-// m_position.moveBy(distance); }
+/**
+ * @brief Получение позиции тележки в мировых координатах.
+ *
+ * Эта функция возвращает позицию тележки в мировых координатах.
+ *
+ * @return Позиция тележки в мировых координатах.
+ */
+Math::Vec3 Bogie::getWorldPosition() const {
+  return m_position.getWorldPosition();
+}
+
+/**
+ * @brief Получение позиции тележки на пути.
+ *
+ * Эта функция возвращает позицию тележки на пути, используя структуру
+ * SegmentPosition.
+ *
+ * @return Позиция тележки на пути.
+ */
+SegmentPosition Bogie::getSegmentPosition() const { return m_position; }
+
+/**
+ * @brief Установка позиции тележки на пути.
+ *
+ * Эта функция устанавливает позицию тележки на пути, используя структуру
+ * SegmentPosition.
+ *
+ * @param pos Новая позиция тележки на пути.
+ */
+void Bogie::setSegmentPosition(const SegmentPosition& pos) { m_position = pos; }

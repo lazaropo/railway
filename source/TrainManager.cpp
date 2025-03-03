@@ -26,16 +26,18 @@ void TrainManager::init() {
     return;
 
   // Получаем компонент TrackContainer из системы компонентов
-  m_track_container =
-      ComponentSystem::get()->getComponent<TrackContrainer>(track_container);
+  m_track_container = std::make_unique<TrackContrainer*>(
+      ComponentSystem::get()->getComponent<TrackContrainer>(track_container));
   if (!m_track_container)
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
 
-  ComponentSystem::get()->getComponentsInWorld<Train>(m_train);
+  Vector<Train*> trains;
+  ComponentSystem::get()->getComponentsInWorld<Train>(trains);
 
-  // for(auto it : m_train)
-  m_train[0]->setStartPosition(getStartSegment());
+  for (auto train : trains) m_train.push_back(std::make_shared<Train*>(train));
+
+  (*m_train[0])->setStartPosition(getStartSegment());
 
   SegmentPosition::setFuncGetNextSegment(&TrainManager::getNextSegment);
   SegmentPosition::setFuncGetPrevSegment(&TrainManager::getPrevSegment);
@@ -50,7 +52,21 @@ void TrainManager::init() {
  * @param train Указатель на добавляемый состав.
  */
 void TrainManager::setTrain(Train* train) {
-  if (train) TrainManager::getInstance()->m_train.push_back(train);
+  if (train)
+    TrainManager::getInstance()->m_train.push_back(
+        std::make_shared<Train*>(train));
+}
+
+/**
+ * @brief Возвращает начальный сегмент пути.
+ *
+ * Этот метод возвращает указатель на начальный сегмент пути.
+ *
+ * @return Указатель на начальный сегмент пути.
+ */
+SplineSegmentPtr TrainManager::getStartSegment() {
+  return (*TrainManager::getInstance()->m_track_container)
+      ->getSplineSegments()[80];
 }
 
 /**
@@ -71,7 +87,7 @@ Unigine::SplineSegmentPtr TrainManager::getNextSegment(
 
   // Проходим по всем сегментам пути
   for (auto it :
-       TrainManager::getInstance()->m_track_container->getSplineSegments()) {
+       (*TrainManager::getInstance()->m_track_container)->getSplineSegments()) {
     if (curr_segment == it) continue;
 
     // Проверяем, совпадает ли начальная точка текущего сегмента с конечной
@@ -104,7 +120,7 @@ Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
 
   // Проходим по всем сегментам пути
   for (auto it :
-       TrainManager::getInstance()->m_track_container->getSplineSegments()) {
+       (*TrainManager::getInstance()->m_track_container)->getSplineSegments()) {
     if (curr_segment == it) {
       // is_current_exists = true;
       continue;
