@@ -203,7 +203,7 @@
                     ],
                     "label": "Resolution",
                     "type": "Choice",
-                    "value": 0
+                    "value": 1
                 },
                 {
                     "items": [
@@ -243,7 +243,7 @@
         },
         "name": "railway",
         "paths": {
-            "release": "bin/railway_x64d.exe"
+            "release": "bin/railway_x64.exe"
         },
         "sdk_edition": "Community",
         "show": true
