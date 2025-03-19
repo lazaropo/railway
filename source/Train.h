@@ -22,6 +22,11 @@ class Train : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(Train, Unigine::ComponentBase);
 
+  /**
+   * @brief Массив с нодами вагонов.
+   *
+   * Этот параметр содержит ноды с компонентом Carriage.
+   */
   PROP_ARRAY(Node, carriage);
 
   /**

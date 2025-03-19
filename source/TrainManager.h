@@ -32,6 +32,11 @@ class TrainManager : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(TrainManager, Unigine::ComponentBase);
 
+  /**
+   * @brief Массив с нодами поездов.
+   *
+   * Параметр хранит ноды с компонентами Train.
+   */
   PROP_ARRAY(Node, train_container);
 
   /**
@@ -102,11 +107,4 @@ class TrainManager : public Unigine::ComponentBase {
    * сплайн-граф.
    */
   std::unique_ptr<TrackContrainer> m_track_container = nullptr;
-
-  /**
-   * @brief Вектор составов, управляемых менеджером поездов.
-   *
-   * Этот контейнер хранит указатели на составы поездов, управляемые менеджером.
-   */
-  // Unigine::Vector<std::shared_ptr<Train> > m_train;
 };

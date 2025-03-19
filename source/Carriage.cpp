@@ -92,11 +92,12 @@ Unigine::Math::Vec3 Carriage::getWorldPosition() const {
  * @brief Установка позиции вагона.
  *
  * Эта функция устанавливает позицию вагона на пути в зависимости от направления
- * движения. При движении вперед (FORWARD) сначала устанавливается позиция
- * передней тележки, а затем задней. При движении назад (REVERSE) — наоборот.
+ * движения. При движении вперед (shift > 0) сначала устанавливается позиция
+ * передней тележки, а затем задней. При движении назад (shift < 0) — наоборот.
  *
  * @param pos Новая позиция вагона на пути.
- * @param dir Направление движения (FORWARD или REVERSE).
+ * @param shift Расстояние, которое проехали колёса. Предполагаю, что оно равно
+ * смещению всего вагона.
  */
 void Carriage::setPosition(SegmentPosition pos, float shift) {
   if (!m_forward_bogie || !m_back_bogie) return;
@@ -110,6 +111,7 @@ void Carriage::setPosition(SegmentPosition pos, float shift) {
     m_forward_bogie->setSegmentPosition(
         pos.calcByDistance(m_distance_btw_bogie));
   }
+  // Вращаем ноды тележек.
   if (Math::abs(shift) > Math::Consts::EPS) {
     m_forward_bogie->setRotation(shift);
     m_back_bogie->setRotation(shift);

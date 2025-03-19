@@ -14,15 +14,6 @@ using namespace Unigine;
  * компоненты Carriage (вагоны) из дочерних узлов и вычисляет длину поезда.
  */
 void Train::init() {
-  // // Получаем все компоненты Carriage (вагоны) из дочерних узлов
-  // Vector<Carriage*> carriages;
-  // ComponentSystem::get()->getComponentsInChildren<Carriage>(getNode(),
-  //                                                           carriages);
-
-  // // Добавляем все вагоны в контейнер carriage
-  // for (auto carriage : carriages)
-  //   carriage.push_back(std::shared_ptr_carriage<Carriage>(carriage));
-
   // Если есть хотя бы один вагон, вычисляем длину поезда
   if (carriage.size()) {
     m_carraige_len = carriage[0]->getBoundBox().getSize().y;
@@ -45,7 +36,8 @@ void Train::update() {
           carriage[0].get());
   m_carraige_len = ptr_carriage->getLength();
 
-  // Вычисляем смещение и расстояние для движения поезда
+  // Вычисляем смещение и расстояние для движения поезда. Смещение (со знаком)
+  // используется для вращения колёс.
   float shift = Math::min(m_speed, max_speed) * Game::getIFps();
   float distance = shift;
   if (m_move_direction == Carriage::MOVE_DIRECTION::REVERSE) shift = -shift;
@@ -122,14 +114,21 @@ Carriage::MOVE_DIRECTION Train::getMoveDirection() const {
 void Train::changeMoveDirection() {
   m_is_stop = false;
   Carriage* ptr_carriage;
+
   if (m_move_direction == Carriage::MOVE_DIRECTION::FORWARD) {
+    // Изменяем напрвление движения
     m_move_direction = Carriage::MOVE_DIRECTION::REVERSE;
+
+    // Переходим от ноды к компоненту Carriage и берём позицию вагона
     ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
         carriage[carriage.size() - 1].get());
     m_position =
         ptr_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
   } else {
+    // Изменяем напрвление движения
     m_move_direction = Carriage::MOVE_DIRECTION::FORWARD;
+
+    // Переходим от ноды к компоненту Carriage и берём позицию вагона
     ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
         carriage[0].get());
     m_position =

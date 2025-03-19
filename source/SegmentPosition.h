@@ -19,7 +19,9 @@ struct SegmentPosition {
    * Инициализирует структуру с пустыми значениями.
    */
   SegmentPosition()
-      : m_curr_segment(nullptr), m_t_coordinate(0.f), m_curr_segment_len(0.f) {}
+      : m_curr_segment(nullptr),
+        m_linear_coordinate(0.f),
+        m_curr_segment_len(0.f) {}
 
   /**
    * @brief Конструктор с параметрами.
@@ -31,7 +33,7 @@ struct SegmentPosition {
    */
   SegmentPosition(Unigine::SplineSegmentPtr segment, float t_coordinate)
       : m_curr_segment(segment),
-        m_t_coordinate(t_coordinate),
+        m_linear_coordinate(t_coordinate),
         m_curr_segment_len(segment->getLength()) {}
 
   /**
@@ -100,9 +102,9 @@ struct SegmentPosition {
   Unigine::SplineSegmentPtr m_curr_segment;
 
   /**
-   * @brief Текущая параметрическая координата t на сегменте.
+   * @brief Текущая линейная координата на сегменте.
    */
-  float m_t_coordinate = 0;
+  float m_linear_coordinate = 0;
 
   /**
    * @brief Длина текущего сегмента.

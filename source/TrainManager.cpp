@@ -32,32 +32,15 @@ void TrainManager::init() {
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
 
-  // Vector<Train*> trains;
-  // ComponentSystem::get()->getComponentsInWorld<Train>(trains);
-
-  // for (auto train : trains) train_container-> (train);
-
+  // Задаём позицию первому поезду.
   Train* first_train = ComponentSystem::get()->getComponentInChildren<Train>(
       train_container[0].get());
   if (first_train) first_train->setStartPosition(getStartSegment());
 
+  // Передаём классу функции для получения предыдущего/следующего сегмента.
   SegmentPosition::setFuncGetNextSegment(&TrainManager::getNextSegment);
   SegmentPosition::setFuncGetPrevSegment(&TrainManager::getPrevSegment);
 }
-
-/**
- * @brief Добавляет состав в список управляемых составов.
- *
- * Этот метод добавляет переданную состав в вектор составов, управляемых
- * менеджером поездов.
- *
- * @param train Указатель на добавляемый состав.
- */
-// void TrainManager::setTrain(Train* train) {
-//   if (train)
-//     TrainManager::getInstance()->train_container.push_back(
-//         std::shared_ptr<Train>(train));
-// }
 
 /**
  * @brief Возвращает начальный сегмент пути.
