@@ -27,12 +27,12 @@ void Carriage::init() {
     Log::error("Carriage component has %d Bogie children!\n", bogies.size());
 
   // Устанавливаем указатели на переднюю и заднюю тележки
-  m_forward_bogie = std::make_unique<Bogie*>(bogies.first());
-  m_back_bogie = std::make_unique<Bogie*>(bogies.last());
+  m_forward_bogie = std::unique_ptr<Bogie>(bogies.first());
+  m_back_bogie = std::unique_ptr<Bogie>(bogies.last());
 
   // Вычисляем расстояние между тележками
-  m_distance_btw_bogie = ((*m_forward_bogie)->getNode()->getWorldPosition() -
-                          (*m_back_bogie)->getNode()->getWorldPosition())
+  m_distance_btw_bogie = (m_forward_bogie->getNode()->getWorldPosition() -
+                          m_back_bogie->getNode()->getWorldPosition())
                              .length();
 }
 
@@ -47,8 +47,8 @@ void Carriage::update() {
   if (!m_forward_bogie || !m_back_bogie || !m_body) return;
 
   // Получаем позиции передней и задней тележек
-  Math::Vec3 forward_position = (*m_forward_bogie)->getWorldPosition();
-  Math::Vec3 back_position = (*m_back_bogie)->getWorldPosition();
+  Math::Vec3 forward_position = m_forward_bogie->getWorldPosition();
+  Math::Vec3 back_position = m_back_bogie->getWorldPosition();
 
   // Вычисляем позицию тела вагона как среднее между тележками
   m_body_position = (forward_position - back_position) * 0.5f + back_position;
@@ -72,9 +72,9 @@ void Carriage::update() {
  */
 SegmentPosition Carriage::getSegmentPosition(const MOVE_DIRECTION& dir) const {
   if (dir == MOVE_DIRECTION::FORWARD)
-    return (*m_forward_bogie)->getSegmentPosition();
+    return m_forward_bogie->getSegmentPosition();
   else
-    return (*m_back_bogie)->getSegmentPosition();
+    return m_back_bogie->getSegmentPosition();
 }
 
 /**
@@ -98,18 +98,21 @@ Unigine::Math::Vec3 Carriage::getWorldPosition() const {
  * @param pos Новая позиция вагона на пути.
  * @param dir Направление движения (FORWARD или REVERSE).
  */
-void Carriage::setPosition(SegmentPosition pos, const MOVE_DIRECTION& dir) {
+void Carriage::setPosition(SegmentPosition pos, float shift) {
   if (!m_forward_bogie || !m_back_bogie) return;
 
   // Устанавливаем позиции тележек в зависимости от направления движения
-  if (dir == MOVE_DIRECTION::FORWARD) {
-    (*m_forward_bogie)->setSegmentPosition(pos);
-    (*m_back_bogie)
-        ->setSegmentPosition(pos.calcByDistance(-m_distance_btw_bogie));
+  if (shift >= 0) {
+    m_forward_bogie->setSegmentPosition(pos);
+    m_back_bogie->setSegmentPosition(pos.calcByDistance(-m_distance_btw_bogie));
   } else {
-    (*m_back_bogie)->setSegmentPosition(pos);
-    (*m_forward_bogie)
-        ->setSegmentPosition(pos.calcByDistance(m_distance_btw_bogie));
+    m_back_bogie->setSegmentPosition(pos);
+    m_forward_bogie->setSegmentPosition(
+        pos.calcByDistance(m_distance_btw_bogie));
+  }
+  if (Math::abs(shift) > Math::Consts::EPS) {
+    m_forward_bogie->setRotation(shift);
+    m_back_bogie->setRotation(shift);
   }
 }
 

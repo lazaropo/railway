@@ -14,18 +14,18 @@ using namespace Unigine;
  * компоненты Carriage (вагоны) из дочерних узлов и вычисляет длину поезда.
  */
 void Train::init() {
-  // Получаем все компоненты Carriage (вагоны) из дочерних узлов
-  Vector<Carriage*> carriages;
-  ComponentSystem::get()->getComponentsInChildren<Carriage>(getNode(),
-                                                            carriages);
+  // // Получаем все компоненты Carriage (вагоны) из дочерних узлов
+  // Vector<Carriage*> carriages;
+  // ComponentSystem::get()->getComponentsInChildren<Carriage>(getNode(),
+  //                                                           carriages);
 
-  // Добавляем все вагоны в контейнер m_carriage
-  for (auto carriage : carriages)
-    m_carriage.push_back(std::make_shared<Carriage*>(carriage));
+  // // Добавляем все вагоны в контейнер carriage
+  // for (auto carriage : carriages)
+  //   carriage.push_back(std::shared_ptr_carriage<Carriage>(carriage));
 
   // Если есть хотя бы один вагон, вычисляем длину поезда
-  if (m_carriage.size()) {
-    m_carraige_len = (*m_carriage[0])->getNode()->getBoundBox().getSize().y;
+  if (carriage.size()) {
+    m_carraige_len = carriage[0]->getBoundBox().getSize().y;
   }
 }
 
@@ -40,23 +40,29 @@ void Train::update() {
   if (m_is_stop || m_position.isEmpty()) return;
 
   // Обновляем длину поезда
-  m_carraige_len = (*m_carriage[0])->getLength();
+  Carriage* ptr_carriage =
+      ComponentSystem::get()->getComponentInChildren<Carriage>(
+          carriage[0].get());
+  m_carraige_len = ptr_carriage->getLength();
 
   // Вычисляем смещение и расстояние для движения поезда
   float shift = Math::min(m_speed, max_speed) * Game::getIFps();
   float distance = shift;
+  if (m_move_direction == Carriage::MOVE_DIRECTION::REVERSE) shift = -shift;
 
   // Определяем начальную позицию поезда в зависимости от направления движения
-  auto tmp_carriage = m_move_direction == Carriage::MOVE_DIRECTION::FORWARD
-                          ? m_carriage.begin()
-                          : --m_carriage.end();
+  int carriage_num = m_move_direction == Carriage::MOVE_DIRECTION::FORWARD
+                         ? 0
+                         : carriage.size() - 1;
   SegmentPosition tmp_segm_pos;
 
   // Получаем текущую позицию первого или последнего вагона
-  tmp_segm_pos = (**tmp_carriage)->getSegmentPosition(m_move_direction);
+  ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+      carriage[carriage_num].get());
+  tmp_segm_pos = ptr_carriage->getSegmentPosition(m_move_direction);
   if (tmp_segm_pos.isEmpty()) {
     // Если позиция пустая, устанавливаем начальную позицию
-    (**tmp_carriage)->setPosition(m_position, m_move_direction);
+    ptr_carriage->setPosition(m_position, distance);
     tmp_segm_pos = m_position;
   }
 
@@ -81,15 +87,17 @@ void Train::update() {
 
   // Устанавливаем позиции всех вагонов в зависимости от направления движения
   if (m_move_direction == Carriage::MOVE_DIRECTION::FORWARD) {
-    for (auto it = m_carriage.begin(), it_end = m_carriage.end(); it != it_end;
-         ++it) {
-      (**it)->setPosition(tmp_segm_pos, m_move_direction);
+    for (auto it = carriage_num, it_end = carriage.size(); it != it_end; ++it) {
+      ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+          carriage[it].get());
+      ptr_carriage->setPosition(tmp_segm_pos, shift);
       tmp_segm_pos = tmp_segm_pos.calcByDistance(distance);
     }
   } else {
-    for (auto it = m_carriage.rbegin(), it_end = m_carriage.rend();
-         it != it_end; ++it) {
-      (**it)->setPosition(tmp_segm_pos, m_move_direction);
+    for (auto it = carriage_num, it_end = -1; it != it_end; --it) {
+      ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+          carriage[it].get());
+      ptr_carriage->setPosition(tmp_segm_pos, shift);
       tmp_segm_pos = tmp_segm_pos.calcByDistance(distance);
     }
   }
@@ -113,14 +121,19 @@ Carriage::MOVE_DIRECTION Train::getMoveDirection() const {
  */
 void Train::changeMoveDirection() {
   m_is_stop = false;
+  Carriage* ptr_carriage;
   if (m_move_direction == Carriage::MOVE_DIRECTION::FORWARD) {
     m_move_direction = Carriage::MOVE_DIRECTION::REVERSE;
-    m_position = (**m_carriage.back())
-                     ->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
+    ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+        carriage[carriage.size() - 1].get());
+    m_position =
+        ptr_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
   } else {
     m_move_direction = Carriage::MOVE_DIRECTION::FORWARD;
-    m_position = (**m_carriage.front())
-                     ->getSegmentPosition(Carriage::MOVE_DIRECTION::FORWARD);
+    ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+        carriage[0].get());
+    m_position =
+        ptr_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::FORWARD);
   }
 }
 
@@ -153,8 +166,10 @@ void Train::accelerate() {
  *
  * @return Позиция передней части поезда в мировых координатах.
  */
-Math::Vec3 Train::getFrontWorldPosition() const {
-  return (**m_carriage.front())->getWorldPosition();
+Math::Vec3 Train::getFrontWorldPosition() {
+  return (ComponentSystem::get()->getComponentInChildren<Carriage>(
+              carriage[0].get()))
+      ->getWorldPosition();
 }
 
 /**
@@ -165,8 +180,10 @@ Math::Vec3 Train::getFrontWorldPosition() const {
  *
  * @return Позиция задней части поезда в мировых координатах.
  */
-Math::Vec3 Train::getBackWorldPosition() const {
-  return (**m_carriage.back())->getWorldPosition();
+Math::Vec3 Train::getBackWorldPosition() {
+  return (ComponentSystem::get()->getComponentInChildren<Carriage>(
+              carriage[carriage.size() - 1].get()))
+      ->getWorldPosition();
 }
 
 /**

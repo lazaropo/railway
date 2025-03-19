@@ -68,13 +68,15 @@ class Bogie : public Unigine::ComponentBase {
    */
   void setSegmentPosition(const SegmentPosition& pos);
 
+  void setRotation(float shift);
+
  protected:
   /**
    * @brief Инициализация компонента.
    *
    * Эта функция вызывается при инициализации компонента.
    */
-  void init() {}
+  void init();
 
   /**
    * @brief Обновление состояния компонента.
@@ -91,4 +93,9 @@ class Bogie : public Unigine::ComponentBase {
    * SegmentPosition.
    */
   SegmentPosition m_position;
+
+ protected:
+  float m_circumference;
+  float m_path;
+  const float TORQUE_COEFFICIENT = 0.2;
 };

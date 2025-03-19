@@ -9,6 +9,15 @@ REGISTER_COMPONENT(Bogie);
 
 using namespace Unigine;
 
+void Bogie::init() {
+  int wheel_right = getNode()->findChild("WheelR");
+  m_circumference =
+      getNode()->getChild(wheel_right)->getBoundBox().getSize().y *
+      Math::Consts::PI2;
+
+  // m_vec3_up = Math::vec3(getNode()->getWorldTransform().getAxisZ());
+}
+
 /**
  * @brief Обновление состояния компонента Bogie.
  *
@@ -25,9 +34,12 @@ void Bogie::update() {
   // Получаем текущее направление тележки
   Math::vec3 direction = m_position.getDirection();
 
+  float angle = 360.f * m_path / m_circumference;
+
   // Устанавливаем позицию и направление узла
   getNode()->setWorldPosition(coordinate);
   getNode()->setDirection(direction, Math::vec3_up, Math::AXIS_Y);
+  getNode()->rotate(Math::quat(Math::vec3_right * direction, angle));
 
   // Визуализируем оси координат тележки
   Visualizer::renderVector(
@@ -74,3 +86,8 @@ SegmentPosition Bogie::getSegmentPosition() const { return m_position; }
  * @param pos Новая позиция тележки на пути.
  */
 void Bogie::setSegmentPosition(const SegmentPosition& pos) { m_position = pos; }
+
+void Bogie::setRotation(float shift) {
+  m_path += shift * TORQUE_COEFFICIENT;
+  while (m_path > m_circumference) m_path -= m_circumference;
+}

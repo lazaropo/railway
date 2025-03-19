@@ -22,6 +22,8 @@ class Train : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(Train, Unigine::ComponentBase);
 
+  PROP_ARRAY(Node, carriage);
+
   /**
    * @brief Параметр начальной скорости поезда.
    *
@@ -98,7 +100,7 @@ class Train : public Unigine::ComponentBase {
    *
    * @return Позиция передней части поезда в мировых координатах.
    */
-  Unigine::Math::Vec3 getFrontWorldPosition() const;
+  Unigine::Math::Vec3 getFrontWorldPosition();
 
   /**
    * @brief Получение позиции задней части поезда в мировых координатах.
@@ -108,7 +110,7 @@ class Train : public Unigine::ComponentBase {
    *
    * @return Позиция задней части поезда в мировых координатах.
    */
-  Unigine::Math::Vec3 getBackWorldPosition() const;
+  Unigine::Math::Vec3 getBackWorldPosition();
 
   /**
    * @brief Установка начальной позиции поезда.
@@ -164,7 +166,7 @@ class Train : public Unigine::ComponentBase {
    *
    * Этот контейнер хранит указатели на вагоны (Carriage), составляющие поезд.
    */
-  Unigine::Vector<std::shared_ptr<Carriage*>> m_carriage;
+  // Unigine::Vector<std::shared_ptr<Carriage>> m_carriage;
 
   /**
    * @brief Длина вагона в поезде. Задаётся в init().

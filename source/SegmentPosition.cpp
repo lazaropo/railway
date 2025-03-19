@@ -146,7 +146,8 @@ SegmentPosition SegmentPosition::calcByDistance(float distance) const {
       ret_pos.m_curr_segment_len = ret_pos.m_curr_segment->getLength();
     }
     // Рассчитываем новые позиции по точкам
-    v_second = ret_pos.m_curr_segment->calcPoint(ret_pos.m_t_coordinate);
+    v_second = ret_pos.m_curr_segment->calcPoint(
+        ret_pos.m_curr_segment->linearToParametric(ret_pos.m_t_coordinate));
 
     // Рассчитываем новое расстояние между точками
     calc_distance = (v_first - v_second).length();
@@ -170,7 +171,8 @@ SegmentPosition SegmentPosition::calcByDistance(float distance) const {
  */
 Math::Vec3 SegmentPosition::getWorldPosition() const {
   if (m_curr_segment)
-    return m_curr_segment->calcPoint(m_t_coordinate);
+    return m_curr_segment->calcPoint(
+        m_curr_segment->linearToParametric(m_t_coordinate));
   else
     return Math::Vec3_zero;
 }
@@ -184,7 +186,8 @@ Math::Vec3 SegmentPosition::getWorldPosition() const {
  */
 Math::vec3 SegmentPosition::getDirection() const {
   if (m_curr_segment)
-    return m_curr_segment->calcTangent(m_t_coordinate);
+    return m_curr_segment->calcTangent(
+        m_curr_segment->linearToParametric(m_t_coordinate));
   else
     return Math::vec3_zero;
 }

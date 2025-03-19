@@ -81,7 +81,7 @@ class Carriage : public Unigine::ComponentBase {
    * @param pos Новая позиция вагона на пути.
    * @param dir Направление движения (FORWARD или REVERSE).
    */
-  void setPosition(SegmentPosition pos, const MOVE_DIRECTION& dir);
+  void setPosition(SegmentPosition pos, float shift);
 
   /**
    * @brief Получение длины вагона. Возвращается длина тары при инициализации
@@ -121,7 +121,7 @@ class Carriage : public Unigine::ComponentBase {
    * Это умный указатель на компонент Bogie, представляющий переднюю
    * тележку вагона.
    */
-  std::unique_ptr<Bogie*> m_forward_bogie = nullptr;
+  std::unique_ptr<Bogie> m_forward_bogie = nullptr;
 
   /**
    * @brief Умный указатель на заднюю тележку.
@@ -129,7 +129,7 @@ class Carriage : public Unigine::ComponentBase {
    * Это умный указатель на компонент Bogie, представляющий заднюю
    * тележку вагона.
    */
-  std::unique_ptr<Bogie*> m_back_bogie = nullptr;
+  std::unique_ptr<Bogie> m_back_bogie = nullptr;
 
   /**
    * @brief Расстояние между тележками.

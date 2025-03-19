@@ -32,6 +32,8 @@ class TrainManager : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(TrainManager, Unigine::ComponentBase);
 
+  PROP_ARRAY(Node, train_container);
+
   /**
    * @brief Параметр для компонента со сплайн графом. Предполагается
    * TrackContainer.
@@ -99,12 +101,12 @@ class TrainManager : public Unigine::ComponentBase {
    * Этот указатель хранит ссылку на контейнер путей, представляющий собой
    * сплайн-граф.
    */
-  std::unique_ptr<TrackContrainer*> m_track_container = nullptr;
+  std::unique_ptr<TrackContrainer> m_track_container = nullptr;
 
   /**
    * @brief Вектор составов, управляемых менеджером поездов.
    *
    * Этот контейнер хранит указатели на составы поездов, управляемые менеджером.
    */
-  Unigine::Vector<std::shared_ptr<Train*> > m_train;
+  // Unigine::Vector<std::shared_ptr<Train> > m_train;
 };
