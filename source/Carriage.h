@@ -25,8 +25,6 @@ class Carriage : public Unigine::ComponentBase {
    */
   COMPONENT_DEFINE(Carriage, Unigine::ComponentBase);
 
-  // PROP_PARAM(Node, carriage_node);
-
   /**
    * @brief Инициализация компонента.
    *
@@ -121,7 +119,7 @@ class Carriage : public Unigine::ComponentBase {
    * Это умный указатель на компонент Bogie, представляющий переднюю
    * тележку вагона.
    */
-  std::unique_ptr<Bogie> m_forward_bogie = nullptr;
+  Bogie* m_forward_bogie = nullptr;
 
   /**
    * @brief Умный указатель на заднюю тележку.
@@ -129,7 +127,7 @@ class Carriage : public Unigine::ComponentBase {
    * Это умный указатель на компонент Bogie, представляющий заднюю
    * тележку вагона.
    */
-  std::unique_ptr<Bogie> m_back_bogie = nullptr;
+  Bogie* m_back_bogie = nullptr;
 
   /**
    * @brief Расстояние между тележками.

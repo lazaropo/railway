@@ -106,5 +106,5 @@ class TrainManager : public Unigine::ComponentBase {
    * Этот указатель хранит ссылку на контейнер путей, представляющий собой
    * сплайн-граф.
    */
-  std::unique_ptr<TrackContrainer> m_track_container = nullptr;
+  TrackContrainer* m_track_container = nullptr;
 };

@@ -167,13 +167,6 @@ class Train : public Unigine::ComponentBase {
   float m_speed_delta = 1.f;
 
   /**
-   * @brief Контейнер указателей на вагоны поезда.
-   *
-   * Этот контейнер хранит указатели на вагоны (Carriage), составляющие поезд.
-   */
-  // Unigine::Vector<std::shared_ptr<Carriage>> m_carriage;
-
-  /**
    * @brief Длина вагона в поезде. Задаётся в init().
    *
    * Эта переменная хранит длину тары первого вагона.
@@ -196,4 +189,18 @@ class Train : public Unigine::ComponentBase {
    * тележки последнего вагона при обратном движении.
    */
   SegmentPosition m_position;
+
+  /**
+   * @brief Указатель на первый вагон.
+   *
+   * Эта переменная хранит компонент поезда.
+   */
+  Carriage* m_forward_carriage = nullptr;
+
+  /**
+   * @brief Указатель на последний вагон.
+   *
+   * Эта переменная хранит компонент поезда.
+   */
+  Carriage* m_back_carriage = nullptr;
 };

@@ -27,8 +27,8 @@ void Carriage::init() {
     Log::error("Carriage component has %d Bogie children!\n", bogies.size());
 
   // Устанавливаем указатели на переднюю и заднюю тележки
-  m_forward_bogie = std::unique_ptr<Bogie>(bogies.first());
-  m_back_bogie = std::unique_ptr<Bogie>(bogies.last());
+  m_forward_bogie = bogies.first();
+  m_back_bogie = bogies.last();
 
   // Вычисляем расстояние между тележками
   m_distance_btw_bogie = (m_forward_bogie->getNode()->getWorldPosition() -

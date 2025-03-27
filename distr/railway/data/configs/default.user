@@ -95,7 +95,7 @@
 	<show_profiler_table>1</show_profiler_table>
 	<show_profiler_thread>0</show_profiler_thread>
 	<show_profiler_world>0</show_profiler_world>
-	<show_visualizer>1</show_visualizer>
+	<show_visualizer>2</show_visualizer>
 	<visualizer_fix_flicker>1</visualizer_fix_flicker>
 	<world_handler_3d>0</world_handler_3d>
 	<world_handler_distance>500</world_handler_distance>

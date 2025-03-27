@@ -1,0 +1,149 @@
+14:05:25 Third-Party Notices: https://developer.unigine.com/docs/2.19/third_party
+14:05:25 
+14:05:25 
+14:05:25 ---- Configs ----
+14:05:25 Loading boot config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.boot"...
+14:05:25 Loading user config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.user"...
+14:05:25 Using config file "configs/default.config"
+14:05:25 Using boot config file "configs/default.boot"
+14:05:25 Using user config file "configs/default.user"
+14:05:25 Using controls config file "configs/default.controls"
+14:05:25 Loading "dxgi.dll"...
+14:05:26 
+14:05:26 ---- Engine ----
+14:05:26 Version: 2.19.0.3 Release Double ver-2.19.1-c8c5226 Jan 30 2025 (2.19.1 SDK)
+14:05:26 Binary: Windows x86_64 Release WinSDK(10.0.10011.16384) Compiler(MSVC:1940 Toolchain:Unknown Toolset:Unknown VisualStudio:Unknown)
+14:05:26 Features: Direct3D11.1 Direct3D12.0 Vulkan OpenAL VR OpenVR OpenXR Varjo SplashScreen DoubleCoords HalfTexCoords Release
+14:05:26 
+14:05:26 ---- OS ----
+14:05:26 Windows 11 (build 26100)
+14:05:26 
+14:05:26 ---- CPU ----
+14:05:26 12th Gen Intel(R) Core(TM) i7-12650H
+14:05:26 Extensions:  MMX SSE SSE2 SSE3 SSSE3 SSE41 SSE42 AVX AVX2 HTT
+14:05:26 Frequency: 2687MHz
+14:05:26 Cores: 10 Threads : 16
+14:05:26 RAM: 15.8GB
+14:05:26 
+14:05:26 ---- GPU ----
+14:05:26 GPU 0 Active : NVIDIA GeForce RTX 4070 Laptop GPU Memory: 7962MB Type:Discrete    Vendor:NVidia   CommonHeaps:true Priority:32 LUID:000000000001185d DeviceID:00002820 Driver:536.99
+14:05:26 GPU 1        : Microsoft Basic Render Driver      Memory: 8088MB Type:Other       Vendor:Unknown  CommonHeaps:true Priority:31 LUID:000000000001248d DeviceID:0001248d Driver:Unknown
+14:05:26 GAPI: Direct3D 12.0
+14:05:26 
+14:05:26 
+14:05:26 ---- Application ----
+14:05:26 
+14:05:26 ---- System Proxy ----
+14:05:26 SystemProxy initialization (Time: 36.2ms, Memory: 0B)
+14:05:26 
+14:05:26 ---- VR ----
+14:05:26 VR initialization (Time: 0.0ms, Memory: 0B)
+14:05:26 
+14:05:26 
+14:05:26 ---- Render ----
+14:05:26 Renderer API: Direct3D 12.0
+14:05:26 Maximum texture size: 16384
+14:05:26 Maximum texture units: 16
+14:05:26 DLSS is not supported
+14:05:26 sl.interposer.dll is not found. Copy libraries from Streamline SDK.
+14:05:26 FSR is supported
+14:05:26 FSR Version: 2.2.2
+14:05:26 FSR Max Contexts: 8
+14:05:26 FSR RAM Scratch Size: 10 MB
+14:05:26 Render initialization (Time: 278.0ms, Memory: 0B)
+14:05:26 
+14:05:26 
+14:05:26 ---- VR Subsystems ----
+14:05:26 VR Subsystems initialization (Time: 0.1ms, Memory: 0B)
+14:05:26 
+14:05:26 
+14:05:26 ---- Filesystem begin ----
+14:05:26 App path:  C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
+14:05:26 Data path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/
+14:05:26 Save path: C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/
+14:05:26 
+14:05:26 Runtimes loaded: 7 (Time: 2.8ms, Memory: 0B)
+14:05:26 Filesystem initialization (Time: 128.1ms, Memory: 0B)
+14:05:26 ---- Filesystem end ----
+14:05:26 
+14:05:26 
+14:05:26 ---- Sound ----
+14:05:26 Loading "openal32.dll"...
+14:05:26 Renderer: OpenAL Soft on Наушники (soundcore Space One)
+14:05:26 OpenAL vendor: OpenAL Community
+14:05:26 OpenAL renderer: OpenAL Soft
+14:05:26 OpenAL version: 1.1 ALSOFT 1.22.2
+14:05:26 Found AL_EXT_LINEAR_DISTANCE
+14:05:26 Found AL_EXT_OFFSET
+14:05:26 Found ALC_EXT_EFX
+14:05:26 Found ALC_SOFT_HRTF
+14:05:26 Found EFX Filter
+14:05:26 Found EFX Reverb
+14:05:26 Found EAX Reverb
+14:05:26 Found QUAD16 format
+14:05:26 Found 51CHN16 format
+14:05:26 Found 61CHN16 format
+14:05:26 Found 71CHN16 format
+14:05:26 Device enumeration supported
+14:05:26 Maximum sources: 256
+14:05:26 Maximum effect slots: 16
+14:05:26 Maximum auxiliary sends: 2
+14:05:26 Output sampling frequency: 48000hz
+14:05:26 HRTF not enabled!
+14:05:26 
+14:05:26 Sound: openal
+14:05:26 Sound initialization (Time: 59.0ms, Memory: 0B)
+14:05:26 
+14:05:26 ---- Physics ----
+14:05:26 
+14:05:26 ---- PathFind ----
+14:05:26 
+14:05:26 Loading controls "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.controls"...
+14:05:26 Loading config "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/data/configs/default.config"...
+14:05:26 D3D12Particles::createBuffers (Time: 24.4ms, Memory: 0B)
+14:05:26 
+14:05:26 ---- Materials begin----
+14:05:26 
+14:05:26 ---- MeshManager begin ----
+14:05:26 
+14:05:26 ---- Properties begin ----
+14:05:26 Initialization meshes (Time: 1.9ms, Memory: 0B)
+14:05:26 Total resources: 7
+14:05:26 ---- MeshManager end ----
+14:05:26 
+14:05:26 Properties loaded: 12/12 (Time: 3.5ms, Memory: 0B)
+14:05:26 ---- Properties end ----
+14:05:26 
+14:05:27 Base materials loaded: 163/163
+14:05:27 Materials loaded: 70/70
+14:05:27 Load Materials (Time: 192.2ms, Memory: 0B)
+14:05:27 Preload materials loaded: 45 (Time: 23.6ms, Memory: 0B)
+14:05:28 Shaders compiled: 671 (Time: 0.9s, Memory: 0B)
+14:05:28 Total materials loaded: 278 (Time: 1.2s, Memory: 0B)
+14:05:28 ---- Materials end ----
+14:05:28 
+14:05:28 
+14:05:28 ---- Animations ----
+14:05:28 Total objects: 0
+14:05:28 Total tracks: 0
+14:05:28 Total playbacks: 0
+14:05:28 Load Animations (Time: 0.3ms, Memory: 0B)
+14:05:32 
+14:05:32 Engine initialization (Time: 7.4s, Memory: 0B)
+14:05:32 
+14:05:32 
+14:05:32 ---- Plugins ----
+14:05:32 Plugins path: "C:/Users/roman/Documents/UNIGINE Projects/railway/distr/railway/bin/plugins"
+14:05:32 Plugins initialization (Time: 0.5ms, Memory: 0B)
+14:05:32 
+14:05:32 ---- Interpreter ----
+14:05:32 Version: 2.90
+14:05:32 
+14:05:32 Unigine~# world_load "railway"
+14:05:32 Script loading "core/unigine.usc" 13ms
+14:05:32 Unigine~# show_visualizer 2
+14:05:33 World loading "railway.world" (Time: 40.1ms, Memory: 0B)
+14:05:33 Track container
+14:05:33 Spline segment count: 727
+14:05:52 Close "openal32.dll"
+14:05:52 Fast shutdown 62.6ms

@@ -17,6 +17,14 @@ void Train::init() {
   // Если есть хотя бы один вагон, вычисляем длину поезда
   if (carriage.size()) {
     m_carraige_len = carriage[0]->getBoundBox().getSize().y;
+
+    // Получаем указатели на компоненты первого и последнего вагонов.
+    m_forward_carriage =
+        ComponentSystem::get()->getComponentInChildren<Carriage>(
+            carriage[0].get());
+
+    m_back_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
+        carriage[carriage.size() - 1].get());
   }
 }
 
@@ -31,10 +39,7 @@ void Train::update() {
   if (m_is_stop || m_position.isEmpty()) return;
 
   // Обновляем длину поезда
-  Carriage* ptr_carriage =
-      ComponentSystem::get()->getComponentInChildren<Carriage>(
-          carriage[0].get());
-  m_carraige_len = ptr_carriage->getLength();
+  m_carraige_len = m_forward_carriage->getLength();
 
   // Вычисляем смещение и расстояние для движения поезда. Смещение (со знаком)
   // используется для вращения колёс.
@@ -42,16 +47,14 @@ void Train::update() {
   float distance = shift;
   if (m_move_direction == Carriage::MOVE_DIRECTION::REVERSE) shift = -shift;
 
-  // Определяем начальную позицию поезда в зависимости от направления движения
-  int carriage_num = m_move_direction == Carriage::MOVE_DIRECTION::FORWARD
-                         ? 0
-                         : carriage.size() - 1;
   SegmentPosition tmp_segm_pos;
 
   // Получаем текущую позицию первого или последнего вагона
-  ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
-      carriage[carriage_num].get());
+  Carriage* ptr_carriage = m_move_direction == Carriage::MOVE_DIRECTION::FORWARD
+                               ? m_forward_carriage
+                               : m_back_carriage;
   tmp_segm_pos = ptr_carriage->getSegmentPosition(m_move_direction);
+
   if (tmp_segm_pos.isEmpty()) {
     // Если позиция пустая, устанавливаем начальную позицию
     ptr_carriage->setPosition(m_position, distance);
@@ -79,14 +82,14 @@ void Train::update() {
 
   // Устанавливаем позиции всех вагонов в зависимости от направления движения
   if (m_move_direction == Carriage::MOVE_DIRECTION::FORWARD) {
-    for (auto it = carriage_num, it_end = carriage.size(); it != it_end; ++it) {
+    for (auto it = 0, it_end = carriage.size(); it != it_end; ++it) {
       ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
           carriage[it].get());
       ptr_carriage->setPosition(tmp_segm_pos, shift);
       tmp_segm_pos = tmp_segm_pos.calcByDistance(distance);
     }
   } else {
-    for (auto it = carriage_num, it_end = -1; it != it_end; --it) {
+    for (auto it = carriage.size() - 1, it_end = -1; it != it_end; --it) {
       ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
           carriage[it].get());
       ptr_carriage->setPosition(tmp_segm_pos, shift);
@@ -119,20 +122,16 @@ void Train::changeMoveDirection() {
     // Изменяем напрвление движения
     m_move_direction = Carriage::MOVE_DIRECTION::REVERSE;
 
-    // Переходим от ноды к компоненту Carriage и берём позицию вагона
-    ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
-        carriage[carriage.size() - 1].get());
+    // Получаем позицию последнего вагона
     m_position =
-        ptr_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
+        m_back_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::REVERSE);
   } else {
     // Изменяем напрвление движения
     m_move_direction = Carriage::MOVE_DIRECTION::FORWARD;
 
-    // Переходим от ноды к компоненту Carriage и берём позицию вагона
-    ptr_carriage = ComponentSystem::get()->getComponentInChildren<Carriage>(
-        carriage[0].get());
-    m_position =
-        ptr_carriage->getSegmentPosition(Carriage::MOVE_DIRECTION::FORWARD);
+    // Получаем позицию первого вагона
+    m_position = m_forward_carriage->getSegmentPosition(
+        Carriage::MOVE_DIRECTION::FORWARD);
   }
 }
 
@@ -161,28 +160,26 @@ void Train::accelerate() {
  * @brief Получение позиции передней части поезда в мировых координатах.
  *
  * Эта функция возвращает позицию передней части поезда в мировых координатах.
- * Возвращает координаты тары первого вагона.
+ * Возвращает координаты тары первого вагона. Используется кастомная функция
+ * getWorldPosition() на классе Carriage.
  *
  * @return Позиция передней части поезда в мировых координатах.
  */
 Math::Vec3 Train::getFrontWorldPosition() {
-  return (ComponentSystem::get()->getComponentInChildren<Carriage>(
-              carriage[0].get()))
-      ->getWorldPosition();
+  return m_forward_carriage->getWorldPosition();
 }
 
 /**
  * @brief Получение позиции задней части поезда в мировых координатах.
  *
  * Эта функция возвращает позицию задней части поезда в мировых координатах.
- * Возвращает координаты тары последнего вагона.
+ * Возвращает координаты тары последнего вагона. Используется кастомная функция
+ * getWorldPosition() на классе Carriage.
  *
  * @return Позиция задней части поезда в мировых координатах.
  */
 Math::Vec3 Train::getBackWorldPosition() {
-  return (ComponentSystem::get()->getComponentInChildren<Carriage>(
-              carriage[carriage.size() - 1].get()))
-      ->getWorldPosition();
+  return m_back_carriage->getWorldPosition();
 }
 
 /**

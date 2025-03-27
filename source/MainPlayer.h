@@ -31,7 +31,7 @@ class MainPlayer : public Unigine::ComponentBase {
   void init();
   void update();
 
-  std::shared_ptr<Train*> m_train;
+  Train* m_train;
 
   /**
    * @brief Указатель на камеру на голове поезда.

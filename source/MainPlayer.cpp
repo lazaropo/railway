@@ -14,52 +14,7 @@ using namespace Unigine;
  * связанного с компонентом, и устанавливает основную камеру для игрока.
  */
 void MainPlayer::init() {
-  //   Vector<NodePtr> nodes;
-  //   World::getNodes(nodes);
-  //   for (int i = 0; i < nodes.size(); ++i) {
-  //     NodeReferencePtr ptr = checked_ptr_cast<NodeReference>(nodes[i]);
-  //     if (ptr) {
-  //       Log::message("NodeReference is found: %s (ID: %d)\n",
-  //                    ptr->getInfo().get(), ptr->getID());
-  //       ptr->setEnabled(false);
-  //       ptr->setEnabled(true);
-  //       if (!ptr->isEnabled()) {
-  //         ptr->setEnabled(true);
-  //         Log::message("NodeReference is activated: %s\n",
-  //         ptr->getInfo().get());
-  //       }
-  //     }
-  //   }
-
-  //   // Устанавливаем указатель на текущий экземпляр состава в TrainManager
-  //   TrainManager::setCarriage(this);
-
-  m_train = std::make_shared<Train*>(
-      ComponentSystem::get()->getComponent<Train>(getNode()));
-
-  //   // Устанавливаем поезда, связанные с данным составом
-  //   setTrains();
-
-  //   // Если есть хотя бы один поезд, создаем объект с логикой движения
-  //   if (m_trains.size()) {
-  //     // Создаем объект логики движения
-  //     std::shared_ptr<IMovementLogic> logic(new MovementLogic());
-
-  //     // Устанавливаем функцию обратного вызова для получения предыдущих и
-  //     // следующих сегментов пути
-  //     logic->setPrevSegmentFunction(&TrainManager::getPrevSegment);
-  //     logic->setNextSegmentFunction(&TrainManager::getNextSegment);
-
-  //     // Устанавливаем функцию для получения IFPS
-  //     logic->setGetIfpsFunction(std::bind(&Carriage::getIfps, this));
-
-  //     // Назначаем созданную логику каждому контроллеру поезда
-  //     for (TrainController* train : m_trains) train->setMovementLogic(logic);
-
-  //     // Логируем сообщение о количестве загруженных поездов
-  //     Log::message("Carriage Player: %d trains are loaded\n",
-  //     m_trains.size());
-  //   }
+  m_train = ComponentSystem::get()->getComponent<Train>(getNode());
 
   // Получаем указатели на камеры
   m_head_camera = checked_ptr_cast<PlayerSpectator>(head_camera.get());
@@ -87,13 +42,13 @@ void MainPlayer::update() {
   tmp = InputController::getInstance()->getActionState(
       InputController::INPUT_ACTIONS::SPEED_DECREASE);
   if (Math::abs(tmp) > Math::Consts::EPS)
-    (*m_train)->brake();  // Замедляем все поезда
+    m_train->brake();  // Замедляем пользовательский поезд
 
   // Проверяем, нажата ли кнопка увеличения скорости
   tmp = InputController::getInstance()->getActionState(
       InputController::INPUT_ACTIONS::SPEED_INCREASE);
   if (Math::abs(tmp) > Math::Consts::EPS)
-    (*m_train)->accelerate();  // Ускоряем все поезда
+    m_train->accelerate();  // Ускоряем пользовательский поезд
 
   // Флаг для переключения камеры
   bool is_local_camera_switch = false;
@@ -101,8 +56,7 @@ void MainPlayer::update() {
   // Проверяем, нажата ли кнопка смены направления движения
   if (InputController::getInstance()->getActionState(
           InputController::INPUT_ACTIONS::TURN_AROUND)) {
-    (*m_train)->changeMoveDirection();  // Меняем направление движения
-    // (*m_train)->startMove();  // Начинаем движение
+    m_train->changeMoveDirection();  // Меняем направление движения
 
     is_local_camera_switch = true;  // Включаем переключение камеры
   }
@@ -122,7 +76,7 @@ void MainPlayer::update() {
 
   // Переключаемся на камеру головы, если движется вперед
   if (is_local_camera_switch &&
-      (*m_train)->getMoveDirection() == Carriage::MOVE_DIRECTION::FORWARD) {
+      m_train->getMoveDirection() == Carriage::MOVE_DIRECTION::FORWARD) {
     m_world_camera->setMainPlayer(false);  // Отключаем мировую камеру
     m_head_camera->setMainPlayer(true);  // Включаем камеру головы
     m_tail_camera->setMainPlayer(false);  // Отключаем камеру хвоста
@@ -130,15 +84,16 @@ void MainPlayer::update() {
 
   // Переключаемся на камеру хвоста, если движется назад
   if (is_local_camera_switch &&
-      (*m_train)->getMoveDirection() == Carriage::MOVE_DIRECTION::REVERSE) {
+      m_train->getMoveDirection() == Carriage::MOVE_DIRECTION::REVERSE) {
     m_world_camera->setMainPlayer(false);  // Отключаем мировую камеру
     m_head_camera->setMainPlayer(false);  // Отключаем камеру головы
     m_tail_camera->setMainPlayer(true);  // Включаем камеру хвоста
   }
 
-  // Устанавливаем позиции камер над головным и хвостовым вагонами
-  m_head_camera->setWorldPosition((*m_train)->getFrontWorldPosition() +
+  // Устанавливаем позиции камер над головным и хвостовым вагонами.
+  // Math::Vec3_up * 5 - перемещаем камеру вверх от вагона.
+  m_head_camera->setWorldPosition(m_train->getFrontWorldPosition() +
                                   Math::Vec3_up * 5);
-  m_tail_camera->setWorldPosition((*m_train)->getBackWorldPosition() +
+  m_tail_camera->setWorldPosition(m_train->getBackWorldPosition() +
                                   Math::Vec3_up * 5);
 }

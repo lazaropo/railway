@@ -14,8 +14,6 @@ void Bogie::init() {
   m_circumference =
       getNode()->getChild(wheel_right)->getBoundBox().getSize().y *
       Math::Consts::PI2;
-
-  // m_vec3_up = Math::vec3(getNode()->getWorldTransform().getAxisZ());
 }
 
 /**

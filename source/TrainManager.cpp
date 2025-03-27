@@ -26,8 +26,8 @@ void TrainManager::init() {
     return;
 
   // Получаем компонент TrackContainer из системы компонентов
-  m_track_container = std::unique_ptr<TrackContrainer>(
-      ComponentSystem::get()->getComponent<TrackContrainer>(track_container));
+  m_track_container =
+      ComponentSystem::get()->getComponent<TrackContrainer>(track_container);
   if (!m_track_container)
     throw std::runtime_error(
         "There are not any node with assigned TrackContainer property.\n");
@@ -106,10 +106,8 @@ Unigine::SplineSegmentPtr TrainManager::getPrevSegment(
   // Проходим по всем сегментам пути
   for (auto it :
        TrainManager::getInstance()->m_track_container->getSplineSegments()) {
-    if (curr_segment == it) {
-      // is_current_exists = true;
-      continue;
-    }
+    if (curr_segment == it) continue;
+
     // Проверяем, совпадает ли конечная точка текущего сегмента с начальной
     // точкой другого сегмента
     if ((curr_start_point - it->getEndPoint()->getPosition()).length() <
